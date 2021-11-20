@@ -25,5 +25,3 @@ ELSE (WIN32)
     target_link_libraries(mod_launcher pdcurses.lib)
     target_link_libraries(player_launcher pdcurses.lib)
 ENDIF (UNIX)
-
-set(CMAKE_BUILD_TYPE Debug)

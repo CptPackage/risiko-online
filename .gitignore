@@ -7,3 +7,4 @@ src
 !src/libs
 !src/utils
 !src/CMakeLists.txt
+!src/cleanup.bat
