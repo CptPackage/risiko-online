@@ -1,3 +1,2 @@
 @ECHO OFF
-bootstrap.bat
-cmake --build build
+bootstrap.bat && cmake --build build
