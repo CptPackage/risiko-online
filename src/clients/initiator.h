@@ -6,4 +6,4 @@ typedef struct _appConfig
     int serverPort;
 } AppConfig;
 
-void initApp(AppConfig config);
+int initApp(AppConfig config);
