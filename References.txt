@@ -1,0 +1,3 @@
+Tank ASCII Art: 
+-> http://www.ascii-art.de/ascii/t/tank.txt
+-> https://textart.sh/topic/tank

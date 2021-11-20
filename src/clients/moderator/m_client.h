@@ -1,0 +1,3 @@
+#ifdef CLIENT_TYPE_MODERATOR
+
+#endif
