@@ -8,3 +8,4 @@ src
 !src/utils
 !src/CMakeLists.txt
 !src/cleanup.bat
+!src/bootstrap.bat
