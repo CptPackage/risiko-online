@@ -1,0 +1,9 @@
+lib-sources
+src/*
+!src/backend/*
+!src/clients/*
+!src/gui/*
+!src/launchers/*
+!src/libs/*
+!src/utils/*
+!src/CMakeLists.txt
