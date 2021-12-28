@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "https://www.w3.org/TR/html4/strict.dtd">
+<html style="background-color: rgba(0, 0, 0, 0);" lang="en-GB"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css" nonce="">
+body,td,div,p,a,input {font-family: arial, sans-serif;}
+</style><meta http-equiv="X-UA-Compatible" content="IE=edge"><link rel="shortcut icon" href="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" type="image/x-icon"><title>Gmail - Fw: Project Assignment</title><style type="text/css" nonce="">
+body, td {font-size:13px} a:link, a:active {color:#1155CC; text-decoration:none} a:hover {text-decoration:underline; cursor: pointer} a:visited{color:##6611CC} img{border:0px} pre { white-space: pre; white-space: -moz-pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word; max-width: 800px; overflow: auto;} .logo { left: -7px; position: relative; }
+</style></head><body cz-shortcut-listen="true" style="cursor: default;"><div class="bodycontainer" style="background-color: rgba(0, 0, 0, 0); display: block;"><div class="maincontent" style="background-color: rgba(0, 0, 0, 0); display: block;"><table class="message" width="100%" cellspacing="0" cellpadding="0" border="0"><tbody><tr><td colspan="2"><table width="100%" cellspacing="0" cellpadding="12" border="0"><tbody><tr><td style="background-color: rgba(0, 0, 0, 0);"><div style="overflow: hidden;"><font size="-1">
+<div dir="ltr">
+<div style="font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); display: none;">
+<br>
+</div>
+<div style="background-color: rgba(0, 0, 0, 0);">
+<div style="font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0); display: none;">
+<br>
+</div>
+<div id="m_4019829858260338444appendonsend"></div>
+
+
+<div><font size="2"><span style="font-size:11pt">
+<div>Project Assignment System.<br>
+<br>
+This program has received a request confirmation. Please find the assignment below.<br>
+<br>
+Sistema di gioco Risiko online<br>
+<br>
+Si vuole realizzare un servizio online che consenta di giocare ad un 
+clone del famoso gioco Risiko, in modalità "conquista del mondo".<br>
+<br>
+Al sistema hanno accesso due tipologie di utenti: i giocatori e i 
+moderatori. I moderatori hanno la possibilità di creare stanze di gioco,
+ in funzione della quantità di giocatori che utilizzano attualmente il 
+sistema. In particolare, i moderatori hanno la possibilità
+di visualizzare, tramite un report, quante stanze hanno attualmente 
+partite in corso e quanti giocatori stanno partecipando alla partita. 
+Inoltre, in questo report, gli amministratori possono visualizzare il 
+numero totale di giocatori che hanno effettuato
+almeno un'operazione negli ultimi 15 minuti che non sono all'interno di 
+alcuna stanza di gioco.<br>
+<br>
+Una stanza permette ad un numero massimo di sei giocatori di entrare e 
+partecipare alla partita. Una partita coinvolge almeno tre giocatori. 
+Quando il terzo giocatore entra in una stanza, viene attivato un 
+countdown tale da avviare la partita dopo due minuti.
+In questi due minuti altri giocatori possono entrare, fino al massimo 
+concesso.<br>
+<br>
+All'avvio della partita, gli stati del tabellone vengono assegnati 
+casualmente ai giocatori. I turni "girano" in funzione del tempo di 
+ingresso dei giocatori nella stanza (chi è entrato prima gioca prima). 
+Un turno prevede che il giocatore possa compiere una
+delle seguenti azioni:<br>
+* Posizionare un numero arbitrario di carri armati in uno stato<br>
+* Scegliere uno stato da cui fare partire un attacco verso uno stato adiacente<br>
+* Spostare carri armati da uno stato ad un altro adiacent (almeno un carro armato deve restare nello stato di partenza)<br>
+<br>
+L'attacco viene svolto nel seguente modo. La fase di attacco si svolge 
+tra il giocatore che attacca e quello che difende attraverso il lancio 
+dei dadi. Il numero dei dadi da lanciare è stabilito dal numero di 
+armate che si decide di schierare in guerra meno
+una, fino ad un massimo di tre dadi per volta. Ognuno dei giocatori 
+lancia il numero di dadi corrispondenti, e poi si confrontano i valori 
+ottenuti, il più alto dell'attaccante con il più alto del difensore, il 
+secondo con il secondo e così via. Per ogni punteggio
+più alto, il perdente deve togliere un'armata dal tabellone. In caso di 
+parità il punto va al difensore. Il lancio dei dadi viene simulato 
+mediante la generazione di numeri pseudocasuali.<br>
+<br>
+Se lo stato attaccato perde tutte le armate, questo viene conquistato e 
+vengono spostate automaticamente in esso un numero di armate pari a 
+quelle sopravvissute all'attacco.<br>
+<br>
+Un apposito timer determina quando il tempo per svolgere un'azione da 
+parte di un giocatore scade e il turno passa quindi al giocatore 
+successivo.<br>
+<br>
+Al termine del turno, se è stata svolta almeno un'azione, il giocatore 
+riceve un numero di carri armati da posizionare pari al numero di stati 
+posseduti diviso tre, arrotondato per eccesso.<br>
+<br>
+Un'apposita procedura consente al client di sapere, quando è il turno 
+del giocatore, tutto lo stato di gioco e quindi far scegliere quale 
+azione effettuare. Si ricorda, comunque, che tutta la logica applicativa
+ è implementata nel DBMS.<br>
+<br>
+Un giocatore può sempre visualizzare lo storico di tutte le partite giocate.<br>
+<br>
+</div>
+</span></font></div>
+</div>
+</div>
+</font></div></td></tr></tbody></table></td></tr></tbody></table></div></div></body></html>

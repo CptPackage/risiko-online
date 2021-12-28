@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "clients/initiator.h"
+#include "../clients/initiator.h"
 
 #define CLIENT_TYPE_MODERATOR
 
@@ -9,5 +9,6 @@ AppConfig mod_app_config = {
 
 int main(int argc, char **argv)
 {
-    return initApp(mod_app_config);
+    initApp(mod_app_config);
+    return 0;
 }
