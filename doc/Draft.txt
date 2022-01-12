@@ -1,0 +1,10 @@
+Lobby:-
+Come non viene definito quando viene creata la partita,
+ma vengono fatti i riferimenti alla stessa partita che
+impone che sia stata in stato di Lobby prima di soddisfare
+i requisiti per diventare “Partita In Countdown” ed è co-esistita
+già dalla esistenza della stanza di gioco in quello stato di Lobby.
+
+
+
+
