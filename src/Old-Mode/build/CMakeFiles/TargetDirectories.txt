@@ -1,0 +1,3 @@
+D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/CMakeFiles/mod_launcher.dir
+D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/CMakeFiles/ALL_BUILD.dir
+D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/CMakeFiles/ZERO_CHECK.dir

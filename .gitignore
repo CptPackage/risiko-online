@@ -1,5 +1,4 @@
 lib-sources
-src
 !src/backend
 !src/clients
 !src/gui

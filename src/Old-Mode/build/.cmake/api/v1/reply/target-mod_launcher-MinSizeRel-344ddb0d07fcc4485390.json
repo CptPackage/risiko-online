@@ -1,0 +1,244 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "MinSizeRel/mod_launcher.exe"
+		},
+		{
+			"path" : "MinSizeRel/mod_launcher.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"link_directories",
+			"target_link_libraries",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 40,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 14,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 15,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 16,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 17,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 26,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 27,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 31,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 33,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /MD /O1 /Ob1 /DNDEBUG"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 4,
+					"path" : "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/clients"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/backend"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/gui"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/launchers"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/include"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/include/pdcurses"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/clients"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/gui"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/backend"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "mod_launcher::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /MD /O1 /Ob1 /DNDEBUG",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:X86 /INCREMENTAL:NO /subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-LIBPATH:\"D:\\Studio\\Da Fa\\Primo Semestre\\Basi Di Dati\\Project\\src\\libs\\windows\\pdcurses\"",
+				"role" : "libraryPath"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "pdcurses.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "C"
+	},
+	"name" : "mod_launcher",
+	"nameOnDisk" : "mod_launcher.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "launchers/mod_launcher.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "clients",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}

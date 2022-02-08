@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|win32">
+      <Configuration>Debug</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|win32">
+      <Configuration>Release</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C2E2E638-3D57-38A6-A8CC-765AF4FB15FE}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>win32</Platform>
+    <ProjectName>mod_launcher</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">mod_launcher.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">mod_launcher</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|win32'">D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|win32'">mod_launcher.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|win32'">mod_launcher</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">mod_launcher.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">mod_launcher</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">mod_launcher.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">mod_launcher</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>pdcurses.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/windows/pdcurses;D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/windows/pdcurses/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/Debug/mod_launcher.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/Debug/mod_launcher.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>pdcurses.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/windows/pdcurses;D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/windows/pdcurses/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/Release/mod_launcher.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/Release/mod_launcher.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>pdcurses.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/windows/pdcurses;D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/windows/pdcurses/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/MinSizeRel/mod_launcher.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/MinSizeRel/mod_launcher.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\backend;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\gui;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\libs\include\pdcurses;\clients;\gui;\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>pdcurses.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/windows/pdcurses;D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/libs/windows/pdcurses/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/RelWithDebInfo/mod_launcher.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/RelWithDebInfo/mod_launcher.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">Building Custom Rule D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src" "-BD:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build" --check-stamp-file "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeCCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeCXXCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeRCCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|win32'">Building Custom Rule D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src" "-BD:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build" --check-stamp-file "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|win32'">C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeCCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeCXXCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeRCCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|win32'">D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">Building Custom Rule D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src" "-BD:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build" --check-stamp-file "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeCCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeCXXCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeRCCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">Building Custom Rule D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src" "-BD:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build" --check-stamp-file "D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeCCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeCXXCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeRCCompiler.cmake;D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\3.22.0\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers\mod_launcher.c" />
+    <None Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients">
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\build\ZERO_CHECK.vcxproj">
+      <Project>{E02EC20B-D5E2-35E1-ACA6-60881C054E7C}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\launchers\mod_launcher.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{6CCBF791-0583-3304-9E98-C3463467871F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

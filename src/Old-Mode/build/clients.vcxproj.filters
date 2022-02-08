@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients\moderator\m_client.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\clients\moderator\m_client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Project\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{E0BF335E-3383-3481-B9B6-1891780ACE79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{6CCBF791-0583-3304-9E98-C3463467871F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
