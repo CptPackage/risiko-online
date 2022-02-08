@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\controller\agenzia.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\controller\amministratore.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\controller\login.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\model\db.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\utils\db.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\utils\dotenv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\utils\io.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\utils\validation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\view\agenzia.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\view\amministratore.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\view\login.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Studio\Da Fa\Primo Semestre\Basi Di Dati\Progetti Da Altri Parti\Airport Example Project\final-example-airport\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{138D9CE7-9BB0-3D59-983A-DF31AE2F30D4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
