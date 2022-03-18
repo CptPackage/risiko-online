@@ -1,3 +1,5 @@
+src/New-Mode/build
+src/New-Mode/.vscode
 lib-sources
 !src/backend
 !src/clients

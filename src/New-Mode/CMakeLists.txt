@@ -7,17 +7,16 @@ find_package(MySQL REQUIRED)
 
 add_executable(risiko
         launcher.c
-        controller/agenzia.c
-        controller/amministratore.c
-        controller/login.c
         model/db.c
         utils/db.c
         utils/dotenv.c
         utils/io.c
         utils/validation.c
-        view/agenzia.c
-        view/amministratore.c
+        utils/view.c
         view/login.c
+        view/mainmenu_m.c
+        view/mainmenu_p.c
+        view/calibrate.c
 )
 
 include_directories(${MYSQL_INCLUDE_DIR})
