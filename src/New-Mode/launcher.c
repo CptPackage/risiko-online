@@ -55,9 +55,14 @@ int main(int argc, char **argv) {
   //     return -1;
   //   }
   // }
-  view_calibrate();
-  view_login();
-
+  // view_calibrate();
+  // view_login();
+  int list_size = 3;
+  char **list = malloc(sizeof(char *) * list_size);
+  list[0] = "Welcome";
+  list[1] = "To";
+  list[2] = "Risko";
+  print_framed_text_list(list, '*', list_size);
   pause();
   // fini_db();
   // fini_validation();

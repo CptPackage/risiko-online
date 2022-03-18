@@ -1,6 +1,7 @@
 #include "login.h"
 #include "../model/db.h"
 #include "../utils/io.h"
+#include "../utils/view.h"
 #include <stdio.h>
 
 void view_login(Credentials *cred) {
