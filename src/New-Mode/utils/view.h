@@ -7,3 +7,5 @@ extern void print_char_line(char spacing_char);
 extern void print_dash_line();
 extern void print_star_line();
 extern void print_padded_text(char *text, char padding_char);
+extern void print_menu(char *menu_title, char **labels, char *choices,
+                       int labels_num, char padding_char);

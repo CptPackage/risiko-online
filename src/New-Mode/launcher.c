@@ -66,12 +66,27 @@ int main(int argc, char **argv) {
   print_char_line('+');
   print_tabs(5);
   printffn("Hello mate!");
-  char buffer[1024];
-  while (1) {
-    scanf("%s", buffer);
-    print_padded_text(buffer, DEFAULT_PADDING_CHAR);
-  }
+  int labels_num = 4;
+  char **labels = malloc(sizeof(char *) * labels_num);
+  char *choices = malloc(sizeof(char) * labels_num);
+  memset(choices, 0, labels_num);
+  labels[0] = "USA";
+  labels[1] = "UK";
+  labels[2] = "Afghanistan";
+  labels[3] = "The Great Empire of Old Britian";
+  choices[0] = 'A';
+  choices[1] = 'B';
+  choices[2] = 'C';
+  choices[3] = 'D';
+  print_menu("Welcome Menu", labels, choices, labels_num, 'o');
+  free(labels);
+  free(choices);
+  // while (1) {
+  //   scanf("%s", buffer);
+  //   print_padded_text(buffer, DEFAULT_PADDING_CHAR);
+  // }
 
+  pause();
   // fini_db();
   // fini_validation();
   return 0;

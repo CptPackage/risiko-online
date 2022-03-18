@@ -58,7 +58,7 @@ void print_tabs(int tabs_count) {
 
 void print_char_line(char spacing_char) {
   printf("\r");
-  for (int i = 0; i < LINE_WIDTH; i++) {
+  for (int i = 0; i < LINE_WIDTH + 1; i++) {
     printf("%c", spacing_char);
   }
   printf("\n");
@@ -67,7 +67,7 @@ void print_char_line(char spacing_char) {
 
 void print_dash_line() {
   printf("\r");
-  for (int i = 0; i < LINE_WIDTH; i++) {
+  for (int i = 0; i < LINE_WIDTH + 1; i++) {
     printf("-");
   }
   printf("\n");
@@ -76,7 +76,7 @@ void print_dash_line() {
 
 void print_star_line() {
   printf("\r");
-  for (int i = 0; i < LINE_WIDTH; i++) {
+  for (int i = 0; i < LINE_WIDTH + 1; i++) {
     printf("*");
   }
   printf("\n");
@@ -92,9 +92,6 @@ void print_padded_text(char *text, char padding_char) {
   int padding = LINE_WIDTH - text_len;
   int end_spacing = text_len % 2; // Remove one padding_char from the end if the
                                   // text is odd number of chars
-  float division = text_len / LINE_WIDTH;
-
-  printffn("Len: %d - Lines: %f", text_len, division);
   printf("\r");
   for (int i = 0; i < padding / 2; i++) {
     printf("%c", padding_char);
@@ -109,6 +106,34 @@ void print_padded_text(char *text, char padding_char) {
   for (int i = 0; i < padding / 2 - end_spacing; i++) {
     printf("%c", padding_char);
   }
+  printf("\n\r");
+  fflush(stdout);
+}
+
+void print_menu(char *menu_title, char **labels, char *choices, int labels_num,
+                char padding_char) {
+  if (labels == NULL || choices == NULL) {
+    print_char_line('X');
+    printff("ERROR: Wrong args to print_menu()!\n");
+    print_char_line('X');
+    return;
+  }
+
+  char _padding_char = '-';
+  if (padding_char != NULL) {
+    _padding_char = padding_char;
+  }
+
+  if (menu_title != NULL) {
+    print_char_line(_padding_char);
+    print_padded_text(menu_title, _padding_char);
+  }
+
+  print_char_line(_padding_char);
+  for (int i = 0; i < labels_num; i++) {
+    printf("\r[%c]-> <%s>\n", choices[i], labels[i]);
+  }
+  print_char_line(_padding_char);
   printf("\n\r");
   fflush(stdout);
 }
