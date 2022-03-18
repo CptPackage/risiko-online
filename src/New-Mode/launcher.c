@@ -55,18 +55,23 @@ int main(int argc, char **argv) {
   //     return -1;
   //   }
   // }
-  view_calibrate();
+  // view_calibrate();
   // view_login();
   print_star_line();
-  print_padded_text("Hello man!", DEFAULT_PADDING_CHAR);
   print_dash_line();
   print_char_line('_');
   print_char_line('~');
   print_char_line('|');
   print_char_line('>');
   print_char_line('+');
+  print_tabs(5);
+  printffn("Hello mate!");
+  char buffer[1024];
+  while (1) {
+    scanf("%s", buffer);
+    print_padded_text(buffer, DEFAULT_PADDING_CHAR);
+  }
 
-  pause();
   // fini_db();
   // fini_validation();
   return 0;
