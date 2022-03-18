@@ -13,7 +13,8 @@ extern bool io_initialized;
     __ret == 0;                                                                \
   })
 
-extern char *get_input(char *question, int len, char *buff, bool hide);
+extern char *get_input(char *question, int len, char *buff, bool hide,
+                       bool prefix);
 extern bool yes_or_no(char *question, char yes, char no, bool default_answer,
                       bool insensitive);
 extern char multi_choice(char *question, const char choices[], int num);

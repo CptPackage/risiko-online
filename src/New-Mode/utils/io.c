@@ -21,11 +21,17 @@ static void leave(void) {
     exit(EXIT_SUCCESS);
 }
 
-char *get_input(char *question, int len, char *buff, bool hide) {
+char *get_input(char *question, int len, char *buff, bool hide, bool prefix) {
   if (question != NULL) {
-    printffn("%s", question);
+    printff("%s", question);
+    if (prefix) {
+      printff("#>");
+    }
+  } else {
+    if (prefix) {
+      printff("\r#>");
+    }
   }
-  printff("\r#>");
 #ifdef __unix__
   struct termios term, oterm;
 
