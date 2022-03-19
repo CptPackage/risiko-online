@@ -8,14 +8,16 @@ find_package(MySQL REQUIRED)
 add_executable(risiko
         launcher.c
         model/db.c
+        model/p_match_history.c
         utils/db.c
         utils/dotenv.c
         utils/io.c
         utils/validation.c
         utils/view.c
         view/login.c
-        view/mainmenu_m.c
-        view/mainmenu_p.c
+        view/m_mainmenu.c
+        view/p_mainmenu.c
+        view/p_match_history.c
         view/calibrate.c
 )
 

@@ -1,0 +1,5 @@
+#pragma once
+#include "../model/p_match_history.h"
+
+void view_match_history_list(MatchLog **logs, int logs_size);
+void render_match_log(MatchLog *log);

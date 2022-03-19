@@ -1,11 +1,10 @@
-#include "mainmenu_p.h"
+#include "p_mainmenu.h"
 #include "../utils/io.h"
 #include "../utils/view.h"
 #include <stdio.h>
 
-char choices[] = {'1', '2', '3'};
-
 void view_main_menu_player() {
+  char choices[] = {'1', '2', '3'};
   clear_screen();
   print_star_line();
   print_padded_text("MAIN MENU", '*');
