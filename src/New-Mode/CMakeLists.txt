@@ -18,6 +18,7 @@ add_executable(risiko
         view/m_mainmenu.c
         view/p_mainmenu.c
         view/p_match_history.c
+        view/p_match_result.c
         view/calibrate.c
 )
 
