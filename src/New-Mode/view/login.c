@@ -9,10 +9,27 @@ void view_login(Credentials *cred) {
   char *password = malloc(sizeof(char) * PASSWORD_LEN);
   clear_screen();
   print_star_line();
-  print_padded_text("Risiko Online", '*');
+  print_framed_text(" :::====  ::: :::===  ::: :::  === :::==== ", '*', false);
+  print_framed_text(" :::  === ::: :::     ::: ::: ===  :::  ===", '*', false);
+  print_framed_text(" =======  ===  =====  === ======   ===  ===", '*', false);
+  print_framed_text(" === ===  ===     === === === ===  ===  ===", '*', false);
+  print_framed_text(" ===  === === ======  === ===  ===  ====== ", '*', false);
+  print_framed_text(" ", '*', false);
+  print_framed_text(" :::====  :::= === :::      ::: :::= === :::=====", '*',
+                    false);
+  print_framed_text(" :::  === :::===== :::      ::: :::===== :::     ", '*',
+                    false);
+  print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
+                    false);
+  print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
+                    false);
+  print_framed_text(" ===  === === ==== ===      === === ==== ===     ", '*',
+                    false);
+  print_framed_text("  ======  ===  === ======== === ===  === ========", '*',
+                    false);
   print_star_line();
-  get_input("Username:", USERNAME_LEN, username, false, true);
-  get_input("Password:", PASSWORD_LEN, username, true, true);
+  get_input("Username:", USERNAME_LEN, username, false, false);
+  get_input("Password:", PASSWORD_LEN, username, true, false);
   get_input(NULL, PASSWORD_LEN, username, true, true);
 }
 
