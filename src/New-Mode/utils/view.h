@@ -3,6 +3,7 @@
 #define DEFAULT_PADDING_CHAR '-'
 #include <stdbool.h>
 
+extern void clear_line();
 extern void print_framed_text_list(char **text_list, char frame_char,
                                    int list_size);
 extern void print_framed_text_left(char *text, char frame_char,
@@ -15,3 +16,5 @@ extern void print_star_line();
 extern void print_padded_text(char *text, char padding_char);
 extern void print_menu(char *menu_title, char **labels, char *choices,
                        int labels_num, char padding_char);
+extern void print_spinner(bool is_loading, char *loading_text,
+                          bool reversed_animation);

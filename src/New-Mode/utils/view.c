@@ -2,6 +2,7 @@
 #include "io.h"
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 void print_framed_text_list(char **text_list, char frame_char, int list_size) {
   if (text_list == NULL) {
@@ -176,5 +177,34 @@ void print_menu(char *menu_title, char **labels, char *choices, int labels_num,
   }
   print_char_line(_padding_char);
   printf("\n\r");
+  fflush(stdout);
+}
+
+void print_spinner(bool is_loading, char *loading_text,
+                   bool reversed_animation) {
+  printff("\r");
+  const char *spinners[] = {"⣷", "⣯", "⣟", "⡿", "⢿", "⣻", "⣽", "⣾"};
+  const char *spinners_reversed[] = {"⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"};
+  const int spinners_size = 8;
+  char *text = loading_text == NULL ? "Loading..." : loading_text;
+  int i = 0;
+  while (is_loading) {
+    if (reversed_animation) {
+      printff("\r %s - %s", spinners_reversed[i], text);
+    } else {
+      printff("\r %s - %s", spinners[i], text);
+    }
+    i = (i + 1) % spinners_size;
+    usleep(100000);
+    clear_line();
+  }
+}
+
+void clear_line() {
+  printf("\r");
+  for (int i = 0; i < LINE_WIDTH; i++) {
+    printf(" ");
+  }
+  printf("\r");
   fflush(stdout);
 }
