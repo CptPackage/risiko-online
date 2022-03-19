@@ -1,4 +1,5 @@
 #include "model/db.h"
+#include "model/p_lobby.h"
 #include "model/p_match_history.h"
 #include "utils/dotenv.h"
 #include "utils/io.h"
@@ -7,6 +8,7 @@
 #include "view/calibrate.h"
 #include "view/login.h"
 #include "view/m_mainmenu.h"
+#include "view/p_lobby.h"
 #include "view/p_mainmenu.h"
 #include "view/p_match_history.h"
 #include "view/p_match_result.h"
@@ -78,9 +80,16 @@ int main(int argc, char **argv) {
   // logs[2] = &log3;
   // view_match_history_list(logs, logs_size);
   clear_screen();
-  view_match_result(WON);
-  view_match_result(LOST);
-  view_match_result(QUIT);
+  // view_match_result(WON);
+  // view_match_result(LOST);
+  // view_match_result(QUIT);
+  int matches_size = 2;
+  LobbyMatch **matches = malloc(sizeof(LobbyMatch *) * matches_size);
+  LobbyMatch match_1 = {1, 1, 4, LOBBY};
+  LobbyMatch match_2 = {2, 2, 5, COUNTDOWN};
+  matches[0] = &match_1;
+  matches[1] = &match_2;
+  view_lobby(matches, matches_size);
   pause();
   // fini_db();
   // fini_validation();
