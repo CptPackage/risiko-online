@@ -100,7 +100,7 @@ bool yes_or_no(char *question, char yes, char no, bool default_answer,
   }
 
   while (true) {
-    printf("%s [%c/%c]: ", question, s, n);
+    printf("%s [%c/%c]:> ", question, s, n);
     extra = 0;
 
     char c = (char)getchar();
@@ -144,7 +144,11 @@ char multi_choice(char *question, const char choices[], int num) {
   possibilities[j - 1] = '\0'; // Remove last '/'
 
   while (true) {
-    printf("%s [%s]: ", question, possibilities);
+    if (question != NULL) {
+      printf("%s [%s]:> ", question, possibilities);
+    } else {
+      printf("[%s]:> ", possibilities);
+    }
 
     extra = 0;
     char c = (char)getchar();

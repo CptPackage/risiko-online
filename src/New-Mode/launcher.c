@@ -4,6 +4,8 @@
 #include "utils/validation.h"
 #include "utils/view.h"
 #include "view/calibrate.h"
+#include "view/login.h"
+#include "view/mainmenu_p.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,7 +47,6 @@ int main(int argc, char **argv) {
   //   printff("Error: Failed during startup procedure!\n");
   //   return -1;
   // }
-  view_calibrate();
   //
   // if (initialize_io()) {
   //   if (argc < 2) {
@@ -56,13 +57,12 @@ int main(int argc, char **argv) {
   //     return -1;
   //   }
   // }
-  view_login();
-  // int list_size = 3;
-  // char **list = malloc(sizeof(char *) * list_size);
-  // list[0] = "Welcome";
-  // list[1] = "To";
-  // list[2] = "Risko";
-  // print_framed_text_list(list, '*', list_size);
+  view_calibrate();
+  Credentials creds;
+  view_login(&creds);
+  // printff("Username: %s\n", creds.username);
+  // printff("Password: %s\n", creds.password);
+  view_main_menu_player();
   pause();
   // fini_db();
   // fini_validation();

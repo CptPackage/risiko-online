@@ -15,6 +15,37 @@ void print_framed_text_list(char **text_list, char frame_char, int list_size) {
   print_char_line(frame_char);
 }
 
+void print_framed_text_left(char *text, char frame_char, bool vertical_frame) {
+  if (text == NULL) {
+    printff("Error: print_framed_text() called with NULL text!\n");
+    return;
+  }
+
+  if (vertical_frame) {
+    print_char_line(frame_char);
+  }
+
+  int text_len = strlen(text);
+  int padding = LINE_WIDTH - text_len;
+
+  printf("%c", frame_char);
+  printf("%s", text);
+
+  for (int i = 0; i < padding - 1; i++) {
+    if (i == (padding - 2)) {
+      printf(" %c", frame_char);
+    } else {
+      printf(" ");
+    }
+  }
+
+  printf("\n\r");
+  fflush(stdout);
+  if (vertical_frame) {
+    print_char_line(frame_char);
+  }
+}
+
 void print_framed_text(char *text, char frame_char, bool vertical_frame) {
   if (text == NULL) {
     printff("Error: print_framed_text() called with NULL text!\n");

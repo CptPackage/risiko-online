@@ -5,6 +5,8 @@
 
 extern void print_framed_text_list(char **text_list, char frame_char,
                                    int list_size);
+extern void print_framed_text_left(char *text, char frame_char,
+                                   bool vertical_frame);
 extern void print_framed_text(char *text, char frame_char, bool vertical_frame);
 extern void print_tabs(int tabs_count);
 extern void print_char_line(char spacing_char);
