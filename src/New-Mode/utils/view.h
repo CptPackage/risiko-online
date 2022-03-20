@@ -30,3 +30,9 @@ extern void clear_screen_to_top(void);
 extern void clear_line(void);
 extern void clear_line_to_right(void);
 extern void clear_line_to_left(void);
+
+extern void move_up(int positions);
+extern void move_down(int positions);
+extern void move_right(int positions);
+extern void move_left(int positions);
+extern void move_to(int row, int col);

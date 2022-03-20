@@ -211,3 +211,13 @@ void clear_line_to_right(void) { printf("\033[%dK", CLEAR_FROM_CURSOR_TO_END); }
 void clear_line_to_left(void) {
   printf("\033[%dK", CLEAR_FROM_CURSOR_TO_BEGIN);
 }
+
+void move_up(int positions) { printf("\x1b[%dA", positions); }
+
+void move_down(int positions) { printf("\x1b[%dB", positions); }
+
+void move_right(int positions) { printf("\x1b[%dC", positions); }
+
+void move_left(int positions) { printf("\x1b[%dD", positions); }
+
+void move_to(int row, int col) { printf("\x1b[%d;%df", row, col); }
