@@ -200,11 +200,14 @@ void print_spinner(bool is_loading, char *loading_text,
   }
 }
 
-void clear_line() {
-  printf("\r");
-  for (int i = 0; i < LINE_WIDTH; i++) {
-    printf(" ");
-  }
-  printf("\r");
-  fflush(stdout);
+void clear_screen_to_bottom(void) {
+  printf("\033[%dJ", CLEAR_FROM_CURSOR_TO_END);
+}
+void clear_screen_to_top(void) {
+  printf("\033[%dJ", CLEAR_FROM_CURSOR_TO_BEGIN);
+}
+void clear_line(void) { printf("\033[%dK", CLEAR_ALL); }
+void clear_line_to_right(void) { printf("\033[%dK", CLEAR_FROM_CURSOR_TO_END); }
+void clear_line_to_left(void) {
+  printf("\033[%dK", CLEAR_FROM_CURSOR_TO_BEGIN);
 }

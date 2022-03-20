@@ -3,7 +3,12 @@
 #define DEFAULT_PADDING_CHAR '-'
 #include <stdbool.h>
 
-extern void clear_line();
+typedef enum {
+  CLEAR_FROM_CURSOR_TO_END,
+  CLEAR_FROM_CURSOR_TO_BEGIN,
+  CLEAR_ALL
+} clear_codes;
+
 extern void print_framed_text_list(char **text_list, char frame_char,
                                    int list_size);
 extern void print_framed_text_left(char *text, char frame_char,
@@ -18,3 +23,10 @@ extern void print_menu(char *menu_title, char **labels, char *choices,
                        int labels_num, char padding_char);
 extern void print_spinner(bool is_loading, char *loading_text,
                           bool reversed_animation);
+
+extern void clear_line();
+extern void clear_screen_to_bottom(void);
+extern void clear_screen_to_top(void);
+extern void clear_line(void);
+extern void clear_line_to_right(void);
+extern void clear_line_to_left(void);
