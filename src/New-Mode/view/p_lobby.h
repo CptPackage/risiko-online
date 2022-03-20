@@ -1,5 +1,5 @@
 #pragma once
-#include "../model/p_lobby.h"
+#include "../model/p_match.h"
 
-void view_lobby(LobbyMatch **matches, int matches_size);
-void render_lobby_match(LobbyMatch *match, int match_index);
+void view_lobby(Match **matches, int matches_size);
+void render_lobby_match(Match *match, int match_index);
