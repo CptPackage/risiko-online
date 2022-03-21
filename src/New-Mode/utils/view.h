@@ -36,6 +36,7 @@ typedef struct _spinner_cfg_t {
   bool reversed_animation;
 } SpinnerConfig;
 
+extern void print_logo(Colors risiko_color, Colors online_color);
 extern void print_framed_text_list(char **text_list, char frame_char,
                                    int list_size);
 extern void print_framed_text_left(char *text, char frame_char,

@@ -5,6 +5,34 @@
 #include <string.h>
 #include <unistd.h>
 
+void print_logo(Colors risiko_color, Colors online_color) {
+  print_star_line();
+  print_framed_text(" :::====  ::: :::===  ::: :::  === :::==== ", '*', false,
+                    risiko_color);
+  print_framed_text(" :::  === ::: :::     ::: ::: ===  :::  ===", '*', false,
+                    risiko_color);
+  print_framed_text(" =======  ===  =====  === ======   ===  ===", '*', false,
+                    risiko_color);
+  print_framed_text(" === ===  ===     === === === ===  ===  ===", '*', false,
+                    risiko_color);
+  print_framed_text(" ===  === === ======  === ===  ===  ====== ", '*', false,
+                    risiko_color);
+  print_framed_text(" ", '*', false, 0);
+  print_framed_text(" :::====  :::= === :::      ::: :::= === :::=====", '*',
+                    false, online_color);
+  print_framed_text(" :::  === :::===== :::      ::: :::===== :::     ", '*',
+                    false, online_color);
+  print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
+                    false, online_color);
+  print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
+                    false, online_color);
+  print_framed_text(" ===  === === ==== ===      === === ==== ===     ", '*',
+                    false, online_color);
+  print_framed_text("  ======  ===  === ======== === ===  === ========", '*',
+                    false, online_color);
+  print_star_line();
+}
+
 void print_framed_text_list(char **text_list, char frame_char, int list_size) {
   if (text_list == NULL) {
     printff("Error: print_framed_text_list() called with NULL text_list!\n");

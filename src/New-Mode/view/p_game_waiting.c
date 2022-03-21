@@ -67,10 +67,8 @@ void view_game_waiting(Match *match) {
     }
 
     if (match->match_status == COUNTDOWN) {
-      set_color(MAGENTA_TXT);
       spinner_config = get_spinner_config();
       print_spinner(spinner_text, spinner_config);
-      reset_color();
       destroy_spinner_config(spinner_config);
     } else if (match->match_status == LOBBY) {
       printff("LOBBY IN COUNTDOWN TAKE YOUR ACTION: ");
