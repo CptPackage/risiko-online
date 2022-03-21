@@ -12,12 +12,13 @@ void print_framed_text_list(char **text_list, char frame_char, int list_size) {
   }
   print_char_line(frame_char);
   for (int i = 0; i < list_size; i++) {
-    print_framed_text(text_list[i], frame_char, false);
+    print_framed_text(text_list[i], frame_char, false, 0);
   }
   print_char_line(frame_char);
 }
 
-void print_framed_text_left(char *text, char frame_char, bool vertical_frame) {
+void print_framed_text_left(char *text, char frame_char, bool vertical_frame,
+                            Colors color) {
   if (text == NULL) {
     printff("Error: print_framed_text() called with NULL text!\n");
     return;
@@ -31,7 +32,14 @@ void print_framed_text_left(char *text, char frame_char, bool vertical_frame) {
   int padding = LINE_WIDTH - text_len;
 
   printf("%c", frame_char);
+
+  if (color) {
+    set_color(color);
+  }
   printf("%s", text);
+  if (color) {
+    reset_color();
+  }
 
   for (int i = 0; i < padding - 1; i++) {
     if (i == (padding - 2)) {
@@ -48,7 +56,8 @@ void print_framed_text_left(char *text, char frame_char, bool vertical_frame) {
   }
 }
 
-void print_framed_text(char *text, char frame_char, bool vertical_frame) {
+void print_framed_text(char *text, char frame_char, bool vertical_frame,
+                       Colors color) {
   if (text == NULL) {
     printff("Error: print_framed_text() called with NULL text!\n");
     return;
@@ -70,7 +79,13 @@ void print_framed_text(char *text, char frame_char, bool vertical_frame) {
     printf(" ");
   }
 
+  if (color) {
+    set_color(color);
+  }
   printf("%s", text);
+  if (color) {
+    reset_color();
+  }
 
   for (int i = 0; i < padding / 2 - end_spacing; i++) {
 
@@ -227,6 +242,13 @@ void move_right(int positions) { printf("\033[%dC", positions); }
 void move_left(int positions) { printf("\033[%dD", positions); }
 
 void move_to(int row, int col) { printf("\033[%d;%df", row, col); }
+
+void save_cursor() { printff("\033%d", 7); }
+void restore_cursor() { printff("\033%d", 8); }
+
+void reset_color() { printff("\033[0m"); }
+
+void set_color(Colors color) { printff("\x1b[%dm", color); }
 
 /*                      Struct Related utils                      */
 

@@ -9,6 +9,27 @@ typedef enum {
   CLEAR_ALL
 } clear_codes;
 
+typedef enum {
+  RESET_COLOR,
+  BLACK_TXT = 30,
+  RED_TXT,
+  GREEN_TXT,
+  YELLOW_TXT,
+  BLUE_TXT,
+  MAGENTA_TXT,
+  CYAN_TXT,
+  WHITE_TXT,
+
+  BLACK_BG = 40,
+  RED_BG,
+  GREEN_BG,
+  YELLOW_BG,
+  BLUE_BG,
+  MAGENTA_BG,
+  CYAN_BG,
+  WHITE_BG
+} Colors;
+
 typedef struct _spinner_cfg_t {
   bool is_loading;
   bool can_print;
@@ -18,8 +39,9 @@ typedef struct _spinner_cfg_t {
 extern void print_framed_text_list(char **text_list, char frame_char,
                                    int list_size);
 extern void print_framed_text_left(char *text, char frame_char,
-                                   bool vertical_frame);
-extern void print_framed_text(char *text, char frame_char, bool vertical_frame);
+                                   bool vertical_frame, Colors color);
+extern void print_framed_text(char *text, char frame_char, bool vertical_frame,
+                              Colors color);
 extern void print_tabs(int tabs_count);
 extern void print_char_line(char spacing_char);
 extern void print_dash_line();
@@ -41,6 +63,12 @@ extern void move_down(int positions);
 extern void move_right(int positions);
 extern void move_left(int positions);
 extern void move_to(int row, int col);
+
+extern void save_cursor();
+extern void restore_cursor();
+
+extern void reset_color();
+extern void set_color(Colors color);
 
 /*                      Struct Related utils                      */
 

@@ -9,10 +9,10 @@ void view_main_menu_mod() {
   print_star_line();
   print_padded_text("MODERATOR MENU", '*');
   print_star_line();
-  print_framed_text_left(" [1] Create Room", '*', false);
-  print_framed_text_left(" [2] View In-Game Matches", '*', false);
-  print_framed_text_left(" [3] View Idle Players", '*', false);
-  print_framed_text_left(" [4] Exit", '*', false);
+  print_framed_text_left(" [1] Create Room", '*', false, 0);
+  print_framed_text_left(" [2] View In-Game Matches", '*', false, 0);
+  print_framed_text_left(" [3] View Idle Players", '*', false, 0);
+  print_framed_text_left(" [4] Exit", '*', false, 0);
   print_star_line();
   multi_choice(NULL, choices, 4);
 }

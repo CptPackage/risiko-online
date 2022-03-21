@@ -9,9 +9,9 @@ void view_main_menu_player() {
   print_star_line();
   print_padded_text("MAIN MENU", '*');
   print_star_line();
-  print_framed_text_left(" [1] Join a Match", '*', false);
-  print_framed_text_left(" [2] Watch Match History", '*', false);
-  print_framed_text_left(" [3] Exit", '*', false);
+  print_framed_text_left(" [1] Join a Match", '*', false, 0);
+  print_framed_text_left(" [2] Watch Match History", '*', false, 0);
+  print_framed_text_left(" [3] Exit", '*', false, 0);
   print_star_line();
   multi_choice(NULL, choices, 3);
 }

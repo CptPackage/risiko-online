@@ -9,9 +9,9 @@ void view_calibrate() {
     print_star_line();
     print_framed_text(
         "Type [y] if you can see the whole UI in one line un-deformed", '|',
-        false);
+        false, YELLOW_TXT);
     print_framed_text("Otherwise resize your screen and type [r] to re-render",
-                      '|', false);
+                      '|', false, YELLOW_TXT);
     print_star_line();
     result = yes_or_no("Do you want to proceed or re-render?", 'y', 'r', false,
                        true);

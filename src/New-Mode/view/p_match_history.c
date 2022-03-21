@@ -24,10 +24,10 @@ void render_match_log(MatchLog *log) {
   sprintf(line_1, " Match: %d - Room: %d", log->match_id, log->room_id);
   sprintf(line_2, " Start: %s - End: %s", log->start_time, log->end_time);
   print_star_line();
-  print_framed_text(match_results_strings[log->result], '*', false);
+  print_framed_text(match_results_strings[log->result], '*', false, 0);
   print_star_line();
-  print_framed_text_left(line_1, '*', false);
-  print_framed_text_left(line_2, '*', false);
+  print_framed_text_left(line_1, '*', false, 0);
+  print_framed_text_left(line_2, '*', false, 0);
   print_star_line();
   free(line_1);
   free(line_2);
