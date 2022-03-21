@@ -1,6 +1,7 @@
 #include "view.h"
 #include "io.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -180,23 +181,28 @@ void print_menu(char *menu_title, char **labels, char *choices, int labels_num,
   fflush(stdout);
 }
 
-void print_spinner(bool is_loading, char *loading_text,
-                   bool reversed_animation) {
+void print_spinner(char *loading_text, SpinnerConfig *config) {
   printff("\r");
   const char *spinners[] = {"⣷", "⣯", "⣟", "⡿", "⢿", "⣻", "⣽", "⣾"};
   const char *spinners_reversed[] = {"⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"};
   const int spinners_size = 8;
-  char *text = loading_text == NULL ? "Loading..." : loading_text;
+  char **text = malloc(sizeof(char **));
+  *text = loading_text;
+  if (loading_text == NULL) {
+    *text = "Loading...";
+  }
   int i = 0;
-  while (is_loading) {
-    if (reversed_animation) {
-      printff("\r %s - %s", spinners_reversed[i], text);
-    } else {
-      printff("\r %s - %s", spinners[i], text);
+  while (config->is_loading) {
+    if (config->can_print) {
+      if (config->reversed_animation) {
+        printff("\r %s - %s", spinners_reversed[i], *text);
+      } else {
+        printff("\r %s - %s", spinners[i], text[0]);
+      }
+      i = (i + 1) % spinners_size;
+      usleep(100000);
+      clear_line();
     }
-    i = (i + 1) % spinners_size;
-    usleep(100000);
-    clear_line();
   }
 }
 
@@ -212,12 +218,24 @@ void clear_line_to_left(void) {
   printf("\033[%dK", CLEAR_FROM_CURSOR_TO_BEGIN);
 }
 
-void move_up(int positions) { printf("\x1b[%dA", positions); }
+void move_up(int positions) { printf("\033[%dA", positions); }
 
-void move_down(int positions) { printf("\x1b[%dB", positions); }
+void move_down(int positions) { printf("\033[%dB", positions); }
 
-void move_right(int positions) { printf("\x1b[%dC", positions); }
+void move_right(int positions) { printf("\033[%dC", positions); }
 
-void move_left(int positions) { printf("\x1b[%dD", positions); }
+void move_left(int positions) { printf("\033[%dD", positions); }
 
-void move_to(int row, int col) { printf("\x1b[%d;%df", row, col); }
+void move_to(int row, int col) { printf("\033[%d;%df", row, col); }
+
+/*                      Struct Related utils                      */
+
+SpinnerConfig *get_spinner_config() {
+  SpinnerConfig *config = malloc(sizeof(SpinnerConfig));
+  config->is_loading = true;
+  config->can_print = true;
+  config->reversed_animation = false;
+  return config;
+}
+
+bool destroy_spinner_config(SpinnerConfig *config) { free(config); }

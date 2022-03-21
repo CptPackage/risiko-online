@@ -9,6 +9,12 @@ typedef enum {
   CLEAR_ALL
 } clear_codes;
 
+typedef struct _spinner_cfg_t {
+  bool is_loading;
+  bool can_print;
+  bool reversed_animation;
+} SpinnerConfig;
+
 extern void print_framed_text_list(char **text_list, char frame_char,
                                    int list_size);
 extern void print_framed_text_left(char *text, char frame_char,
@@ -21,8 +27,7 @@ extern void print_star_line();
 extern void print_padded_text(char *text, char padding_char);
 extern void print_menu(char *menu_title, char **labels, char *choices,
                        int labels_num, char padding_char);
-extern void print_spinner(bool is_loading, char *loading_text,
-                          bool reversed_animation);
+extern void print_spinner(char *loading_text, SpinnerConfig *config);
 
 extern void clear_line();
 extern void clear_screen_to_bottom(void);
@@ -36,3 +41,8 @@ extern void move_down(int positions);
 extern void move_right(int positions);
 extern void move_left(int positions);
 extern void move_to(int row, int col);
+
+/*                      Struct Related utils                      */
+
+SpinnerConfig *get_spinner_config();
+bool destroy_spinner_config(SpinnerConfig *config);

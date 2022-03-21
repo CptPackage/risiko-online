@@ -8,6 +8,8 @@
 #include "view/calibrate.h"
 #include "view/login.h"
 #include "view/m_mainmenu.h"
+#include "view/p_game_ingame.h"
+#include "view/p_game_waiting.h"
 #include "view/p_lobby.h"
 #include "view/p_mainmenu.h"
 #include "view/p_match_history.h"
@@ -63,7 +65,7 @@ int main(int argc, char **argv) {
   //     return -1;
   //   }
   // }
-  view_calibrate();
+  // view_calibrate();
   // Credentials creds;
   // view_login(&creds);
   // printff("Username: %s\n", creds.username);
@@ -80,18 +82,19 @@ int main(int argc, char **argv) {
   // logs[2] = &log3;
   // view_match_history_list(logs, logs_size);
   clear_screen();
+
+  Match match_1 = {1, 1, 4, LOBBY};
+  view_game_waiting(&match_1);
   // view_match_result(WON);
   // view_match_result(LOST);
   // view_match_result(QUIT);
   // int matches_size = 2;
-  // LobbyMatch **matches = malloc(sizeof(LobbyMatch *) * matches_size);
-  // LobbyMatch match_1 = {1, 1, 4, LOBBY};
-  // LobbyMatch match_2 = {2, 2, 5, COUNTDOWN};
+  // Match **matches = malloc(sizeof(LobbyMatch *) * matches_size);
+  // Match match_1 = {1, 1, 4, LOBBY};
+  // Match match_2 = {2, 2, 5, COUNTDOWN};
   // matches[0] = &match_1;
   // matches[1] = &match_2;
   // view_lobby(matches, matches_size);
-  // printffn("⣾⣽⣻⢿⡿⣟⣯⣷");
-  print_spinner(true, "Waiting for new actions!", false);
   pause();
   // fini_db();
   // fini_validation();
