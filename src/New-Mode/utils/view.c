@@ -26,22 +26,18 @@ void print_logo(Colors risiko_color, Colors online_color,
   set_color(online_color);
   print_framed_text(" :::====  :::= === :::      ::: :::= === :::=====", '*',
                     false, 0);
-  // set_color(container_color);
   print_framed_text(" :::  === :::===== :::      ::: :::===== :::     ", '*',
                     false, 0);
-  // set_color(container_color);
   print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
                     false, 0);
-  // set_color(container_color);
   print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
                     false, 0);
-  // set_color(container_color);
   print_framed_text(" ===  === === ==== ===      === === ==== ===     ", '*',
                     false, 0);
-  // set_color(container_color);
   print_framed_text("  ======  ===  === ======== === ===  === ========", '*',
                     false, 0);
   print_star_line(container_color);
+  clear_line();
   reset_color();
 }
 
