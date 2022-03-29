@@ -18,17 +18,9 @@ SpinnerConfig *spinner_config;
 void *ingame_poll_match_thread(void *args) {
   IngamePollThreadConfig *config = (IngamePollThreadConfig *)args;
   int i = 0;
-  while (config->match->match_status != STARTED) {
-    /* Logic to fetch data from database and update match status */
-    if (config->match->match_status == COUNTDOWN) {
-      sprintf(config->spinner_text, "# of players: %d", i);
-      i = i + 1;
-      sleep(2);
-    }
-    if (i == 6) {
-      config->match->match_status = STARTED;
-      spinner_config->is_loading = false;
-    }
+  while (config->match->match_status != ENDED) {
+
+    /* Logic to fetch data from database and update match, turn,... */
   }
 }
 
@@ -47,7 +39,6 @@ void view_game_ingame(Match *match) {
   // }
 
   render_match_start(match);
-
   while (match->match_status != ENDED) {
     render_turn_start();
     render_turn_end();
@@ -113,6 +104,30 @@ void render_turn_end() {
   free(line_1);
 }
 
+void render_waiting_action(SpinnerConfig *spinner_config) {
+  set_color(BLACK_BG);
+  set_color(GREEN_TXT);
+  while (spinner_config->is_loading) {
+    print_spinner("Waiting for any action", spinner_config);
+  }
+  reset_color();
+}
+
+void render_players_info(Match *match) {
+  char *line_1 = malloc(TEXT_LINE_MEM);
+  sprintf(line_1, "<Dummy>'s tanks are moving");
+  set_color(BLACK_BG);
+  set_color(YELLOW_TXT);
+  print_char_line('-', 0);
+  print_framed_text_left(line_1, '|', false, 0);
+  print_char_line('-', 0);
+  reset_color();
+  set_color(BLACK_BG);
+  clear_line();
+  printffn("");
+  free(line_1);
+}
+
 void render_movement() {
   char *line_1 = malloc(TEXT_LINE_MEM);
   char *line_2 = malloc(TEXT_LINE_MEM);
@@ -131,8 +146,6 @@ void render_movement() {
   free(line_1);
 }
 
-void render_combat() {}
-
 void render_placement() {
   char *line_1 = malloc(TEXT_LINE_MEM);
   sprintf(line_1, "<Dummy> placed <50> tanks on <Egypt>!");
@@ -148,6 +161,8 @@ void render_placement() {
   free(line_1);
 }
 
+void render_combat() {}
+
 void render_territories(int player_id) {}
 
 void render_neighbour_nations() {}
@@ -155,14 +170,3 @@ void render_neighbour_nations() {}
 void render_attackable_nations() {}
 
 void render_dice_roll() {}
-
-void render_players_info(Match *match) {}
-
-void render_waiting_action(SpinnerConfig *spinner_config) {
-  set_color(BLACK_BG);
-  set_color(GREEN_TXT);
-  while (spinner_config->is_loading) {
-    print_spinner("Waiting for any action", spinner_config);
-  }
-  reset_color();
-}

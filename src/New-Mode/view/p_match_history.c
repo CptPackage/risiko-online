@@ -6,7 +6,7 @@
 
 char *match_results_strings[] = {"QUIT", "LOST", "WON"};
 
-void view_match_history_list(MatchLog **logs, int logs_size) {
+void view_match_history(MatchLog **logs, int logs_size) {
   clear_screen();
   print_star_line(0);
   print_padded_text("MATCHES HISTORY", '*', 0);

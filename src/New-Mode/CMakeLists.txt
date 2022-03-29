@@ -9,6 +9,7 @@ find_package(Threads REQUIRED)
 
 add_executable(risiko
         launcher.c
+        controller/player.c
         model/db.c
         model/p_match.c
         model/p_match_history.c
