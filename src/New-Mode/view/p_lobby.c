@@ -4,9 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern char *match_status_strings[MATCH_STATUS_NUM];
-
-void view_lobby(Match **matches, int matches_size) {
+int view_lobby(Match **matches, int matches_size) {
+  int chosen_match_index;
   clear_screen();
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
@@ -15,8 +14,7 @@ void view_lobby(Match **matches, int matches_size) {
   print_star_line(0);
 
   for (int i = 0; i < matches_size; i++) {
-    // printffn("");
-    if (matches[i]->players_num >= 3) {
+    if (matches[i]->match_status == 1) { // Match in Countdown
       set_color(YELLOW_TXT);
     } else {
       set_color(GREEN_TXT);
@@ -24,6 +22,7 @@ void view_lobby(Match **matches, int matches_size) {
 
     render_lobby_match(matches[i], i);
   }
+
   reset_color();
   clear_line();
 }

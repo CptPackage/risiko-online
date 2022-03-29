@@ -66,12 +66,12 @@ int main(int argc, char **argv) {
   //     return -1;
   //   }
   // }
+  view_calibrate();
+  Credentials creds;
+  view_login(&creds);
+  printff("Username: %s\n", creds.username);
+  printff("Password: %s\n", creds.password);
   controller_player();
-  // view_calibrate();
-  // Credentials creds;
-  // view_login(&creds);
-  // printff("Username: %s\n", creds.username);
-  // printff("Password: %s\n", creds.password);
   // view_main_menu_mod();
   // print_logo(BLUE_TXT, CYAN_TXT, BLACK_BG);
   // Match match_1 = {1, 1, 4, LOBBY};
@@ -89,7 +89,6 @@ int main(int argc, char **argv) {
   // matches[1] = &match_2;
   // view_lobby(matches, matches_size);
 
-  pause();
   // fini_db();
   // fini_validation();
   return 0;
