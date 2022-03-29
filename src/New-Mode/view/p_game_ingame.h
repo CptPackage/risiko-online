@@ -3,7 +3,11 @@
 
 extern void view_game_ingame(Match *match);
 
-extern void render_turn();
+extern void render_match_start(Match *match);
+
+extern void render_turn_start();
+
+extern void render_turn_end();
 
 extern void render_movement();
 

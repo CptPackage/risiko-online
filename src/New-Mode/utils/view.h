@@ -34,20 +34,22 @@ typedef struct _spinner_cfg_t {
   bool is_loading;
   bool can_print;
   bool reversed_animation;
+  Colors color;
 } SpinnerConfig;
 
-extern void print_logo(Colors risiko_color, Colors online_color);
+extern void print_logo(Colors risiko_color, Colors online_color,
+                       Colors container_color);
 extern void print_framed_text_list(char **text_list, char frame_char,
                                    int list_size);
 extern void print_framed_text_left(char *text, char frame_char,
                                    bool vertical_frame, Colors color);
 extern void print_framed_text(char *text, char frame_char, bool vertical_frame,
                               Colors color);
-extern void print_tabs(int tabs_count);
-extern void print_char_line(char spacing_char);
-extern void print_dash_line();
-extern void print_star_line();
-extern void print_padded_text(char *text, char padding_char);
+extern void print_tabs(int tabs_count, Colors color);
+extern void print_char_line(char spacing_char, Colors color);
+extern void print_dash_line(Colors color);
+extern void print_star_line(Colors color);
+extern void print_padded_text(char *text, char padding_char, Colors color);
 extern void print_menu(char *menu_title, char **labels, char *choices,
                        int labels_num, char padding_char);
 extern void print_spinner(char *loading_text, SpinnerConfig *config);

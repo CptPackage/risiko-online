@@ -41,11 +41,11 @@ void view_game_waiting(Match *match) {
   pthread_t tid;
   sprintf(line_1, "Status: %s", get_match_status_string(match->match_status));
   sprintf(line_2, "Room #%d", match->room_id);
-  print_char_line('-');
+  print_char_line('-', 0);
   print_framed_text(line_1, '|', false, 0);
-  print_char_line('-');
+  print_char_line('-', 0);
   print_framed_text(line_2, '|', false, 0);
-  print_char_line('-');
+  print_char_line('-', 0);
 
   WaitingPollThreadConfig thread_config = {spinner_text, match};
 
@@ -86,8 +86,6 @@ void view_game_waiting(Match *match) {
     }
   }
   clear_screen();
-
-  print_framed_text("MATCH STARTED!", ' ', false, 0);
 
   free(line_1);
   free(line_2);

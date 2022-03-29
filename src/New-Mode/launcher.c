@@ -65,26 +65,28 @@ int main(int argc, char **argv) {
   //     return -1;
   //   }
   // }
-  view_calibrate();
-  Credentials creds;
-  view_login(&creds);
-  printff("Username: %s\n", creds.username);
-  printff("Password: %s\n", creds.password);
-  view_main_menu_player();
+  // view_calibrate();
+  // Credentials creds;
+  // view_login(&creds);
+  // printff("Username: %s\n", creds.username);
+  // printff("Password: %s\n", creds.password);
+  // view_main_menu_player();
   // view_main_menu_mod();
-  int logs_size = 3;
-  MatchLog **logs = malloc(sizeof(MatchLog *) * logs_size);
-  MatchLog log1 = {1, 1, "27/5/2012 - 05:00", "27/5/2012 - 05:30", WON};
-  MatchLog log2 = {2, 2, "27/5/2012 - 07:00", "27/5/2012 - 07:30", QUIT};
-  MatchLog log3 = {3, 3, "27/5/2012 - 07:00", "27/5/2012 - 08:30", LOST};
-  logs[0] = &log1;
-  logs[1] = &log2;
-  logs[2] = &log3;
-  view_match_history_list(logs, logs_size);
-  clear_screen();
+  // int logs_size = 3;
+  // MatchLog **logs = malloc(sizeof(MatchLog *) * logs_size);
+  // MatchLog log1 = {1, 1, "27/5/2012 - 05:00", "27/5/2012 - 05:30", WON};
+  // MatchLog log2 = {2, 2, "27/5/2012 - 07:00", "27/5/2012 - 07:30", QUIT};
+  // MatchLog log3 = {3, 3, "27/5/2012 - 07:00", "27/5/2012 - 08:30", LOST};
+  // logs[0] = &log1;
+  // logs[1] = &log2;
+  // logs[2] = &log3;
+  // view_match_history_list(logs, logs_size);
+  // clear_screen();
+  print_logo(GREEN_TXT, RED_TXT, BLUE_BG);
+  // Match match_1 = {1, 1, 4, LOBBY};
+  // view_game_waiting(&match_1);
+  // view_game_ingame(&match_1);
 
-  Match match_1 = {1, 1, 4, LOBBY};
-  view_game_waiting(&match_1);
   // view_match_result(WON);
   // view_match_result(LOST);
   // view_match_result(QUIT);
@@ -95,6 +97,7 @@ int main(int argc, char **argv) {
   // matches[0] = &match_1;
   // matches[1] = &match_2;
   // view_lobby(matches, matches_size);
+
   pause();
   // fini_db();
   // fini_validation();

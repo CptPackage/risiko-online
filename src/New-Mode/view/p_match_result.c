@@ -8,7 +8,7 @@ void view_match_result(match_result_t match_result) {
   bool result;
   while (!result) {
     clear_screen();
-    print_char_line('-');
+    print_char_line('-', 0);
     print_framed_text("", '|', false, 0);
     switch (match_result) {
     // QUIT
@@ -30,7 +30,7 @@ void view_match_result(match_result_t match_result) {
       break;
     }
     print_framed_text("", '|', false, 0);
-    print_char_line('-');
+    print_char_line('-', 0);
     result = yes_or_no("Go to Main Menu", 'y', 'n', true, true);
   }
 }

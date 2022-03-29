@@ -33,63 +33,52 @@ void *ingame_poll_match_thread(void *args) {
 }
 
 void view_game_ingame(Match *match) {
-  clear_screen();
-  char *line_1 = malloc(TEXT_LINE_MEM);
-  char *line_2 = malloc(TEXT_LINE_MEM);
-  char *spinner_text = malloc(TEXT_LINE_MEM);
-  match_status_t initial_status = match->match_status;
   pthread_t tid;
-  sprintf(line_1, "Status: %s", get_match_status_string(match->match_status));
-  sprintf(line_2, "Room #%d", match->room_id);
-  print_char_line('-');
-  print_framed_text(line_1, '|', false, 0);
-  print_char_line('-');
-  print_framed_text(line_2, '|', false, 0);
-  print_char_line('-');
-
-  IngamePollThreadConfig thread_config = {spinner_text, match};
-
-  if (pthread_create(&tid, NULL, ingame_poll_match_thread, &thread_config)) {
-    printffn("Error: Failed to create Thread!\n");
-    exit(-1);
-  }
-
-  int x;
-
-  while (match->match_status != STARTED) {
-    if (match->match_status != initial_status) {
-      initial_status = match->match_status;
-      move_to(2, 0);
-      sprintf(line_1, "Status: %s",
-              get_match_status_string(match->match_status));
-      print_framed_text(line_1, '|', false, GREEN_TXT);
-      move_down(3);
-    }
-
-    if (match->match_status == COUNTDOWN) {
-      spinner_config = get_spinner_config();
-      print_spinner(spinner_text, spinner_config);
-      destroy_spinner_config(spinner_config);
-    } else if (match->match_status == LOBBY) {
-      printff("LOBBY IN COUNTDOWN TAKE YOUR ACTION: ");
-      scanf("%d", &x);
-      move_up(1);
-      clear_line();
-      switch (x) {
-      case 0:
-        match->match_status = COUNTDOWN;
-        break;
-      case 1:
-        match->match_status = STARTED;
-        break;
-      }
-    }
-  }
   clear_screen();
+  // IngamePollThreadConfig thread_config = {spinner_text, match};
 
-  print_framed_text("MATCH STARTED!", ' ', false, 0);
+  // if (pthread_create(&tid, NULL, ingame_poll_match_thread, &thread_config)) {
+  //   printffn("Error: Failed to create Thread!\n");
+  //   exit(-1);
+  // }
 
-  free(line_1);
-  free(line_2);
-  free(spinner_text);
+  render_match_start(match);
+
+  while (match->match_status != ENDED) {
+    pause();
+  }
+
+  clear_screen();
 }
+
+void render_match_start(Match *match) {
+  char *line_1 = malloc(TEXT_LINE_MEM);
+  sprintf(line_1, "Match #%d has started!", match->match_id);
+  set_color(GREEN_BG);
+  print_char_line('-', 0);
+  print_framed_text(line_1, '|', false, 0);
+  print_char_line('-', 0);
+  reset_color();
+  clear_line();
+  free(line_1);
+}
+
+void render_turn_start() {}
+
+void render_turn_end() {}
+
+void render_movement() {}
+
+void render_combat() {}
+
+void render_placement() {}
+
+void render_territories(int player_id) {}
+
+void render_neighbour_nations() {}
+
+void render_attackable_nations() {}
+
+void render_dice_roll() {}
+
+void render_players_info(Match *match) {}

@@ -5,32 +5,44 @@
 #include <string.h>
 #include <unistd.h>
 
-void print_logo(Colors risiko_color, Colors online_color) {
-  print_star_line();
+void print_logo(Colors risiko_color, Colors online_color,
+                Colors container_color) {
+  set_color(risiko_color);
+  print_star_line(container_color);
+  set_color(container_color);
+  set_color(risiko_color);
   print_framed_text(" :::====  ::: :::===  ::: :::  === :::==== ", '*', false,
-                    risiko_color);
+                    0);
   print_framed_text(" :::  === ::: :::     ::: ::: ===  :::  ===", '*', false,
-                    risiko_color);
+                    0);
   print_framed_text(" =======  ===  =====  === ======   ===  ===", '*', false,
-                    risiko_color);
+                    0);
   print_framed_text(" === ===  ===     === === === ===  ===  ===", '*', false,
-                    risiko_color);
+                    0);
   print_framed_text(" ===  === === ======  === ===  ===  ====== ", '*', false,
-                    risiko_color);
-  print_framed_text(" ", '*', false, 0);
+                    0);
+  print_framed_text(" ", '*', false, container_color);
+  set_color(container_color);
+  set_color(online_color);
   print_framed_text(" :::====  :::= === :::      ::: :::= === :::=====", '*',
-                    false, online_color);
+                    false, 0);
+  // set_color(container_color);
   print_framed_text(" :::  === :::===== :::      ::: :::===== :::     ", '*',
-                    false, online_color);
+                    false, 0);
+  // set_color(container_color);
   print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
-                    false, online_color);
+                    false, 0);
+  // set_color(container_color);
   print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
-                    false, online_color);
+                    false, 0);
+  // set_color(container_color);
   print_framed_text(" ===  === === ==== ===      === === ==== ===     ", '*',
-                    false, online_color);
+                    false, 0);
+  // set_color(container_color);
   print_framed_text("  ======  ===  === ======== === ===  === ========", '*',
-                    false, online_color);
-  print_star_line();
+                    false, 0);
+  print_star_line(container_color);
+  reset_color();
 }
 
 void print_framed_text_list(char **text_list, char frame_char, int list_size) {
@@ -38,11 +50,11 @@ void print_framed_text_list(char **text_list, char frame_char, int list_size) {
     printff("Error: print_framed_text_list() called with NULL text_list!\n");
     return;
   }
-  print_char_line(frame_char);
+  print_char_line(frame_char, 0);
   for (int i = 0; i < list_size; i++) {
     print_framed_text(text_list[i], frame_char, false, 0);
   }
-  print_char_line(frame_char);
+  print_char_line(frame_char, 0);
 }
 
 void print_framed_text_left(char *text, char frame_char, bool vertical_frame,
@@ -52,22 +64,20 @@ void print_framed_text_left(char *text, char frame_char, bool vertical_frame,
     return;
   }
 
-  if (vertical_frame) {
-    print_char_line(frame_char);
-  }
-
   int text_len = strlen(text);
   int padding = LINE_WIDTH - text_len;
-
-  printf("%c", frame_char);
 
   if (color) {
     set_color(color);
   }
-  printf("%s", text);
-  if (color) {
-    reset_color();
+
+  if (vertical_frame) {
+    print_char_line(frame_char, 0);
   }
+
+  printf("%c", frame_char);
+
+  printf("%s", text);
 
   for (int i = 0; i < padding - 1; i++) {
     if (i == (padding - 2)) {
@@ -78,10 +88,15 @@ void print_framed_text_left(char *text, char frame_char, bool vertical_frame,
   }
 
   printf("\n\r");
-  fflush(stdout);
   if (vertical_frame) {
-    print_char_line(frame_char);
+    print_char_line(frame_char, 0);
   }
+
+  if (color) {
+    reset_color();
+  }
+
+  fflush(stdout);
 }
 
 void print_framed_text(char *text, char frame_char, bool vertical_frame,
@@ -91,14 +106,18 @@ void print_framed_text(char *text, char frame_char, bool vertical_frame,
     return;
   }
 
-  if (vertical_frame) {
-    print_char_line(frame_char);
-  }
-
   int text_len = strlen(text);
   int padding = LINE_WIDTH - text_len;
   int end_spacing = text_len % 2; // Remove one padding_char from the end if the
                                   // text is odd number of chars
+  if (color) {
+    set_color(color);
+  }
+
+  if (vertical_frame) {
+    print_char_line(frame_char, 0);
+  }
+
   printf("\r");
   for (int i = 0; i < padding / 2; i++) {
     if (i == 0) {
@@ -107,77 +126,110 @@ void print_framed_text(char *text, char frame_char, bool vertical_frame,
     printf(" ");
   }
 
-  if (color) {
-    set_color(color);
-  }
   printf("%s", text);
-  if (color) {
-    reset_color();
-  }
 
   for (int i = 0; i < padding / 2 - end_spacing; i++) {
-
     if (i == (padding / 2 - end_spacing) - 1) {
       printf(" %c", frame_char);
     } else {
       printf(" ");
     }
   }
-
   printf("\n\r");
-  fflush(stdout);
+
   if (vertical_frame) {
-    print_char_line(frame_char);
+    print_char_line(frame_char, 0);
   }
+
+  if (color) {
+    reset_color();
+  }
+
+  fflush(stdout);
 }
 
-void print_tabs(int tabs_count) {
+void print_tabs(int tabs_count, Colors color) {
   if (tabs_count == 0) {
     return;
   }
   printf("\r");
+  if (color) {
+    set_color(color);
+  }
   for (int i = 0; i < tabs_count; i++) {
     printf("\t");
   }
+
+  if (color) {
+    reset_color();
+  }
+
   fflush(stdout);
 }
 
-void print_char_line(char spacing_char) {
+void print_char_line(char spacing_char, Colors color) {
   printf("\r");
+  if (color) {
+    set_color(color);
+  }
   for (int i = 0; i < LINE_WIDTH + 1; i++) {
     printf("%c", spacing_char);
   }
   printf("\n");
+
+  if (color) {
+    reset_color();
+  }
+
   fflush(stdout);
 }
 
-void print_dash_line() {
+void print_dash_line(Colors color) {
   printf("\r");
+  if (color) {
+    set_color(color);
+  }
   for (int i = 0; i < LINE_WIDTH + 1; i++) {
     printf("-");
   }
   printf("\n");
+  if (color) {
+    reset_color();
+  }
   fflush(stdout);
 }
 
-void print_star_line() {
+void print_star_line(Colors color) {
   printf("\r");
+  if (color) {
+    set_color(color);
+  }
   for (int i = 0; i < LINE_WIDTH + 1; i++) {
     printf("*");
   }
   printf("\n");
+  if (color) {
+    reset_color();
+  }
+
   fflush(stdout);
 }
 
-void print_padded_text(char *text, char padding_char) {
+void print_padded_text(char *text, char padding_char, Colors color) {
   if (text == NULL) {
-    print_star_line();
+    print_star_line(color);
     return;
   }
+
   int text_len = strlen(text);
   int padding = LINE_WIDTH - text_len;
   int end_spacing = text_len % 2; // Remove one padding_char from the end if the
-                                  // text is odd number of chars
+  // text is odd number of chars
+
+  if (color) {
+    set_color(color);
+  }
+
   printf("\r");
   for (int i = 0; i < padding / 2; i++) {
     printf("%c", padding_char);
@@ -185,7 +237,9 @@ void print_padded_text(char *text, char padding_char) {
   if (padding / 2 > 1) {
     printf(" ");
   }
+
   printf("%s", text);
+
   if (padding / 2 > 1) {
     printf(" ");
   }
@@ -193,15 +247,19 @@ void print_padded_text(char *text, char padding_char) {
     printf("%c", padding_char);
   }
   printf("\n\r");
+
+  if (color) {
+    reset_color();
+  }
   fflush(stdout);
 }
 
 void print_menu(char *menu_title, char **labels, char *choices, int labels_num,
                 char padding_char) {
   if (labels == NULL || choices == NULL) {
-    print_char_line('X');
+    print_char_line('X', 0);
     printff("ERROR: Wrong args to print_menu()!\n");
-    print_char_line('X');
+    print_char_line('X', 0);
     return;
   }
 
@@ -211,15 +269,15 @@ void print_menu(char *menu_title, char **labels, char *choices, int labels_num,
   }
 
   if (menu_title != NULL) {
-    print_char_line(_padding_char);
-    print_padded_text(menu_title, _padding_char);
+    print_char_line(_padding_char, 0);
+    print_padded_text(menu_title, _padding_char, 0);
   }
 
-  print_char_line(_padding_char);
+  print_char_line(_padding_char, 0);
   for (int i = 0; i < labels_num; i++) {
     printf("\r[%c]-> <%s>\n", choices[i], labels[i]);
   }
-  print_char_line(_padding_char);
+  print_char_line(_padding_char, 0);
   printf("\n\r");
   fflush(stdout);
 }
@@ -234,6 +292,11 @@ void print_spinner(char *loading_text, SpinnerConfig *config) {
   if (loading_text == NULL) {
     *text = "Loading...";
   }
+
+  if (config->color) {
+    set_color(config->color);
+  }
+
   int i = 0;
   while (config->is_loading) {
     if (config->can_print) {
@@ -246,6 +309,10 @@ void print_spinner(char *loading_text, SpinnerConfig *config) {
       usleep(100000);
       clear_line();
     }
+  }
+
+  if (config->color) {
+    reset_color();
   }
 }
 

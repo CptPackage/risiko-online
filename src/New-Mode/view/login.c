@@ -7,8 +7,9 @@
 void view_login(Credentials *cred) {
   Colors risiko_color = YELLOW_TXT;
   Colors online_color = YELLOW_TXT;
+  Colors container_color = YELLOW_BG;
   clear_screen();
-  print_logo(risiko_color, online_color);
+  print_logo(risiko_color, online_color, container_color);
   get_input("Username:", USERNAME_LEN, cred->username, false, false);
   get_input("Password:", PASSWORD_LEN, cred->password, true, false);
 }
