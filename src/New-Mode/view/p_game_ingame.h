@@ -1,5 +1,6 @@
 #pragma once
 #include "../model/p_match.h"
+#include "../utils/view.h"
 
 extern void view_game_ingame(Match *match);
 
@@ -24,3 +25,5 @@ extern void render_attackable_nations();
 extern void render_dice_roll();
 
 extern void render_players_info(Match *match);
+
+extern void render_waiting_action(SpinnerConfig *spinner_config);

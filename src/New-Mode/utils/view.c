@@ -5,6 +5,16 @@
 #include <string.h>
 #include <unistd.h>
 
+/*
+ *
+ *  NOTE: All the functions that take Colors as a parameter, calls reset_color()
+ *  before returning when provided with a Colors that isn't 0.
+ *
+ *  This note is useful when you are calling set_color() and reset_color()
+ *  directly in your views.
+ *
+ */
+
 void print_logo(Colors risiko_color, Colors online_color,
                 Colors container_color) {
   set_color(risiko_color);

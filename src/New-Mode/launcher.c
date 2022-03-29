@@ -82,10 +82,10 @@ int main(int argc, char **argv) {
   // logs[2] = &log3;
   // view_match_history_list(logs, logs_size);
   // clear_screen();
-  print_logo(GREEN_TXT, RED_TXT, WHITE_BG);
-  // Match match_1 = {1, 1, 4, LOBBY};
+  // print_logo(BLUE_TXT, CYAN_TXT, BLACK_BG);
+  Match match_1 = {1, 1, 4, LOBBY};
   // view_game_waiting(&match_1);
-  // view_game_ingame(&match_1);
+  view_game_ingame(&match_1);
 
   // view_match_result(WON);
   // view_match_result(LOST);
