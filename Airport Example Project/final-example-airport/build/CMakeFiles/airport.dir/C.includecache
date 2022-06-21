@@ -1,0 +1,246 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/agenzia.c
+stdio.h
+-
+string.h
+-
+agenzia.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/agenzia.h
+../model/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+../view/agenzia.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/agenzia.h
+../utils/io.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/agenzia.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/amministratore.c
+stdbool.h
+-
+stdio.h
+-
+string.h
+-
+amministratore.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/amministratore.h
+../model/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+../view/amministratore.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/amministratore.h
+../utils/io.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/amministratore.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/login.c
+stdbool.h
+-
+login.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/login.h
+amministratore.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/amministratore.h
+agenzia.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/agenzia.h
+../view/login.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/login.h
+../model/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/login.h
+stdbool.h
+-
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/main.c
+stdio.h
+-
+view/login.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/login.h
+controller/login.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/controller/login.h
+model/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+utils/dotenv.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/dotenv.h
+utils/io.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.h
+utils/validation.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/validation.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.c
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+mysql.h
+-
+assert.h
+-
+db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+../utils/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/db.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+stdbool.h
+-
+stdlib.h
+-
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/db.c
+stdlib.h
+-
+stdio.h
+-
+stdbool.h
+-
+string.h
+-
+mysql.h
+-
+db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/db.h
+../model/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/db.h
+stdbool.h
+-
+mysql.h
+-
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/dotenv.c
+stdio.h
+-
+memory.h
+-
+stdlib.h
+-
+stdbool.h
+-
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/dotenv.h
+stdbool.h
+-
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.c
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+ctype.h
+-
+stdbool.h
+-
+setjmp.h
+-
+termios.h
+-
+io.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.h
+stdbool.h
+-
+setjmp.h
+-
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/validation.c
+stdbool.h
+-
+regex.h
+-
+stdio.h
+-
+string.h
+-
+errno.h
+-
+validation.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/validation.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/validation.h
+stdbool.h
+-
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/agenzia.c
+stdio.h
+-
+agenzia.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/agenzia.h
+../utils/io.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.h
+../utils/validation.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/validation.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/agenzia.h
+../model/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/amministratore.c
+stdio.h
+-
+amministratore.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/amministratore.h
+../utils/io.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.h
+../utils/validation.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/validation.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/amministratore.h
+../model/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/login.c
+stdio.h
+-
+login.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/login.h
+../utils/io.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/utils/io.h
+
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/view/login.h
+../model/db.h
+/home/CptPackage/Desktop/Risiko/risiko-online/Airport Example Project/final-example-airport/model/db.h
+
+/usr/include/mysql/ma_list.h
+
+/usr/include/mysql/mariadb_com.h
+
+/usr/include/mysql/mariadb_ctype.h
+ctype.h
+-
+
+/usr/include/mysql/mariadb_stmt.h
+
+/usr/include/mysql/mariadb_version.h
+custom_conf.h
+-
+
+/usr/include/mysql/mysql.h
+stdarg.h
+-
+sys/types.h
+-
+mariadb_com.h
+/usr/include/mysql/mariadb_com.h
+mariadb_version.h
+/usr/include/mysql/mariadb_version.h
+ma_list.h
+/usr/include/mysql/ma_list.h
+mariadb_ctype.h
+/usr/include/mysql/mariadb_ctype.h
+mariadb_stmt.h
+/usr/include/mysql/mariadb_stmt.h
+
