@@ -1,3 +1,3 @@
-D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/New-Mode/build/CMakeFiles/risiko.dir
-D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/New-Mode/build/CMakeFiles/ALL_BUILD.dir
-D:/Studio/Da Fa/Primo Semestre/Basi Di Dati/Project/src/New-Mode/build/CMakeFiles/ZERO_CHECK.dir
+/home/CptPackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/rebuild_cache.dir
+/home/CptPackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/edit_cache.dir
+/home/CptPackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/risiko.dir

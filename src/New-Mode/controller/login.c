@@ -1,28 +1,26 @@
-#include <stdbool.h>
-
-#include "login.h"
-#include "amministratore.h"
-#include "agenzia.h"
 #include "../view/login.h"
 #include "../model/db.h"
+#include "../utils/view.h"
+#include "login.h"
+#include <stdbool.h>
 
+bool login(void) {
+  Credentials creds;
+  view_login(&creds);
+  role_t role = attempt_login(&creds);
 
-bool login(void)
-{
-	struct credentials cred;
-	view_login(&cred);
-	role_t role = attempt_login(&cred);
+  switch (role) {
+  case PLAYER:
+    controller_player();
+    break;
+  case MODERATOR:
+    print_info_text("Moderator logged in!");
+    // controller_moderator();
+    break;
+  default:
+    print_warning_text("Login Failed!");
+    return false;
+  }
 
-	switch(role) {
-		case AMMINISTRATORE:
-			administrator_controller();
-			break;
-		case AGENZIA:
-			controller_agenzia();
-			break;
-		default:
-			return false;
-	}
-
-	return true;
+  return true;
 }
