@@ -21,7 +21,7 @@ extern bool yes_or_no(char *question, char yes, char no, bool default_answer,
 extern char multi_choice(char *question, const char choices[], int num);
 extern void clear_screen(void);
 extern void press_anykey(void);
-extern void init_choices_array(char **choices_array, int choices_num);
+extern void init_choices_array(char **choices_array, int choices_num, int start_num);
 extern void printff(const char *format, ...);
 extern void printffn(const char *format, ...);
 

@@ -208,15 +208,15 @@ void printffn(const char *format, ...) {
   va_end(args);
 }
 
-void init_choices_array(char **choices_array, int choices_num) {
+void init_choices_array(char **choices_array, int choices_num, int start_num) {
   *choices_array = malloc(sizeof(char) * choices_num);
   if (*choices_array == NULL) {
     print_error_text("Failed to allocate choices array!");
     return;
   }
 
-  for (int i = 0; i < choices_num; i++) {
-    *(*choices_array + i) = (i + 1) + '0';
+  for (int i = start_num; i < choices_num; i++) {
+    *(*choices_array + i) = i  + '0';
   }
 }
 

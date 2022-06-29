@@ -41,11 +41,11 @@ static bool review_match_history(void) {
   return false;
 }
 
+
 static bool exit_game(void) {  
   // Do Cleanup
   return true; 
 }
-
 static struct {
   enum actions action;
   bool (*control)(void);
@@ -54,7 +54,7 @@ static struct {
     {.action = REVIEW_MATCH_HISTORY, .control = review_match_history},
     {.action = EXIT, .control = exit_game}};
 
-void controller_player(void) {
+void controller_moderator(void) {
   // db_switch_to_administrator();
 
   while (true) {

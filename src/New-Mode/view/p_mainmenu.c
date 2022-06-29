@@ -11,7 +11,6 @@ int view_main_menu_player() {
   clear_screen();
 
   set_color(GREEN_TXT);
-  set_color(7);
   print_star_line(0);
   print_padded_text("MAIN MENU", '*', 0);
   print_star_line(0);

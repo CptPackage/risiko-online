@@ -12,6 +12,10 @@ int view_lobby(Match **matches, int matches_size) {
   print_framed_text("JOIN A MATCH", '*', false, 0, 0);
   print_star_line(0);
 
+  print_char_line('-', 0);
+  print_framed_text_left("[0] Return to Main Menu", '|', false, 0, 0);
+  print_char_line('-', 0);
+
   for (int i = 0; i < matches_size; i++) {
     if (matches[i]->match_status == 1) { // Match in Countdown
       set_color(YELLOW_TXT);
