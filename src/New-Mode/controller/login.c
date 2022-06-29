@@ -1,3 +1,4 @@
+#include "../controller/player.h"
 #include "../view/login.h"
 #include "../model/db.h"
 #include "../utils/view.h"

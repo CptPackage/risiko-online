@@ -1,5 +1,6 @@
 #include "mem.h"
-#include <semaphore.h>
+#include <sys/sem.h>
+#include "./io.h"
 
 void init_allocs() {}
 
