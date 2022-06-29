@@ -12,8 +12,10 @@ void view_login(Credentials *cred) {
   print_logo(risiko_color, online_color, container_color);
   set_color(BLACK_BG);
   clear_line();
+  set_color(risiko_color);
   get_input("Username:", USERNAME_LEN, cred->username, false, false);
   clear_line();
+  set_color(online_color);
   get_input("Password:", PASSWORD_LEN, cred->password, true, false);
   reset_color();
 }
