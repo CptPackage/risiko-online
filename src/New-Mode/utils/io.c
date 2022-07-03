@@ -8,6 +8,7 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <time.h>
+#include "../model/db.h"
 
 #ifdef __unix__
 #include <termios.h>
@@ -232,7 +233,9 @@ void exit_interrupt_handler(int sigNo) {
   time_t current_time;
   current_time = time(NULL);
   if (current_time - last_exit_attempt_time < 2) {
-    // Do cleanup
+    printff("Pre Logout Testing \n");
+    logout();
+    printff("Post Logout Testing \n");
     printff("\n");
     exit(10);
   } else {

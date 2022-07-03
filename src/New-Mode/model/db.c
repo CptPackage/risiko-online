@@ -8,9 +8,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+char current_user[45];
+
 static MYSQL *conn;
 
 static MYSQL_STMT *login_procedure;
+static MYSQL_STMT *logout_procedure;
 static MYSQL_STMT *register_flight;
 static MYSQL_STMT *get_occupancy;
 static MYSQL_STMT *booking;
@@ -21,6 +24,12 @@ static void close_prepared_stmts(void) {
     mysql_stmt_close(login_procedure);
     login_procedure = NULL;
   }
+
+  if (logout_procedure) {
+    mysql_stmt_close(logout_procedure);
+    login_procedure = NULL;
+  }
+
   if (register_flight) {
     mysql_stmt_close(register_flight);
     register_flight = NULL;
@@ -41,7 +50,6 @@ static void close_prepared_stmts(void) {
 
 static bool initialize_prepared_stmts(role_t for_role) {
   switch (for_role) {
-
   case LOGIN_ROLE:
     if (!setup_prepared_stmt(&login_procedure, "call login(?, ?, ?, ?)",
                              conn)) {
@@ -49,14 +57,29 @@ static bool initialize_prepared_stmts(role_t for_role) {
                        "Unable to initialize login statement\n");
       return false;
     }
+
+    if (!setup_prepared_stmt(&logout_procedure, "call logout(?)",
+                             conn)) {
+      print_stmt_error(logout_procedure,
+                       "Unable to initialize login statement\n");
+      return false;
+    }
     break;
   case PLAYER:
+    // if (!setup_prepared_stmt(&logout_procedure, "call logout(?)",
+    //                          conn)) {
+    //   print_stmt_error(logout_procedure,
+    //                    "Unable to initialize login statement\n");
+    //   return false;
+    // }
+
     if (!setup_prepared_stmt(&register_flight,
                              "call registra_volo(?, ?, ?, ?, ?, ?, ?)", conn)) {
       print_stmt_error(register_flight,
                        "Unable to initialize register flight statement\n");
       return false;
     }
+    
     if (!setup_prepared_stmt(&get_occupancy, "call report_occupazione_voli()",
                              conn)) {
       print_stmt_error(register_flight,
@@ -65,11 +88,19 @@ static bool initialize_prepared_stmts(role_t for_role) {
     }
     break;
   case MODERATOR:
+    // if (!setup_prepared_stmt(&logout_procedure, "call logout(?)",
+    //                          conn)) {
+    //   print_stmt_error(logout_procedure,
+    //                    "Unable to initialize login statement\n");
+    //   return false;
+    // }
+
     if (!setup_prepared_stmt(
             &booking, "call registra_prenotazione(?, ?, ?, ?, ?)", conn)) {
       print_stmt_error(booking, "Unable to initialize booking statement\n");
       return false;
     }
+
     if (!setup_prepared_stmt(&booking_report, "call report_prenotazioni()",
                              conn)) {
       print_stmt_error(booking_report,
@@ -206,6 +237,8 @@ role_t attempt_login(Credentials *cred) {
     goto out;
   }
 
+  sprintf(current_user, "%s",cred->username);
+
 out:
   // Consume the possibly-returned table for the output parameter
   while (mysql_stmt_next_result(login_procedure) != -1) {
@@ -214,4 +247,38 @@ out:
   mysql_stmt_free_result(login_procedure);
   mysql_stmt_reset(login_procedure);
   return role;
+}
+
+
+
+void logout(){
+  if(strlen(current_user) == 0){ //To avoid crash when exiting before Login
+    return false;
+  }
+  
+  MYSQL_BIND param[1];
+  
+  // Prepare parameters
+  set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, current_user,
+                    strlen(current_user));
+
+
+  if (mysql_stmt_bind_param(logout_procedure, param) != 0) { // Note _param
+    print_stmt_error(logout_procedure, "Could not bind parameters for logout");
+    goto out;
+  }
+
+  // Run procedure
+  if (mysql_stmt_execute(logout_procedure) != 0) {
+    print_stmt_error(logout_procedure, "Could not execute login procedure");
+    goto out;
+  }
+
+out:
+  // Consume the possibly-returned table for the output parameter
+  while (mysql_stmt_next_result(logout_procedure) != -1) {
+  }
+  
+  mysql_stmt_free_result(logout_procedure);
+  mysql_stmt_reset(logout_procedure);
 }

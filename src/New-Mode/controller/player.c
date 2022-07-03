@@ -5,6 +5,7 @@
 #include "../view/p_lobby.h"
 #include "../view/p_mainmenu.h"
 #include "../view/p_match_history.h"
+#include "../model/db.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,7 +43,7 @@ static bool review_match_history(void) {
 }
 
 static bool exit_game(void) {  
-  // Do Cleanup
+  logout();
   return true; 
 }
 

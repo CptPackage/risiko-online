@@ -5,8 +5,12 @@
 extern bool init_db(void);
 extern void fini_db(void);
 
+
 #define USERNAME_LEN 45
 #define PASSWORD_LEN 45
+
+extern char current_user[USERNAME_LEN];
+
 
 typedef struct _credentials {
   char username[USERNAME_LEN];
@@ -18,6 +22,7 @@ typedef enum { LOGIN_ROLE, PLAYER, MODERATOR, FAILED_LOGIN } role_t;
 extern void db_switch_to_login(void);
 extern role_t attempt_login(Credentials *cred);
 extern void db_switch_to_administrator(void);
+extern void logout();
 
 #define DATE_LEN 11
 #define TIME_LEN 6

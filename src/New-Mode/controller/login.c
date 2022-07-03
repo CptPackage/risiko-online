@@ -6,21 +6,22 @@
 #include <stdbool.h>
 
 bool login(void) {
+  role_t role;
+  while(role != PLAYER || role != MODERATOR){
   Credentials creds;
   view_login(&creds);
-  role_t role = attempt_login(&creds);
-
-  switch (role) {
-  case PLAYER:
-    controller_player();
-    break;
-  case MODERATOR:
-    print_info_text("Moderator logged in!");
-    // controller_moderator();
-    break;
-  default:
-    print_warning_text("Login Failed!");
-    return false;
+   role = attempt_login(&creds);
+    switch (role) {
+    case PLAYER:
+      controller_player();
+      break;
+    case MODERATOR:
+      controller_moderator();
+      break;
+    default:
+      print_warning_text("Login Failed!");
+      sleep(1);
+    }
   }
 
   return true;
