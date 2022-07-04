@@ -15,14 +15,14 @@ The C compiler identification is GNU, found in "/home/cptpackage/Desktop/Risiko/
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake cmTC_cb21a/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
-/usr/bin/gmake -f CMakeFiles/cmTC_cb21a.dir/build.make CMakeFiles/cmTC_cb21a.dir/build
+Run Build Command(s):/usr/bin/gmake cmTC_b19fa/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake -f CMakeFiles/cmTC_b19fa.dir/build.make CMakeFiles/cmTC_b19fa.dir/build
 gmake[2]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_cb21a.dir/testCCompiler.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_cb21a.dir/testCCompiler.c.o   -c /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_cb21a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cb21a.dir/link.txt --verbose=1
-/usr/bin/cc      CMakeFiles/cmTC_cb21a.dir/testCCompiler.c.o  -o cmTC_cb21a 
+Building C object CMakeFiles/cmTC_b19fa.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_b19fa.dir/testCCompiler.c.o   -c /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_b19fa
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b19fa.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_b19fa.dir/testCCompiler.c.o  -o cmTC_b19fa 
 gmake[2]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
 gmake[1]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
 
@@ -31,11 +31,11 @@ gmake[1]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/N
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake cmTC_0bc3a/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
-/usr/bin/gmake -f CMakeFiles/cmTC_0bc3a.dir/build.make CMakeFiles/cmTC_0bc3a.dir/build
+Run Build Command(s):/usr/bin/gmake cmTC_3e31c/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake -f CMakeFiles/cmTC_3e31c.dir/build.make CMakeFiles/cmTC_3e31c.dir/build
 gmake[2]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc   -v -o CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+Building C object CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc   -v -o CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 OFFLOAD_TARGET_NAMES=hsa:nvptx-none
@@ -43,8 +43,8 @@ Target: x86_64-suse-linux
 Configured with: ../configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man --libdir=/usr/lib64 --libexecdir=/usr/lib64 --enable-languages=c,c++,objc,fortran,obj-c++,ada,go --enable-offload-targets=hsa,nvptx-none, --without-cuda-driver --enable-checking=release --disable-werror --with-gxx-include-dir=/usr/include/c++/7 --enable-ssp --disable-libssp --disable-libvtv --disable-libcc1 --disable-plugin --with-bugurl=https://bugs.opensuse.org/ --with-pkgversion='SUSE Linux' --with-slibdir=/lib64 --with-system-zlib --enable-libstdcxx-allocator=new --disable-libstdcxx-pch --enable-version-specific-runtime-libs --with-gcc-major-version-only --enable-linker-build-id --enable-linux-futex --enable-gnu-indirect-function --program-suffix=-7 --without-system-libunwind --enable-multilib --with-arch-32=x86-64 --with-tune=generic --build=x86_64-suse-linux --host=x86_64-suse-linux
 Thread model: posix
 gcc version 7.5.0 (SUSE Linux) 
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
- /usr/lib64/gcc/x86_64-suse-linux/7/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o -version -o /tmp/ccwCA62X.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+ /usr/lib64/gcc/x86_64-suse-linux/7/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o -version -o /tmp/ccbMChr2.s
 GNU C11 (SUSE Linux) version 7.5.0 (x86_64-suse-linux)
 	compiled by GNU C version 7.5.0, GMP version 6.1.2, MPFR version 4.0.2-p6, MPC version 1.1.0, isl version isl-0.18-GMP
 
@@ -62,15 +62,15 @@ GNU C11 (SUSE Linux) version 7.5.0 (x86_64-suse-linux)
 
 GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
 Compiler executable checksum: f4fb8fa0326117d055e3f92185524fe3
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
- /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/as -v --64 -o CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o /tmp/ccwCA62X.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+ /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/as -v --64 -o CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o /tmp/ccbMChr2.s
 GNU assembler version 2.37 (x86_64-suse-linux) using BFD version (GNU Binutils; SUSE Linux Enterprise 15) 2.37.20211103-150100.7.37
 COMPILER_PATH=/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/
 LIBRARY_PATH=/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
-Linking C executable cmTC_0bc3a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0bc3a.dir/link.txt --verbose=1
-/usr/bin/cc     -v CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o  -o cmTC_0bc3a 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+Linking C executable cmTC_3e31c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3e31c.dir/link.txt --verbose=1
+/usr/bin/cc     -v CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o  -o cmTC_3e31c 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib64/gcc/x86_64-suse-linux/7/lto-wrapper
@@ -81,9 +81,9 @@ Thread model: posix
 gcc version 7.5.0 (SUSE Linux) 
 COMPILER_PATH=/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/
 LIBRARY_PATH=/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_0bc3a' '-mtune=generic' '-march=x86-64'
- /usr/lib64/gcc/x86_64-suse-linux/7/collect2 -plugin /usr/lib64/gcc/x86_64-suse-linux/7/liblto_plugin.so -plugin-opt=/usr/lib64/gcc/x86_64-suse-linux/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccp6yexi.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_0bc3a /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crt1.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/7/crtbegin.o -L/usr/lib64/gcc/x86_64-suse-linux/7 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/7/../../.. CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib64/gcc/x86_64-suse-linux/7/crtend.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_0bc3a' '-mtune=generic' '-march=x86-64'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_3e31c' '-mtune=generic' '-march=x86-64'
+ /usr/lib64/gcc/x86_64-suse-linux/7/collect2 -plugin /usr/lib64/gcc/x86_64-suse-linux/7/liblto_plugin.so -plugin-opt=/usr/lib64/gcc/x86_64-suse-linux/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccYdZwnr.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_3e31c /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crt1.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/7/crtbegin.o -L/usr/lib64/gcc/x86_64-suse-linux/7 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/7/../../.. CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib64/gcc/x86_64-suse-linux/7/crtend.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_3e31c' '-mtune=generic' '-march=x86-64'
 gmake[2]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
 gmake[1]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
 
@@ -110,11 +110,11 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/gmake cmTC_0bc3a/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp']
-  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_0bc3a.dir/build.make CMakeFiles/cmTC_0bc3a.dir/build]
+  ignore line: [Run Build Command(s):/usr/bin/gmake cmTC_3e31c/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp']
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_3e31c.dir/build.make CMakeFiles/cmTC_3e31c.dir/build]
   ignore line: [gmake[2]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [Building C object CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [OFFLOAD_TARGET_NAMES=hsa:nvptx-none]
@@ -122,8 +122,8 @@ Parsed C implicit link information from above output:
   ignore line: [Configured with: ../configure --prefix=/usr --infodir=/usr/share/info --mandir=/usr/share/man --libdir=/usr/lib64 --libexecdir=/usr/lib64 --enable-languages=c c++ objc fortran obj-c++ ada go --enable-offload-targets=hsa nvptx-none  --without-cuda-driver --enable-checking=release --disable-werror --with-gxx-include-dir=/usr/include/c++/7 --enable-ssp --disable-libssp --disable-libvtv --disable-libcc1 --disable-plugin --with-bugurl=https://bugs.opensuse.org/ --with-pkgversion='SUSE Linux' --with-slibdir=/lib64 --with-system-zlib --enable-libstdcxx-allocator=new --disable-libstdcxx-pch --enable-version-specific-runtime-libs --with-gcc-major-version-only --enable-linker-build-id --enable-linux-futex --enable-gnu-indirect-function --program-suffix=-7 --without-system-libunwind --enable-multilib --with-arch-32=x86-64 --with-tune=generic --build=x86_64-suse-linux --host=x86_64-suse-linux]
   ignore line: [Thread model: posix]
   ignore line: [gcc version 7.5.0 (SUSE Linux) ]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
-  ignore line: [ /usr/lib64/gcc/x86_64-suse-linux/7/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o -version -o /tmp/ccwCA62X.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ /usr/lib64/gcc/x86_64-suse-linux/7/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o -version -o /tmp/ccbMChr2.s]
   ignore line: [GNU C11 (SUSE Linux) version 7.5.0 (x86_64-suse-linux)]
   ignore line: [	compiled by GNU C version 7.5.0  GMP version 6.1.2  MPFR version 4.0.2-p6  MPC version 1.1.0  isl version isl-0.18-GMP]
   ignore line: []
@@ -141,16 +141,16 @@ Parsed C implicit link information from above output:
   ignore line: []
   ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
   ignore line: [Compiler executable checksum: f4fb8fa0326117d055e3f92185524fe3]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
-  ignore line: [ /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/as -v --64 -o CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o /tmp/ccwCA62X.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/as -v --64 -o CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o /tmp/ccbMChr2.s]
   ignore line: [GNU assembler version 2.37 (x86_64-suse-linux) using BFD version (GNU Binutils]
   ignore line: [ SUSE Linux Enterprise 15) 2.37.20211103-150100.7.37]
   ignore line: [COMPILER_PATH=/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/]
   ignore line: [LIBRARY_PATH=/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
-  ignore line: [Linking C executable cmTC_0bc3a]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0bc3a.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc     -v CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o  -o cmTC_0bc3a ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [Linking C executable cmTC_3e31c]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3e31c.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o  -o cmTC_3e31c ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib64/gcc/x86_64-suse-linux/7/lto-wrapper]
@@ -161,13 +161,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 7.5.0 (SUSE Linux) ]
   ignore line: [COMPILER_PATH=/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/]
   ignore line: [LIBRARY_PATH=/usr/lib64/gcc/x86_64-suse-linux/7/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib/:/usr/lib64/gcc/x86_64-suse-linux/7/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_0bc3a' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib64/gcc/x86_64-suse-linux/7/collect2 -plugin /usr/lib64/gcc/x86_64-suse-linux/7/liblto_plugin.so -plugin-opt=/usr/lib64/gcc/x86_64-suse-linux/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccp6yexi.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_0bc3a /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crt1.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/7/crtbegin.o -L/usr/lib64/gcc/x86_64-suse-linux/7 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/7/../../.. CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib64/gcc/x86_64-suse-linux/7/crtend.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_3e31c' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib64/gcc/x86_64-suse-linux/7/collect2 -plugin /usr/lib64/gcc/x86_64-suse-linux/7/liblto_plugin.so -plugin-opt=/usr/lib64/gcc/x86_64-suse-linux/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccYdZwnr.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_3e31c /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crt1.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/7/crtbegin.o -L/usr/lib64/gcc/x86_64-suse-linux/7 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/7/../../.. CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib64/gcc/x86_64-suse-linux/7/crtend.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crtn.o]
     arg [/usr/lib64/gcc/x86_64-suse-linux/7/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib64/gcc/x86_64-suse-linux/7/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib64/gcc/x86_64-suse-linux/7/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccp6yexi.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccYdZwnr.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -180,7 +180,7 @@ Parsed C implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_0bc3a] ==> ignore
+    arg [cmTC_3e31c] ==> ignore
     arg [/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crt1.o] ==> ignore
     arg [/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crti.o] ==> ignore
     arg [/usr/lib64/gcc/x86_64-suse-linux/7/crtbegin.o] ==> ignore
@@ -190,7 +190,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
     arg [-L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib]
     arg [-L/usr/lib64/gcc/x86_64-suse-linux/7/../../..] ==> dir [/usr/lib64/gcc/x86_64-suse-linux/7/../../..]
-    arg [CMakeFiles/cmTC_0bc3a.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_3e31c.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -216,14 +216,14 @@ Parsed C implicit link information from above output:
 Performing C SOURCE FILE Test HAVE_MYSQL_OPT_EMBEDDED_CONNECTION succeeded with the following output:
 Change Dir: /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake cmTC_f06ea/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
-/usr/bin/gmake -f CMakeFiles/cmTC_f06ea.dir/build.make CMakeFiles/cmTC_f06ea.dir/build
+Run Build Command(s):/usr/bin/gmake cmTC_6565e/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake -f CMakeFiles/cmTC_6565e.dir/build.make CMakeFiles/cmTC_6565e.dir/build
 gmake[2]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_f06ea.dir/src.c.o
-/usr/bin/cc  -I/usr/include/mysql  -DHAVE_MYSQL_OPT_EMBEDDED_CONNECTION   -std=gnu11 -o CMakeFiles/cmTC_f06ea.dir/src.c.o   -c /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_f06ea
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f06ea.dir/link.txt --verbose=1
-/usr/bin/cc  -DHAVE_MYSQL_OPT_EMBEDDED_CONNECTION    CMakeFiles/cmTC_f06ea.dir/src.c.o  -o cmTC_f06ea  /usr/lib64/libmysqld.so 
+Building C object CMakeFiles/cmTC_6565e.dir/src.c.o
+/usr/bin/cc  -I/usr/include/mysql  -DHAVE_MYSQL_OPT_EMBEDDED_CONNECTION   -std=gnu11 -o CMakeFiles/cmTC_6565e.dir/src.c.o   -c /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_6565e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6565e.dir/link.txt --verbose=1
+/usr/bin/cc  -DHAVE_MYSQL_OPT_EMBEDDED_CONNECTION    CMakeFiles/cmTC_6565e.dir/src.c.o  -o cmTC_6565e  /usr/lib64/libmysqld.so 
 gmake[2]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
 gmake[1]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
 
@@ -234,14 +234,14 @@ int main() { int i = MYSQL_OPT_USE_EMBEDDED_CONNECTION; }
 Determining if the include file pthread.h exists passed with the following output:
 Change Dir: /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake cmTC_114bb/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
-/usr/bin/gmake -f CMakeFiles/cmTC_114bb.dir/build.make CMakeFiles/cmTC_114bb.dir/build
+Run Build Command(s):/usr/bin/gmake cmTC_ca7ad/fast && gmake[1]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake -f CMakeFiles/cmTC_ca7ad.dir/build.make CMakeFiles/cmTC_ca7ad.dir/build
 gmake[2]: Entering directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_114bb.dir/CheckIncludeFile.c.o
-/usr/bin/cc  -I/usr/include/mysql  -std=gnu11 -o CMakeFiles/cmTC_114bb.dir/CheckIncludeFile.c.o   -c /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTC_114bb
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_114bb.dir/link.txt --verbose=1
-/usr/bin/cc      CMakeFiles/cmTC_114bb.dir/CheckIncludeFile.c.o  -o cmTC_114bb  /usr/lib64/libmysqld.so 
+Building C object CMakeFiles/cmTC_ca7ad.dir/CheckIncludeFile.c.o
+/usr/bin/cc  -I/usr/include/mysql  -std=gnu11 -o CMakeFiles/cmTC_ca7ad.dir/CheckIncludeFile.c.o   -c /home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_ca7ad
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ca7ad.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_ca7ad.dir/CheckIncludeFile.c.o  -o cmTC_ca7ad  /usr/lib64/libmysqld.so 
 gmake[2]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
 gmake[1]: Leaving directory '/home/cptpackage/Desktop/Risiko/risiko-online/src/New-Mode/build/CMakeFiles/CMakeTmp'
 

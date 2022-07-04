@@ -10,8 +10,6 @@ extern void fini_db(void);
 #define USERNAME_LEN 45
 #define PASSWORD_LEN 45
 
-extern char current_user[USERNAME_LEN];
-
 
 typedef struct _credentials {
   char username[USERNAME_LEN];

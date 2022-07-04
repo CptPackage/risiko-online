@@ -59,6 +59,7 @@ void controller_player(void) {
       fprintf(stderr, "Error: unknown action\n");
       continue;
     }
+    
     if (controls[action].control())
       break;
 

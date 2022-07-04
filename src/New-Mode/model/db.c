@@ -3,13 +3,13 @@
 #include "../utils/mem.h"
 #include "p_match.h"
 #include "db.h"
+#include "session.h"
 #include <assert.h>
 #include <mysql.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-char current_user[45];
 
 static MYSQL *conn;
 
@@ -240,7 +240,8 @@ role_t attempt_login(Credentials *cred) {
     goto out;
   }
 
-  sprintf(current_user, "%s",cred->username);
+  // sprintf(current_user, "%s",cred->username);
+  set_current_user(cred->username);
 
 out:
   // Consume the possibly-returned table for the output parameter

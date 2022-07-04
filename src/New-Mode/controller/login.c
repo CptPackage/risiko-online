@@ -8,7 +8,7 @@
 
 bool login(void) {
   role_t role;
-  while(role != PLAYER || role != MODERATOR){
+  while(role != PLAYER && role != MODERATOR){
   Credentials creds;
   view_login(&creds);
    role = attempt_login(&creds);

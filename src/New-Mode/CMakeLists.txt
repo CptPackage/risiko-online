@@ -12,6 +12,7 @@ add_executable(risiko
         controller/moderator.c
         controller/player.c
         controller/login.c
+        model/session.c
         model/db.c
         model/p_match.c
         model/p_match_history.c
