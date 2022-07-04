@@ -30,3 +30,9 @@ extern int *can_exit_flag;
 
 extern void exit_interrupt_handler(int sigNo);
 extern void setup_exit_interrupt_handler();
+
+
+extern int crash_handler_setup;
+
+extern void crash_interrupt_handler(int sigNo);
+extern void setup_crash_interrupt_handler(void);

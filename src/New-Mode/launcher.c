@@ -87,7 +87,9 @@ int main(int argc, char **argv) {
   // Init
   if (initialize_io()) {
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
-    
+
+    // Match* mx = NULL;
+    // mx->match_id = 25;
     initApp();
   }
 
@@ -111,5 +113,6 @@ int startup() {
     return 4;
 
   setup_exit_interrupt_handler();
+  setup_crash_interrupt_handler();
   return 0;
 }

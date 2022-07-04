@@ -247,6 +247,7 @@ void setup_exit_interrupt_handler() {
   if (can_exit_flag == NULL) {
     can_exit_flag = mmap(NULL, sizeof(can_exit_flag), PROT_WRITE | PROT_READ,
                          MAP_ANONYMOUS | MAP_SHARED, 0, 0);
+
     if (can_exit_flag == NULL) {
       print_error_text("Failed to allocate can_exit_flag!");
       exit(-1);
@@ -260,5 +261,31 @@ void setup_exit_interrupt_handler() {
 
   print_warning_text(
       "Exit Interrupt Handler already setup!"); // As only one should be setup,
+                                                // on the Parent process only.
+}
+
+void crash_interrupt_handler(int sigNo) {
+    print_framed_text_left(" [Cleanup Handler] Exiting game...",
+                           '*', true, WHITE_TXT || WHITE_BG, RED_TXT); 
+    logout();
+    exit(-10);
+}
+
+int crash_handler_setup = 0;
+
+void setup_crash_interrupt_handler(void) {
+  if (crash_handler_setup == 0) {   
+    signal(SIGSEGV, crash_interrupt_handler);
+    signal(SIGTERM, crash_interrupt_handler);
+    signal(SIGHUP, crash_interrupt_handler);
+    signal(SIGQUIT, crash_interrupt_handler);
+    signal(SIGABRT, crash_interrupt_handler);
+
+    crash_handler_setup = 1;
+    return;
+  }
+
+  print_warning_text(
+      "Crash Interrupt Handler already setup!"); // As only one should be setup,
                                                 // on the Parent process only.
 }
