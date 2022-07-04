@@ -36,7 +36,7 @@ static struct {
     {.action = EXIT, .control = exit_game}};
 
 void controller_moderator(void) {
-  db_switch_to_moderator();
+  // db_switch_to_moderator();
 
   while (true) {
     int action = view_main_menu_mod();

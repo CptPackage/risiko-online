@@ -11,16 +11,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define P_MATCHES_PAGE_SIZE 8
-
 static bool join_match(void) {
   char *choices;
   init_choices_array(&choices, P_MATCHES_PAGE_SIZE + 1, 0);
   char op;
-  Matches_List* matches = get_joinable_rooms();
+  Matches_List* matches = get_joinable_rooms(P_MATCHES_PAGE_SIZE);
   view_lobby(matches);
   op = multi_choice(NULL, choices, P_MATCHES_PAGE_SIZE + 1);
-  
+  free(matches);
   return false;
 }
 
@@ -59,7 +57,7 @@ void controller_player(void) {
       fprintf(stderr, "Error: unknown action\n");
       continue;
     }
-    
+
     if (controls[action].control())
       break;
 

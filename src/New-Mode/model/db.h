@@ -95,4 +95,4 @@ extern struct booking_report *do_booking_report(void);
 extern void booking_report_dispose(struct booking_report *report);
 
 
-extern Matches_List* get_joinable_rooms(void);
+extern Matches_List* get_joinable_rooms(int page_size);

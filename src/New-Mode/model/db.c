@@ -69,17 +69,17 @@ static bool initialize_prepared_stmts(role_t for_role) {
       return false;
     }
     if (!setup_prepared_stmt(&get_joinable_rooms_procedure,
-                             "call GetJoinableRooms()", conn)) {
+                             "call GetJoinableRooms(?)", conn)) {
       print_stmt_error(get_joinable_rooms_procedure,
-                       "Unable to initialize register flight statement\n");
+                       "Unable to initialize get joinable rooms procedure\n");
       return false;
     }
     break;
   case PLAYER:
     if (!setup_prepared_stmt(&get_joinable_rooms_procedure,
-                             "call GetJoinableRooms()", conn)) {
+                             "call GetJoinableRooms(?)", conn)) {
       print_stmt_error(get_joinable_rooms_procedure,
-                       "Unable to initialize register flight statement\n");
+                       "Unable to initialize get joinable rooms procedure\n");
       return false;
     }
     
@@ -287,8 +287,9 @@ out:
   mysql_stmt_reset(logout_procedure);
 }
 
-Matches_List* get_joinable_rooms(void){ 
+Matches_List* get_joinable_rooms(int page_size){ 
   MYSQL_BIND param[4];
+  MYSQL_BIND in_param[1];
   int status;
   int matches_count = 0;
   int match_number = 0;
@@ -297,6 +298,16 @@ Matches_List* get_joinable_rooms(void){
   int state = 0;
   size_t row = 0;
   Matches_List* matches;
+
+  
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &page_size,
+                    sizeof(page_size));
+
+
+  if (mysql_stmt_bind_param(get_joinable_rooms_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_joinable_rooms_procedure, "Could not bind parameters for get joinable rooms!");
+    goto out;
+  }
 
   if (mysql_stmt_execute(get_joinable_rooms_procedure) != 0) {
     print_stmt_error(get_joinable_rooms_procedure, "Could not execute login procedure");
