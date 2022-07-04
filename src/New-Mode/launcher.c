@@ -87,13 +87,8 @@ int main(int argc, char **argv) {
   // Init
   if (initialize_io()) {
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
-    Matches_List* matches = get_joinable_rooms();    
     
-    for (size_t i = 0; i < matches->matches_count; i++) {
-      printff("\n Matches: %d - %d - %d - %d\n",matches->matches[i].match_id,matches->matches[i].room_id, matches->matches[i].players_num, matches->matches[i].match_status);
-    }
-    
-    // initApp();
+    initApp();
   }
 
   fini_db();

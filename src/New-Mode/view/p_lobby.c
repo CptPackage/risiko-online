@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int view_lobby(Match **matches, int matches_size) {
+int view_lobby(Matches_List* matches_list) {
   int chosen_match_index;
   clear_screen();
   set_color(GREEN_TXT);
@@ -16,14 +16,14 @@ int view_lobby(Match **matches, int matches_size) {
   print_framed_text_left("[0] Return to Main Menu", '|', false, 0, 0);
   print_char_line('-', 0);
 
-  for (int i = 0; i < matches_size; i++) {
-    if (matches[i]->match_status == 1) { // Match in Countdown
+  for (int i = 0; i < matches_list->matches_count; i++) {
+    if (matches_list->matches[i].match_status == 1) { // Match in Countdown
       set_color(YELLOW_TXT);
     } else {
       set_color(GREEN_TXT);
     }
 
-    render_lobby_match(matches[i], i);
+    render_lobby_match(&(matches_list->matches[i]), i);
   }
 
   reset_color();

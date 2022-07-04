@@ -17,13 +17,8 @@ static bool join_match(void) {
   char *choices;
   init_choices_array(&choices, P_MATCHES_PAGE_SIZE + 1, 0);
   char op;
-  int matches_size = 2;
-  Match **matches = malloc(sizeof(Match *) * matches_size);
-  Match match_1 = {1, 1, 4, LOBBY};
-  Match match_2 = {2, 2, 2, COUNTDOWN};
-  matches[0] = &match_1;
-  matches[1] = &match_2;
-  view_lobby(matches, matches_size);
+  Matches_List* matches = get_joinable_rooms();
+  view_lobby(matches);
   op = multi_choice(NULL, choices, P_MATCHES_PAGE_SIZE + 1);
   
   return false;
