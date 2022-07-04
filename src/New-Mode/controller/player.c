@@ -56,7 +56,7 @@ static struct {
     {.action = EXIT, .control = exit_game}};
 
 void controller_player(void) {
-  // db_switch_to_administrator();
+  // db_switch_to_player();
 
   while (true) {
     int action = view_main_menu_player();

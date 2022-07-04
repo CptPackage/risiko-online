@@ -1,6 +1,7 @@
 #include "moderator.h"
 #include "../utils/io.h"
 #include "../model/db.h"
+#include "../view/m_mainmenu.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,7 +36,7 @@ static struct {
     {.action = EXIT, .control = exit_game}};
 
 void controller_moderator(void) {
-  // db_switch_to_administrator();
+  db_switch_to_moderator();
 
   while (true) {
     int action = view_main_menu_mod();

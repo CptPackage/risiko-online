@@ -1,9 +1,10 @@
 #include "../controller/player.h"
+#include "../controller/moderator.h"
 #include "../view/login.h"
-#include "../model/db.h"
 #include "../utils/view.h"
 #include "login.h"
 #include <stdbool.h>
+#include <unistd.h>
 
 bool login(void) {
   role_t role;

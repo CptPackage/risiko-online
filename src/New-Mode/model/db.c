@@ -1,6 +1,7 @@
 #include "../utils/db.h"
 #include "../utils/io.h"
 #include "../utils/mem.h"
+#include "p_match.h"
 #include "db.h"
 #include <assert.h>
 #include <mysql.h>
@@ -18,15 +19,12 @@ static MYSQL_STMT *register_flight;
 static MYSQL_STMT *get_occupancy;
 static MYSQL_STMT *booking;
 static MYSQL_STMT *booking_report;
+static MYSQL_STMT *get_joinable_rooms_procedure;
+
 
 static void close_prepared_stmts(void) {
   if (login_procedure) {
     mysql_stmt_close(login_procedure);
-    login_procedure = NULL;
-  }
-
-  if (logout_procedure) {
-    mysql_stmt_close(logout_procedure);
     login_procedure = NULL;
   }
 
@@ -42,6 +40,12 @@ static void close_prepared_stmts(void) {
     mysql_stmt_close(booking);
     booking = NULL;
   }
+
+  if (get_joinable_rooms_procedure) {
+    mysql_stmt_close(get_joinable_rooms_procedure);
+    booking_report = NULL;
+  }
+
   if (booking_report) {
     mysql_stmt_close(booking_report);
     booking_report = NULL;
@@ -64,15 +68,21 @@ static bool initialize_prepared_stmts(role_t for_role) {
                        "Unable to initialize login statement\n");
       return false;
     }
+    if (!setup_prepared_stmt(&get_joinable_rooms_procedure,
+                             "call GetJoinableRooms()", conn)) {
+      print_stmt_error(get_joinable_rooms_procedure,
+                       "Unable to initialize register flight statement\n");
+      return false;
+    }
     break;
   case PLAYER:
-    // if (!setup_prepared_stmt(&logout_procedure, "call logout(?)",
-    //                          conn)) {
-    //   print_stmt_error(logout_procedure,
-    //                    "Unable to initialize login statement\n");
-    //   return false;
-    // }
-
+    if (!setup_prepared_stmt(&get_joinable_rooms_procedure,
+                             "call GetJoinableRooms()", conn)) {
+      print_stmt_error(get_joinable_rooms_procedure,
+                       "Unable to initialize register flight statement\n");
+      return false;
+    }
+    
     if (!setup_prepared_stmt(&register_flight,
                              "call registra_volo(?, ?, ?, ?, ?, ?, ?)", conn)) {
       print_stmt_error(register_flight,
@@ -88,14 +98,7 @@ static bool initialize_prepared_stmts(role_t for_role) {
     }
     break;
   case MODERATOR:
-    // if (!setup_prepared_stmt(&logout_procedure, "call logout(?)",
-    //                          conn)) {
-    //   print_stmt_error(logout_procedure,
-    //                    "Unable to initialize login statement\n");
-    //   return false;
-    // }
-
-    if (!setup_prepared_stmt(
+       if (!setup_prepared_stmt(
             &booking, "call registra_prenotazione(?, ?, ?, ?, ?)", conn)) {
       print_stmt_error(booking, "Unable to initialize booking statement\n");
       return false;
@@ -168,10 +171,10 @@ void db_switch_to_login(void) {
   }
 }
 
-void db_switch_user_to_moderator(void) {
+void db_switch_to_moderator(void) {
   close_prepared_stmts();
   if (mysql_change_user(conn, getenv("MODERATOR_USER"),
-                        getenv("ADMINISTRATOR_PASS"), getenv("DB"))) {
+                        getenv("MODERATOR_PASS"), getenv("DB"))) {
     fprintf(stderr, "mysql_change_user() failed: %s\n", mysql_error(conn));
     exit(EXIT_FAILURE);
   }
@@ -251,9 +254,9 @@ out:
 
 
 
-void logout(){
+void logout(void){
   if(strlen(current_user) == 0){ //To avoid crash when exiting before Login
-    return false;
+    return;
   }
   
   MYSQL_BIND param[1];
@@ -281,4 +284,64 @@ out:
   
   mysql_stmt_free_result(logout_procedure);
   mysql_stmt_reset(logout_procedure);
+}
+
+Matches_List* get_joinable_rooms(void){ 
+  MYSQL_BIND param[4];
+  int status;
+  int matches_count = 0;
+  int match_number = 0;
+  int room_number = 0;
+  int number_of_players = 0;
+  int state = 0;
+  size_t row = 0;
+  Matches_List* matches;
+
+  if (mysql_stmt_execute(get_joinable_rooms_procedure) != 0) {
+    print_stmt_error(get_joinable_rooms_procedure, "Could not execute login procedure");
+    goto out;
+  }
+
+ 	mysql_stmt_store_result(get_joinable_rooms_procedure);
+
+  matches_count = mysql_stmt_num_rows(get_joinable_rooms_procedure);  
+  matches = malloc(sizeof(*matches) + sizeof(Match) * matches_count);  
+	
+  if(matches == NULL){
+		goto out;
+  }
+
+  memset(matches, 0, sizeof(*matches) + sizeof(Match) * matches_count);
+  matches->matches_count = matches_count;
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &room_number, sizeof(room_number));
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &number_of_players, sizeof(number_of_players));
+	set_binding_param(&param[3], MYSQL_TYPE_LONG, &state, sizeof(state));
+	
+
+  if(mysql_stmt_bind_result(get_joinable_rooms_procedure, param)) {
+		print_stmt_error(get_joinable_rooms_procedure, "Unable to bind output parameters for get joinable rooms\n");
+		free(matches);
+		goto out;
+	}
+
+
+  while (true) {
+		status = mysql_stmt_fetch(get_joinable_rooms_procedure);
+		if (status == 1 || status == MYSQL_NO_DATA)
+			break;
+
+    matches->matches[row].match_id = match_number;
+    matches->matches[row].room_id = room_number;
+    matches->matches[row].players_num = number_of_players;
+    matches->matches[row].match_status = state;
+		row++;
+	}
+  
+  out:
+  mysql_stmt_free_result(get_joinable_rooms_procedure);
+  mysql_stmt_reset(get_joinable_rooms_procedure);
+
+  return matches;
 }

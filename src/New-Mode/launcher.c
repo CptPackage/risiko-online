@@ -10,11 +10,9 @@
 #include "utils/view.h"
 #include "view/calibrate.h"
 #include "view/login.h"
-#include "view/m_mainmenu.h"
 #include "view/p_game_ingame.h"
 #include "view/p_game_waiting.h"
 #include "view/p_lobby.h"
-#include "view/p_mainmenu.h"
 #include "view/p_match_history.h"
 #include "view/p_match_result.h"
 #include <stdio.h>
@@ -36,8 +34,8 @@ static bool validate_dotenv(void) {
   check_env_failing("DB");
   check_env_failing("PORT");
 
-  check_env_failing("GUEST_USER");
-  check_env_failing("GUEST_PASS");
+  check_env_failing("LOGIN_USER");
+  check_env_failing("LOGIN_PASS");
   check_env_failing("MODERATOR_USER");
   check_env_failing("MODERATOR_PASS");
   check_env_failing("PLAYER_USER");
@@ -46,11 +44,8 @@ static bool validate_dotenv(void) {
 }
 #undef set_env_failing
 
-#define PLAYER_MODE "P-MODE"
-#define MODERATOR_MODE "M-MODE"
-#define MOD_FLAG "--moderator"
 
-void initApp(char *gameMode);
+void initApp();
 int startup();
 
 int main(int argc, char **argv) {
@@ -92,14 +87,13 @@ int main(int argc, char **argv) {
   // Init
   if (initialize_io()) {
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
-
-    if (argc < 2) {
-      initApp(PLAYER_MODE);
-    } else if (argc == 2 && strcmp(argv[1], MOD_FLAG) == 0) {
-      initApp(MODERATOR_MODE);
-    } else {
-      return -1;
+    Matches_List* matches = get_joinable_rooms();    
+    
+    for (size_t i = 0; i < matches->matches_count; i++) {
+      printff("\n Matches: %d - %d - %d - %d\n",matches->matches[i].match_id,matches->matches[i].room_id, matches->matches[i].players_num, matches->matches[i].match_status);
     }
+    
+    // initApp();
   }
 
   fini_db();
@@ -107,8 +101,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 
-void initApp(char *gameMode) {
-  bool isModerator = strcmp(gameMode, MODERATOR_MODE) == 0;
+void initApp() {
   login();
 }
 

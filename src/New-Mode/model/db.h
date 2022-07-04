@@ -1,6 +1,7 @@
 #pragma once
 #include <stdbool.h>
 #include <stdlib.h>
+#include "p_match.h"
 
 extern bool init_db(void);
 extern void fini_db(void);
@@ -21,8 +22,9 @@ typedef enum { LOGIN_ROLE, PLAYER, MODERATOR, FAILED_LOGIN } role_t;
 
 extern void db_switch_to_login(void);
 extern role_t attempt_login(Credentials *cred);
-extern void db_switch_to_administrator(void);
-extern void logout();
+extern void db_switch_to_moderator(void);
+extern void db_switch_to_player(void);
+extern void logout(void);
 
 #define DATE_LEN 11
 #define TIME_LEN 6
@@ -93,3 +95,6 @@ struct booking_report {
 
 extern struct booking_report *do_booking_report(void);
 extern void booking_report_dispose(struct booking_report *report);
+
+
+extern Matches_List* get_joinable_rooms(void);
