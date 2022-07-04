@@ -280,6 +280,8 @@ void setup_crash_interrupt_handler(void) {
     signal(SIGHUP, crash_interrupt_handler);
     signal(SIGQUIT, crash_interrupt_handler);
     signal(SIGABRT, crash_interrupt_handler);
+    signal(SIGSTOP, crash_interrupt_handler);
+    signal(SIGTSTP, crash_interrupt_handler);
 
     crash_handler_setup = 1;
     return;
