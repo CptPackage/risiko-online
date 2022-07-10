@@ -9,6 +9,7 @@
 #include <sys/mman.h>
 #include <time.h>
 #include "../model/db.h"
+#include "./view.h"
 
 #ifdef __unix__
 #include <termios.h>
@@ -268,8 +269,15 @@ void setup_exit_interrupt_handler() {
 }
 
 void cleanup_interrupt_handler(int sigNo) {
+    if(sigNo == SIGSEGV){
+      print_framed_text_left(" [Error Handler] Exiting game...",
+      '*', true, WHITE_TXT || WHITE_BG, RED_TXT); 
+      goto cleanup;
+    }
+
     print_framed_text_left(" [Cleanup Handler] Exiting game...",
-                           '*', true, WHITE_TXT || WHITE_BG, RED_TXT); 
+                           '*', true, WHITE_TXT || WHITE_BG, RED_TXT);
+  cleanup:
     logout();
     reset_color();
     exit(-10);

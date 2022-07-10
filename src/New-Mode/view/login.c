@@ -18,7 +18,9 @@ void view_login(Credentials *cred) {
   get_input("Username:", USERNAME_LEN, cred->username, false, false);
   clear_line();
   set_color(online_color);
+  *can_exit_flag = 0;
   get_input("Password:", PASSWORD_LEN, cred->password, true, false);
+  *can_exit_flag = 1;
   reset_color();
 }
 
