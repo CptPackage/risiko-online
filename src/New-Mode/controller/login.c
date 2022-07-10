@@ -13,15 +13,15 @@ bool login(void) {
   view_login(&creds);
    role = attempt_login(&creds);
     switch (role) {
-    case PLAYER:
+    case PLAYER: // LOGIN IN AS PLAYER
       controller_player();
       break;
-    case MODERATOR:
+    case MODERATOR: // LOGGED IN AS MODERATOR
       controller_moderator();
       break;
-    default:
-      print_warning_text("Login Failed!");
-      sleep(1);
+    default: // LOGIN FAILED
+      print_warning_text("Incorrect username or password!");
+      sleep(3);
     }
   }
 

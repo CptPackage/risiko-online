@@ -10,6 +10,8 @@ void view_login(Credentials *cred) {
   Colors container_color = BLACK_BG;
   clear_screen();
   print_logo(risiko_color, online_color, container_color);
+  set_color(STYLE_NORMAL);
+  set_color(STYLE_ITALIC);
   set_color(BLACK_BG);
   clear_line();
   set_color(risiko_color);

@@ -18,8 +18,10 @@
 
 void print_logo(Colors risiko_color, Colors online_color,
                 Colors container_color) {
+  set_color(STYLE_BOLD);
   set_color(risiko_color);
   print_star_line(container_color);
+  set_color(STYLE_BOLD);
   set_color(container_color);
   set_color(risiko_color);
   print_framed_text(" :::====  ::: :::===  ::: :::  === :::==== ", '*', false,
@@ -32,7 +34,8 @@ void print_logo(Colors risiko_color, Colors online_color,
                     0, 0);
   print_framed_text(" ===  === === ======  === ===  ===  ====== ", '*', false,
                     0, 0);
-  print_framed_text(" ", '*', false, container_color, container_color);
+  print_framed_text(" ", '*', false, 0, container_color);
+  set_color(STYLE_BOLD);
   set_color(container_color);
   set_color(online_color);
   print_framed_text(" :::====  :::= === :::      ::: :::= === :::=====", '*',

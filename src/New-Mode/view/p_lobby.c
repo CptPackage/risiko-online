@@ -7,6 +7,7 @@
 int view_lobby(Matches_List* matches_list) {
   int chosen_match_index;
   clear_screen();
+  set_color(STYLE_BOLD);
   set_color(GREEN_TXT);
   print_star_line(0);
   print_framed_text("JOIN A MATCH", '*', false, 0, 0);

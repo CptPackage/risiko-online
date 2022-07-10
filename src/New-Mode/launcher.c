@@ -99,6 +99,7 @@ int main(int argc, char **argv) {
 }
 
 void initApp() {
+  clear_screen();
   login();
 }
 
@@ -113,6 +114,6 @@ int startup() {
     return 4;
 
   setup_exit_interrupt_handler();
-  setup_crash_interrupt_handler();
+  setup_cleanup_interrupt_handler();
   return 0;
 }

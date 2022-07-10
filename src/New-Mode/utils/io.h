@@ -32,7 +32,7 @@ extern void exit_interrupt_handler(int sigNo);
 extern void setup_exit_interrupt_handler();
 
 
-extern int crash_handler_setup;
+extern int cleanup_handler_setup;
 
-extern void crash_interrupt_handler(int sigNo);
-extern void setup_crash_interrupt_handler(void);
+extern void cleanup_interrupt_handler(int sigNo);
+extern void setup_cleanup_interrupt_handler(void);

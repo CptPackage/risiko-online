@@ -140,6 +140,7 @@ bool yes_or_no(char *question, char yes, char no, bool default_answer,
 }
 
 char multi_choice(char *question, const char choices[], int num) {
+  set_color(STYLE_BOLD);
   char possibilities[2 * num * sizeof(char)];
   int i, j = 0, extra;
   for (i = 0; i < num; i++) {
@@ -176,6 +177,8 @@ char multi_choice(char *question, const char choices[], int num) {
         return c;
     }
   }
+
+  set_color(STYLE_NORMAL);
 }
 
 void clear_screen(void) {
@@ -234,6 +237,7 @@ void exit_interrupt_handler(int sigNo) {
   current_time = time(NULL);
   if (current_time - last_exit_attempt_time < 2) {
     logout();
+    reset_color();
     printff("\n");
     exit(10);
   } else {
@@ -245,8 +249,7 @@ void exit_interrupt_handler(int sigNo) {
 
 void setup_exit_interrupt_handler() {
   if (can_exit_flag == NULL) {
-    can_exit_flag = mmap(NULL, sizeof(can_exit_flag), PROT_WRITE | PROT_READ,
-                         MAP_ANONYMOUS | MAP_SHARED, 0, 0);
+    can_exit_flag = mmap(NULL, sizeof(can_exit_flag), PROT_WRITE | PROT_READ, MAP_SHARED | MAP_ANONYMOUS , -1, 0);
 
     if (can_exit_flag == NULL) {
       print_error_text("Failed to allocate can_exit_flag!");
@@ -264,30 +267,31 @@ void setup_exit_interrupt_handler() {
                                                 // on the Parent process only.
 }
 
-void crash_interrupt_handler(int sigNo) {
+void cleanup_interrupt_handler(int sigNo) {
     print_framed_text_left(" [Cleanup Handler] Exiting game...",
                            '*', true, WHITE_TXT || WHITE_BG, RED_TXT); 
     logout();
+    reset_color();
     exit(-10);
 }
 
-int crash_handler_setup = 0;
+int cleanup_handler_setup = 0;
 
-void setup_crash_interrupt_handler(void) {
-  if (crash_handler_setup == 0) {   
-    signal(SIGSEGV, crash_interrupt_handler);
-    signal(SIGTERM, crash_interrupt_handler);
-    signal(SIGHUP, crash_interrupt_handler);
-    signal(SIGQUIT, crash_interrupt_handler);
-    signal(SIGABRT, crash_interrupt_handler);
-    signal(SIGSTOP, crash_interrupt_handler);
-    signal(SIGTSTP, crash_interrupt_handler);
+void setup_cleanup_interrupt_handler(void) {
+  if (cleanup_handler_setup == 0) {   
+    signal(SIGSEGV, cleanup_interrupt_handler);
+    signal(SIGTERM, cleanup_interrupt_handler);
+    signal(SIGHUP, cleanup_interrupt_handler);
+    signal(SIGQUIT, cleanup_interrupt_handler);
+    signal(SIGABRT, cleanup_interrupt_handler);
+    signal(SIGSTOP, cleanup_interrupt_handler);
+    signal(SIGTSTP, cleanup_interrupt_handler);
 
-    crash_handler_setup = 1;
+    cleanup_handler_setup = 1;
     return;
   }
 
   print_warning_text(
-      "Crash Interrupt Handler already setup!"); // As only one should be setup,
+      "Cleanup Interrupt Handler already setup!"); // As only one should be setup,
                                                 // on the Parent process only.
 }

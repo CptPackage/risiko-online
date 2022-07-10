@@ -9,7 +9,7 @@ int view_main_menu_player() {
   char choices[P_MAIN_MENU_CHOICES_NUM] = {'1', '2', '3'};
   char op;
   clear_screen();
-
+  set_color(STYLE_BOLD);
   set_color(GREEN_TXT);
   print_star_line(0);
   print_padded_text("MAIN MENU", '*', 0);
