@@ -10,6 +10,7 @@
 #include <time.h>
 #include "../model/db.h"
 #include "./view.h"
+#include "./mem.h"
 
 #ifdef __unix__
 #include <termios.h>
@@ -226,10 +227,36 @@ void init_choices_array(char **choices_array, int choices_num, int start_num) {
 }
 
 time_t last_exit_attempt_time = 0;
-int *can_exit_flag;
+int *can_exit_flag; // 1 = Exit Handler can Exit | 0 = Exit Handler can't Exit + Info Message
+char* cannot_exit_flag_message;
+
+// char* message -> Message displayed when someone tries to exit
+void set_can_exit_flag(int new_flag_status, char* message){
+  if(new_flag_status < 0 || new_flag_status > 1){
+    print_warning_text("[set_can_exit_flag] Flag changing failed! (SOLUTION: new_flag_status = 0 | 1) ");
+    return;
+  }
+  
+  if(can_exit_flag == NULL){
+    print_warning_text("[set_can_exit_flag] Flag changing failed! (REASON: can_exit_flag == NULL)");
+    return;
+  }
+
+  if(message != NULL){
+    sprintf(cannot_exit_flag_message,"%s",message);
+  }
+
+  *can_exit_flag = new_flag_status;
+
+}
 
 void exit_interrupt_handler(int sigNo) {
   if (*can_exit_flag == 0) {
+    if(cannot_exit_flag_message != NULL && strlen(cannot_exit_flag_message)){
+      print_info_text(cannot_exit_flag_message);
+      return;
+    }
+    
     print_info_text("Can't quit the game at this moment!");
     return;
   }
@@ -251,6 +278,7 @@ void exit_interrupt_handler(int sigNo) {
 void setup_exit_interrupt_handler() {
   if (can_exit_flag == NULL) {
     can_exit_flag = mmap(NULL, sizeof(can_exit_flag), PROT_WRITE | PROT_READ, MAP_SHARED | MAP_ANONYMOUS , -1, 0);
+    cannot_exit_flag_message= mmap(NULL, sizeof(char) * SMALL_MEM, PROT_WRITE | PROT_READ, MAP_SHARED | MAP_ANONYMOUS , -1, 0);
 
     if (can_exit_flag == NULL) {
       print_error_text("Failed to allocate can_exit_flag!");

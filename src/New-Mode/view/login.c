@@ -18,9 +18,9 @@ void view_login(Credentials *cred) {
   get_input("Username:", USERNAME_LEN, cred->username, false, false);
   clear_line();
   set_color(online_color);
-  *can_exit_flag = 0;
+  set_can_exit_flag(0,"Can't exit while inserting password!");
   get_input("Password:", PASSWORD_LEN, cred->password, true, false);
-  *can_exit_flag = 1;
+  set_can_exit_flag(1,NULL);
   reset_color();
 }
 

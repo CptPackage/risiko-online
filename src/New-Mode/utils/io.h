@@ -27,9 +27,11 @@ extern void printffn(const char *format, ...);
 
 extern time_t last_exit_attempt_time;
 extern int *can_exit_flag;
+extern char* cannot_exit_flag_message;
 
 extern void exit_interrupt_handler(int sigNo);
 extern void setup_exit_interrupt_handler();
+extern void set_can_exit_flag(int new_flag_status, char *message);
 
 
 extern int cleanup_handler_setup;
