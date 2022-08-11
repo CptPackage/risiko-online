@@ -20,7 +20,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
 		SELECT occupier, occupyingTanksNumber into @Attacker, @AttackerTanks
 		FROM Territory AS T
 		WHERE T.matchNumber = srcMatchNumber
-		AND T.nation = attackerNation;
+		AND T.nation = sourceNation;
         
 		
 		## Cancel Attack if Source Nation has 1 or less tanks
