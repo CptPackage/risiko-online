@@ -1,0 +1,73 @@
+CREATE PROCEDURE `Attack` 
+(
+	IN srcMatchNumber INT UNSIGNED, IN turnNumber INT(3) UNSIGNED,
+    IN attacker VARCHAR(18),IN attackerNation VARCHAR(32), IN defenderNation VARCHAR(32)
+)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+	START TRANSACTION;
+
+		## Check if Nations are neighbours
+		CALL IsNeighbourNation(attackerNation,defenderNation,@AreNeighbours);
+        
+		IF @AreNeighbours IS NULL OR @AreNeighbours = 0 THEN 
+			SIGNAL SQLSTATE '45000' SET message_text = `Attacker and Defender nations have to be neighbours!`;
+            ROLLBACK;
+        END IF;
+		
+		
+		## Get Attacker Tanks
+		SELECT tanksNumber INTO @AttackerTanks
+		FROM Territory AS T
+		WHERE T.matchNumber = srcMatchNumber
+		AND T.nation = sourceNation
+		AND T.governer = player;
+        
+		
+		## Cancel Attack if Source Nation has 1 or less tanks
+        IF @AttackerTanks IS NULL THEN 
+			SIGNAL SQLSTATE '45000' SET message_text = `Can't attack from a foreign territory!`;
+            ROLLBACK;
+        ELSEIF @AttackerTanks = 1 THEN
+        	SIGNAL SQLSTATE '45000' SET message_text = `Not enough tanks! (At least 1 tank has to defend the territory)`;
+			ROLLBACK;
+		END IF;
+        
+		## Get Defender Tanks
+		SELECT tanksNumber into @DefenderTanks
+		FROM Territory AS T
+		WHERE T.matchNumber = srcMatchNumber
+		AND T.nation = defenderNation
+
+
+		## AttackSuccess defines if the player won the combat
+		SET @AttackSuccess := 0;
+
+        
+        IF @DefenderTanks = 0 THEN
+			SET @AttackSuccess := 1;
+        END IF;
+		
+        INSERT INTO `Action`(matchNumber,turnNumber,actionNumber,player,targetNation,tanksNumber)
+		VALUES (srcMatchNumber,turnNumber,1,attacker,defenderNation,@AttackerTanks);
+		
+        SET @ActionNumber = last_insert_id();
+		
+        INSERT INTO `Attack`(
+			matchNumber,turnNumber,actionNumber, attackerNation,
+			defenderPlayer,defenderTanksNumber, succeded
+        )
+		VALUES (
+			srcMatchNumber,turnNumber,actionNumber,attackerNation,
+			@DefenderPlayer,@DefenderTanks,@AttackSuccess
+        );
+        
+        IF @AttackSuccess = 1 THEN
+			UPDATE Territory AS T
+            SET T.governer = attacker AND T.tanksNumber = @RemainingAttackTanks
+            WHERE T.matchNumber = srcMatchNumber
+            AND T.nation = defenderNation;
+        END IF;
+        
+    COMMIT;
+END
