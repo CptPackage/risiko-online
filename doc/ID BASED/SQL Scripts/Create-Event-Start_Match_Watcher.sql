@@ -30,18 +30,17 @@ DO
 			SELECT matchNumber FROM To_Start_Matches WHERE ((matchStartCountdown + interval 30 second) - current_timestamp()) < 2
         );
         
-        INSERT INTO Events_Log
-        SELECT matchNumber, state, 'started'
-		FROM To_Start_Matches;
-        
+   --      INSERT INTO Events_Log
+--         SELECT matchNumber, state, 'started'
+-- 		FROM To_Start_Matches;     
     END$$
 delimiter ;;
 
-
-UPDATE `Match` SET state = 'countdown', numberOfPlayers = 6, matchStartCountdown = current_timestamp();
 
 SELECT * FROM `Match`;
 SELECT * FROM Events_Log;
 
 SHOW EVENTS;
 
+SELECT TRUNCATE(rand(10) * 10,1) as 'Random';
+SELECT TRUNCATE(RAND()*(5-1)+1,0) as 'Random'; 
