@@ -23,6 +23,9 @@ SELECT @MatchNum, @TurnNumber, @ActionNumber,
 		@PlayerA, @PlayerANation1, @PlayerANation2,
         @PlayerB, @PlayerBNation1, @PlayerBNation2;
         
+CALL PlaceTanks(@MatchNum,@TurnNumber,@PlayerA,@PlayerANation1,5);
+
+CALL Move(@MatchNum,@TurnNumber,@PlayerA,@PlayerANation1,@PlayerANation2,2);
 
 SELECT * FROM Ingame_Players WHERE matchNumber = @MatchNum ORDER BY entryOrder;
 SELECT * FROM Turn WHERE matchNumber = @MatchNum;
@@ -41,6 +44,9 @@ WHERE T.matchNumber = @MatchNum AND T.occupier = @PlayerB AND T.nation = @Player
 CALL Attack(@MatchNum,@TurnNumber,@PlayerA,@PlayerANation1,@PlayerBNation1);
 CALL GetActionDetails(@MatchNum,@TurnNumber,@ActionNumber,'combat');
 
+
+SELECT defenderPlayer, succeded INTO @DefenderPlayer, @AttackSucceded
+FROM Combat WHERE matchNumber = matchNumber AND turnNumber = @TurnNumber;
 		
         SELECT count(nation)
         FROM Territory AS T
