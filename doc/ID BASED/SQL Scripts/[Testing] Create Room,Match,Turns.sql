@@ -4,7 +4,9 @@ CALL CreateRoom(3,'CptPackage',@RoomNumber);
 #SET @RoomNumber = 3;
 #SELECT * FROM `Match`;
 INSERT `Match`(roomNumber) VALUES (3);
-SET @MatchNum = (SELECT matchNumber FROM `Match` WHERE roomNumber = @RoomNumber);
+SET @RoomNumber = 3;
+SELECT @RoomNumber;
+SET @MatchNum = (SELECT matchNumber FROM `Match` WHERE roomNumber = @RoomNumber ORDER BY matchNumber DESC LIMIT 1);
 SELECT * FROM `Match`;
 SELECT * FROM `Match` WHERE roomNumber = @RoomNumber;
 SELECT matchStartCountdown, 
@@ -13,16 +15,24 @@ SELECT matchStartCountdown,
 FROM `Match` WHERE roomNumber = @RoomNumber;
 SELECT * FROM `Match`;
 SELECT * FROM Ingame_Players WHERE matchNumber = @MatchNum ORDER BY exitTime DESC;
+SELECT * FROM Ingame_Players;
 SELECT * FROM Turn;
 SELECT * FROM Territory WHERE matchNumber = @MatchNum;
 SELECT * FROM Territory WHERE matchNumber = @MatchNum AND occupier = 'player2';
+SELECT @MatchNum;
+	SELECT player
+	FROM Ingame_Players AS IP
+	WHERE IP.matchNumber = @MatchNum
+	AND IP.player = 'player4'
+	AND IP.exitTime IS NULL;
+    
 CALL JoinMatch(@RoomNumber,'player1',@JoinedRoom);
 CALL JoinMatch(@RoomNumber,'player4',@JoinedRoom);
 CALL JoinMatch(@RoomNumber,'player2',@JoinedRoom);
 CALL JoinMatch(@RoomNumber,'player5',@JoinedRoom);
 CALL JoinMatch(@RoomNumber,'player3',@JoinedRoom);
+CALL ExitRoom(@RoomNumber,'player4');
 CALL JoinMatch(@RoomNumber,'player6',@JoinedRoom);
-
 UPDATE Ingame_Players SET winner = 0 WHERE matchNumber = 5;
 
 CALL AbandonMatch(@MatchNum,'player1');

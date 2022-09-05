@@ -10,7 +10,7 @@ SELECT * FROM Territory WHERE matchNumber = @MatchNum AND occupier in (@PlayerA,
 SELECT turnNumber FROM Turn AS T WHERE T.matchNumber = @MatchNum AND T.turnNumber = @TurnNumber AND T.player = @PlayerA;
 SELECT * FROM Turn;
 SET @PlayerA := (SELECT player FROM Turn WHERE matchNumber = @MatchNum ORDER BY turnNumber DESC LIMIT 1);
-SET @PlayerB := 'player3';
+SET @PlayerB := 'player2';
 SET @PlayerANation1 := (SELECT nation FROM Territory WHERE occupier = @PlayerA AND occupyingTanksNumber > 1 AND matchNumber = @MatchNum ORDER BY nation ASC LIMIT 1);
 SET @PlayerANation2 = (SELECT nation FROM Territory WHERE occupier = @PlayerA AND occupyingTanksNumber > 1 AND matchNumber = @MatchNum ORDER BY nation DESC LIMIT 1);
 SET @PlayerBNation1 = (SELECT nation FROM Territory WHERE occupier = @PlayerB AND occupyingTanksNumber = 1 AND matchNumber = @MatchNum ORDER BY nation ASC LIMIT 1);
@@ -25,11 +25,11 @@ CALL PassTurn(@MatchNum,@CurrentTurnPlayer);
 
 SELECT @MatchNum, @TurnNumber, @ActionNumber, 
 		@PlayerA, @PlayerANation1, @PlayerANation2,
-        @PlayerB, @PlayerBNation1, @PlayerBNation2;
+        @PlayerB, @PlayerBNation1, @PlayerBNation2, @CurrentTurnPlayer;
         
 CALL PlaceTanks(@MatchNum,@TurnNumber,@PlayerA,@PlayerANation1,5);
 
-CALL Move(@MatchNum,@TurnNumber,@PlayerA,@PlayerANation1,@PlayerANation2,2);
+CALL Move(@MatchNum,@TurnNumber,@PlayerA,@PlayerANation1,@PlayerANation2,1);
 
 SELECT * FROM Ingame_Players WHERE matchNumber = @MatchNum ORDER BY entryOrder;
 SELECT * FROM Turn WHERE matchNumber = @MatchNum;
@@ -73,3 +73,7 @@ SELECT occupier, occupyingTanksNumber
 	AND T.nation = @AttackerNationA
 	AND T.occupier = @PlayerA;
     
+    
+SELECT T.matchNumber, occupier, SUM(occupyingTanksNumber),IP.unplacedTanks, (SUM(occupyingTanksNumber) + IP.unplacedTanks), 
+count(T.occupier) FROM Territory AS T JOIN Ingame_Players AS IP ON T.matchNumber = IP.matchNumber AND T.occupier = IP.player
+GROUP BY matchNumber, occupier;
