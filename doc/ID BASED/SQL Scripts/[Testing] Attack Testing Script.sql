@@ -1,3 +1,5 @@
+DELETE FROM `Match` WHERE matchNumber = 6;
+
 SELECT * FROM `Match`;
 SELECT * FROM Ingame_Players;
 SELECT *,current_timestamp() FROM `Match` WHERE matchNumber = @MatchNum;
@@ -6,6 +8,7 @@ SELECT occupier,count(*) FROM Territory WHERE matchNumber = @MatchNum GROUP BY o
 SELECT * FROM Ingame_Players WHERE matchNumber = @MatchNum ORDER BY entryOrder;
 SELECT * FROM Territory WHERE matchNumber = @MatchNum AND occupier in (@PlayerA,@PlayerB);
 SELECT turnNumber FROM Turn AS T WHERE T.matchNumber = @MatchNum AND T.turnNumber = @TurnNumber AND T.player = @PlayerA;
+SELECT * FROM Turn;
 SET @PlayerA := (SELECT player FROM Turn WHERE matchNumber = @MatchNum ORDER BY turnNumber DESC LIMIT 1);
 SET @PlayerB := 'player3';
 SET @PlayerANation1 := (SELECT nation FROM Territory WHERE occupier = @PlayerA AND occupyingTanksNumber > 1 AND matchNumber = @MatchNum ORDER BY nation ASC LIMIT 1);
@@ -14,9 +17,11 @@ SET @PlayerBNation1 = (SELECT nation FROM Territory WHERE occupier = @PlayerB AN
 SET @PlayerBNation2 = (SELECT nation FROM Territory WHERE occupier = @PlayerB AND occupyingTanksNumber = 1 AND matchNumber = @MatchNum ORDER BY nation DESC LIMIT 1);
 SET @AttackerNationTanks = 5;
 SET @DefenderNationTanks = 5;
-SET @MatchNum := 5;
+SET @MatchNum := 3;
 SET @TurnNumber = (SELECT turnNumber FROM Turn WHERE matchNumber = @MatchNum ORDER BY turnNumber DESC LIMIT 1);
 set @ActionNumber = 1;
+SET @CurrentTurnPlayer = (SELECT player FROM Turn WHERE matchNumber = @MatchNum ORDER BY turnNumber DESC LIMIT 1);
+CALL PassTurn(@MatchNum,@CurrentTurnPlayer);
 
 SELECT @MatchNum, @TurnNumber, @ActionNumber, 
 		@PlayerA, @PlayerANation1, @PlayerANation2,
