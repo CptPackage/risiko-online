@@ -11,6 +11,7 @@ SELECT matchStartCountdown,
 (matchStartCountdown + INTERVAL 2 MINUTE), 
 ((matchStartCountdown + INTERVAL 2 MINUTE)  - current_timestamp()) > 0
 FROM `Match` WHERE roomNumber = @RoomNumber;
+SELECT * FROM `Match`;
 SELECT * FROM Ingame_Players WHERE matchNumber = @MatchNum ORDER BY exitTime DESC;
 SELECT * FROM Turn;
 SELECT * FROM Territory WHERE matchNumber = @MatchNum;
@@ -19,16 +20,28 @@ CALL JoinMatch(@RoomNumber,'player1',@JoinedRoom);
 CALL JoinMatch(@RoomNumber,'player4',@JoinedRoom);
 CALL JoinMatch(@RoomNumber,'player2',@JoinedRoom);
 CALL JoinMatch(@RoomNumber,'player5',@JoinedRoom);
-CALL JoinMatch(@RoomNumber,'player6',@JoinedRoom);
 CALL JoinMatch(@RoomNumber,'player3',@JoinedRoom);
+CALL JoinMatch(@RoomNumber,'player6',@JoinedRoom);
+
+UPDATE Ingame_Players SET winner = 0 WHERE matchNumber = 5;
 
 CALL AbandonMatch(@MatchNum,'player1');
 CALL AbandonMatch(@MatchNum,'player4');
 CALL AbandonMatch(@MatchNum,'player2');
 CALL AbandonMatch(@MatchNum,'player5');
-CALL AbandonMatch(@MatchNum,'player3');
 CALL AbandonMatch(@MatchNum,'player6');
+CALL AbandonMatch(@MatchNum,'player3');
 CALL AbandonMatch(@MatchNum,'player7');
+
+SELECT count(player) 
+		FROM Ingame_Players
+		WHERE matchNumber = @MatchNum;
+
+SELECT count(player) 
+		FROM Ingame_Players
+		WHERE matchNumber = @MatchNum
+        AND exitTime IS NULL;
+
 
 CALL GenerateTerritories(@MatchNum);
 CALL ExitRoom(@RoomNumber,'player1');
