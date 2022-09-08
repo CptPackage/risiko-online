@@ -60,7 +60,6 @@ struct occupancy {
 extern struct occupancy *do_get_occupancy(void);
 extern void occupancy_dispose(struct occupancy *occupancy);
 
-extern void db_switch_to_agency(void);
 
 #define NAME_SURNAME_LEN 45
 struct booking {
@@ -95,4 +94,20 @@ extern struct booking_report *do_booking_report(void);
 extern void booking_report_dispose(struct booking_report *report);
 
 
+/*                                  Player Data Structures                            */
+
+/*                                 Moderator Data Structures                          */
+typedef struct _active_matches_stats {
+  int numberOfStartedMatches;
+  int numberOfIngamePlayers;
+} ActiveMatchesStats;
+
+
+/*                                  Player Functions                                  */
 extern Matches_List* get_joinable_rooms(int page_size);
+
+/*                                  Moderator Functions                                  */
+extern int get_active_players_count(void);
+extern int create_room(int turnDuration);
+extern int get_recently_active_players_count(void);
+extern ActiveMatchesStats* get_ingame_matches_and_players(void);

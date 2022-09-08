@@ -8,6 +8,7 @@
 char current_user[USERNAME_LEN];
 Match* current_match;
 
+
 void set_current_user(char* username){
     sprintf(current_user, "%s",username);
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <mysql.h>
 
 #define MATCH_STATUS_NUM 4
 
@@ -13,6 +14,7 @@ typedef struct _match {
   int match_id;
   int room_id;
   int players_num;
+  MYSQL_TIME* match_start_countdown;
   match_status_t match_status;
 } Match;
 
