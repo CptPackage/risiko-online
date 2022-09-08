@@ -25,12 +25,10 @@ ORDER BY matchNumber DESC;
 
 
 # Get Active Players with Activity in the last 15 Minutes
-SET @TimeLowerBound = (current_timestamp() - INTERVAL 15 MINUTE);
-
 SELECT * FROM User
 WHERE active = 1
 AND playerIngame = 0
-AND lastActivity >= @TimeLowerBound;
+AND (lastActivity + INTERVAL 15 MINUTE) >= current_timestamp();
 
 
 
