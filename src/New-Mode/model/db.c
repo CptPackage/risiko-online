@@ -23,6 +23,7 @@ static MYSQL_STMT* get_active_players_count_procedure;
 static MYSQL_STMT* create_room_procedure;
 static MYSQL_STMT* get_started_matches_and_players_procedure;
 static MYSQL_STMT* get_recently_active_players_procedure;
+static MYSQL_STMT* get_rooms_count_procedure;
 
 
 
@@ -55,6 +56,11 @@ static void close_prepared_stmts(void) {
   if (get_recently_active_players_procedure) {
     mysql_stmt_close(get_recently_active_players_procedure);
     get_recently_active_players_procedure = NULL;
+  }
+  
+  if (get_rooms_count_procedure) {
+    mysql_stmt_close(get_rooms_count_procedure);
+    get_rooms_count_procedure = NULL;
   }
 }
 
@@ -118,6 +124,12 @@ static bool initialize_prepared_stmts(role_t for_role) {
       conn)) {
       print_stmt_error(get_recently_active_players_procedure,
         "Unable to initialize get_recently_active_players_procedure statement\n");
+      return false;
+    }
+    if (!setup_prepared_stmt(&get_rooms_count_procedure, "call GetRoomsCount(?)",
+      conn)) {
+      print_stmt_error(get_rooms_count_procedure,
+        "Unable to initialize get_rooms_count_procedure statement\n");
       return false;
     }
     break;
@@ -534,4 +546,46 @@ out:
   mysql_stmt_reset(get_started_matches_and_players_procedure);
 
   return matchesStats;
+}
+
+
+
+int get_rooms_count(void) {
+  MYSQL_BIND param[1]; // Used both for input and output
+  int roomsCount;
+
+  // Prepare parameters
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &roomsCount, sizeof(roomsCount));
+
+
+  if (mysql_stmt_bind_param(get_rooms_count_procedure, param) != 0) { // Note _param
+    print_stmt_error(get_rooms_count_procedure, "Could not bind parameters for get_rooms_count_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_rooms_count_procedure) != 0) {
+    print_stmt_error(get_rooms_count_procedure, "Could not execute get_rooms_count_procedure procedure");
+    goto out;
+  }
+
+  // Output Parameters
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &roomsCount, sizeof(roomsCount));
+  if (mysql_stmt_bind_result(get_rooms_count_procedure, param)) {
+    print_stmt_error(get_rooms_count_procedure, "Unable to bind output parameters get_rooms_count_procedure\n");
+    goto out;
+  }
+
+
+  // Retrieve output parameter
+  if (mysql_stmt_fetch(get_rooms_count_procedure)) {
+    print_stmt_error(get_rooms_count_procedure, "Could not buffer results");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(get_rooms_count_procedure);
+  mysql_stmt_reset(get_rooms_count_procedure);
+
+
+  return roomsCount;
 }

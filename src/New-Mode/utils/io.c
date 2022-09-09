@@ -183,6 +183,21 @@ char multi_choice(char *question, const char choices[], int num) {
   set_color(STYLE_NORMAL);
 }
 
+int get_input_number(char *question){
+    int input_number;
+  while(true){
+    if(question != NULL && strlen(question) > 0){
+      printff(question);
+    }
+    scanf("%d%*c",&input_number);
+
+    if(input_number != EOF && input_number != '\n'){
+      break;
+    }
+  }
+  return input_number;
+}
+
 void clear_screen(void) {
   // To whom it may interest: this "magic" is a sequence of escape codes from
   // VT100 terminals: https://www.csie.ntu.edu.tw/~r92094/c++/VT100.html
@@ -192,9 +207,8 @@ void clear_screen(void) {
 void press_anykey(void) {
   char c;
   puts("\nPress any key to continue...");
-  while ((c = (char)getchar()) != '\n')
-    ;
-  (void)c;
+  while ((c = (char)getchar()) != '\n');
+    (void)c;
 }
 
 void printff(const char *format, ...) {

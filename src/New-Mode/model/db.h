@@ -111,3 +111,4 @@ extern int get_active_players_count(void);
 extern int create_room(int turnDuration);
 extern int get_recently_active_players_count(void);
 extern ActiveMatchesStats* get_ingame_matches_and_players(void);
+extern int get_rooms_count(void);

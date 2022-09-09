@@ -20,6 +20,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <math.h>
 
 #define check_env_failing(varname)                                             \
   if (getenv((varname)) == NULL) {                                             \
@@ -48,13 +49,31 @@ static bool validate_dotenv(void) {
 void initApp();
 int startup();
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   if (startup()) {
     printff("Error: Failed during startup procedure!\n");
     return -1;
   }
 
+
+
   /*                      [TEMP] TEST AREA                       */
+  // printf("Extra Rooms Needed: %d * %d\n", numberOfExtraRoomsNeeded, numberOfRoomsNeeded);
+  // char* stats_info = malloc(sizeof(char) * 1024);
+  // sprintf(stats_info, " Active Players: %d | Rooms Number: %d | Extra Rooms Needed: %d",
+  //   numberOfActivePlayers, numberOfRooms, numberOfExtraRoomsNeeded);
+
+
+  // clear_screen();
+  // set_color(STYLE_BOLD);
+  // print_star_line(0);
+  // print_framed_text("CREATE NEW ROOMS", '*', false, 0, 0);
+  // print_star_line(0);
+  // print_framed_text_left(stats_info, '*', false, 0, 0);
+  // print_char_line('*', 0);
+  // reset_color();
+  // free(stats_info);
+  // return 0;
 
   // printff("Username: %s\n", creds.username);
   // printff("Password: %s\n", creds.password);
@@ -87,9 +106,6 @@ int main(int argc, char **argv) {
   // Init
   if (initialize_io()) {
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
-
-    // Match* mx = NULL;
-    // mx->match_id = 25;
     initApp();
   }
 
