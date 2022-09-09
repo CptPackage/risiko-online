@@ -2,6 +2,7 @@
 #include "../utils/io.h"
 #include "../utils/mem.h"
 #include "p_match.h"
+#include "p_match_history.h"
 #include "db.h"
 #include "session.h"
 #include <assert.h>
@@ -24,6 +25,7 @@ static MYSQL_STMT* create_room_procedure;
 static MYSQL_STMT* get_started_matches_and_players_procedure;
 static MYSQL_STMT* get_recently_active_players_procedure;
 static MYSQL_STMT* get_rooms_count_procedure;
+static MYSQL_STMT* get_player_history_procedure;
 
 
 
@@ -57,10 +59,15 @@ static void close_prepared_stmts(void) {
     mysql_stmt_close(get_recently_active_players_procedure);
     get_recently_active_players_procedure = NULL;
   }
-  
+
   if (get_rooms_count_procedure) {
     mysql_stmt_close(get_rooms_count_procedure);
     get_rooms_count_procedure = NULL;
+  }
+
+  if (get_player_history_procedure) {
+    mysql_stmt_close(get_player_history_procedure);
+    get_player_history_procedure = NULL;
   }
 }
 
@@ -91,7 +98,14 @@ static bool initialize_prepared_stmts(role_t for_role) {
     if (!setup_prepared_stmt(&get_joinable_rooms_procedure,
       "call GetJoinableRooms(?)", conn)) {
       print_stmt_error(get_joinable_rooms_procedure,
-        "Unable to initialize get joinable rooms procedure\n");
+        "Unable to initialize get_joinable_rooms_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&get_player_history_procedure,
+      "call GetPlayerHistory(?)", conn)) {
+      print_stmt_error(get_player_history_procedure,
+        "Unable to initialize get_player_history_procedure\n");
       return false;
     }
     break;
@@ -292,7 +306,7 @@ void logout(void) {
 
   // Run procedure
   if (mysql_stmt_execute(logout_procedure) != 0) {
-    print_stmt_error(logout_procedure, "Could not execute login procedure");
+    print_stmt_error(logout_procedure, "Could not execute logout procedure");
     goto out;
   }
 
@@ -379,7 +393,80 @@ out:
   return matches;
 }
 
+Matches_Logs_List* get_player_history(void) {
+  MYSQL_BIND param[5];
+  MYSQL_BIND in_param[1];
+  int status;
+  int logs_count = 0;
+  int match_number = 0;
+  int room_number = 0;
+  MYSQL_TIME match_start_time;
+  MYSQL_TIME match_exit_time;
+  int match_result = 0;
+  size_t row = 0;
+  Matches_Logs_List* matches;
 
+
+  // Initialize timestamps
+  init_mysql_timestamp(&match_start_time);
+  init_mysql_timestamp(&match_exit_time);
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+
+  if (mysql_stmt_bind_param(get_player_history_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_player_history_procedure, "Could not bind parameters for get_player_history_procedure!");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_player_history_procedure) != 0) {
+    print_stmt_error(get_player_history_procedure, "Could not execute get_player_history_procedure");
+    goto out;
+  }
+
+  mysql_stmt_store_result(get_player_history_procedure);
+
+  logs_count = mysql_stmt_num_rows(get_player_history_procedure);
+  matches = malloc(sizeof(*matches) + sizeof(Match_Log) * logs_count);
+
+  if (matches == NULL) {
+    goto out;
+  }
+
+  memset(matches, 0, sizeof(*matches) + sizeof(Match_Log) * logs_count);
+  matches->logs_count = logs_count;
+
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));
+  set_binding_param(&param[1], MYSQL_TYPE_LONG, &room_number, sizeof(room_number));
+  set_binding_param(&param[2], MYSQL_TYPE_TIMESTAMP, &match_start_time, sizeof(match_start_time));
+  set_binding_param(&param[3], MYSQL_TYPE_TIMESTAMP, &match_exit_time, sizeof(match_exit_time));
+  set_binding_param(&param[4], MYSQL_TYPE_LONG, &match_result, sizeof(match_result));
+
+
+  if (mysql_stmt_bind_result(get_player_history_procedure, param)) {
+    print_stmt_error(get_player_history_procedure, "Unable to bind output parameters for get_player_history_procedure\n");
+    free(matches);
+    goto out;
+  }
+
+
+  while (true) {
+    status = mysql_stmt_fetch(get_player_history_procedure);
+    if (status == 1 || status == MYSQL_NO_DATA)
+      break;
+    printff("Result: %d - %d - %d \n", match_number, room_number, match_result);
+    matches->logs[row].match_id = match_number;
+    matches->logs[row].room_id = room_number;
+    mysql_timestamp_to_string(&match_start_time, matches->logs[row].start_time);
+    mysql_timestamp_to_string(&match_exit_time, matches->logs[row].end_time);
+    matches->logs[row].result = match_result;
+    row++;
+  }
+
+out:
+  mysql_stmt_free_result(get_player_history_procedure);
+  mysql_stmt_reset(get_player_history_procedure);
+  return matches;
+}
 
 /*                                  Moderator Functions                                  */
 int get_active_players_count(void) {
@@ -506,7 +593,7 @@ out:
 }
 
 ActiveMatchesStats* get_ingame_matches_and_players(void) {
-   MYSQL_BIND param[2]; // Used both for input and output
+  MYSQL_BIND param[2]; // Used both for input and output
   ActiveMatchesStats* matchesStats;
 
   matchesStats = malloc(sizeof(ActiveMatchesStats));

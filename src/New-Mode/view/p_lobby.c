@@ -1,6 +1,7 @@
 #include "p_lobby.h"
 #include "../utils/io.h"
 #include "../utils/view.h"
+#include "../utils/mem.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,7 +33,7 @@ int view_lobby(Matches_List* matches_list) {
 }
 
 void render_lobby_match(Match *match, int match_index) {
-  char *line_1 = malloc(sizeof(char) * 1024);
+  char *line_1 = malloc(SMALL_MEM);
   sprintf(line_1, "[%d] Match: %d | Room: %d | Players: %d | Status: %s",
           match_index + 1, match->match_id, match->room_id, match->players_num,
           get_match_status_string(match->match_status));
