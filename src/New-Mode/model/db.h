@@ -2,14 +2,17 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "p_match.h"
+#include "p_match_history.h"
 
 extern bool init_db(void);
 extern void fini_db(void);
 
+#define DATE_LEN 11
+#define TIME_LEN 6
+#define DATETIME_LEN (DATE_LEN + TIME_LEN)
 
 #define USERNAME_LEN 45
 #define PASSWORD_LEN 45
-
 
 typedef struct _credentials {
   char username[USERNAME_LEN];
@@ -24,9 +27,6 @@ extern void db_switch_to_moderator(void);
 extern void db_switch_to_player(void);
 extern void logout(void);
 
-#define DATE_LEN 11
-#define TIME_LEN 6
-#define DATETIME_LEN (DATE_LEN + TIME_LEN)
 #define ID_LEN 45
 #define CITTA_LEN 45
 #define TIPO_LEN 45
@@ -96,6 +96,7 @@ extern void booking_report_dispose(struct booking_report *report);
 
 /*                                  Player Data Structures                            */
 
+
 /*                                 Moderator Data Structures                          */
 typedef struct _active_matches_stats {
   int numberOfStartedMatches;
@@ -105,6 +106,7 @@ typedef struct _active_matches_stats {
 
 /*                                  Player Functions                                  */
 extern Matches_List* get_joinable_rooms(int page_size);
+extern Matches_Logs_List* get_player_history(void);
 
 /*                                  Moderator Functions                                  */
 extern int get_active_players_count(void);

@@ -23,15 +23,9 @@ static bool join_match(void) {
 }
 
 static bool review_match_history(void) {
-  int logs_size = 3;
-  MatchLog **logs = malloc(sizeof(MatchLog *) * logs_size);
-  MatchLog log1 = {1, 1, "27/5/2012 - 05:00", "27/5/2012 - 05:30", WON};
-  MatchLog log2 = {2, 2, "27/5/2012 - 07:00", "27/5/2012 - 07:30", QUIT};
-  MatchLog log3 = {3, 3, "27/5/2012 - 07:00", "27/5/2012 - 08:30", LOST};
-  logs[0] = &log1;
-  logs[1] = &log2;
-  logs[2] = &log3;
-  view_match_history(logs, logs_size);
+  Matches_Logs_List* logs = get_player_history();
+  view_match_history(logs);
+  press_anykey();
   return false;
 }
 
