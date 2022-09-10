@@ -14,6 +14,17 @@ void view_match_history(Matches_Logs_List*logs) {
   print_padded_text("MATCHES HISTORY", '*', 0);
   print_star_line(0);
   reset_color();
+  
+  if(logs->logs_count == 0){
+    set_color(YELLOW_TXT);
+    print_char_line('-', 0);
+    set_color(STYLE_BOLD);
+    print_framed_text("You haven't participated in any match yet!", '|', false, 0, 0);
+    set_color(STYLE_NORMAL);
+    set_color(YELLOW_TXT);
+    print_char_line('-', 0);
+  }
+
   for (int i = 0; i < logs->logs_count; i++) {
     render_match_log(logs->logs[i]);
   }

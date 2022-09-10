@@ -1,5 +1,6 @@
 #pragma once
+#include "../model/p_match.h"
 
-enum actions { JOIN_MATCH, REVIEW_MATCH_HISTORY, EXIT, END_OF_ACTIONS };
+enum ingame_actions { WAITING_MATCH_START, MATCH_IN_PROGRESS, MATCH_ENDED, EOA };
 
 extern void controller_ingame(void);

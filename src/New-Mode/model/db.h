@@ -107,6 +107,10 @@ typedef struct _active_matches_stats {
 /*                                  Player Functions                                  */
 extern Matches_List* get_joinable_rooms(int page_size);
 extern Matches_Logs_List* get_player_history(void);
+extern bool join_room(int roomNumber);
+extern void exit_room(int roomNumber);
+extern bool did_player_leave(void);
+extern void update_match_details(void);
 
 /*                                  Moderator Functions                                  */
 extern int get_active_players_count(void);

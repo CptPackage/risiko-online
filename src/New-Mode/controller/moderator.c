@@ -35,6 +35,9 @@ static bool create_new_room(void) {
     return false;
   }
   int turnDuration = get_input_number(" Enter turn duration for new rooms [Seconds]:");
+  if (numberOfRoomsToCreate <= 0) {
+    return false;
+  }
   char* resultBuffer = malloc(SMALL_MEM);
   int createdRoomNumber = 0;
   for (int i = 0;i < numberOfRoomsToCreate;i++) {

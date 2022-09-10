@@ -63,7 +63,6 @@ int main(int argc, char** argv) {
   // sprintf(stats_info, " Active Players: %d | Rooms Number: %d | Extra Rooms Needed: %d",
   //   numberOfActivePlayers, numberOfRooms, numberOfExtraRoomsNeeded);
 
-
   // clear_screen();
   // set_color(STYLE_BOLD);
   // print_star_line(0);

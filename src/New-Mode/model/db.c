@@ -16,8 +16,6 @@ static MYSQL* conn;
 
 static MYSQL_STMT* login_procedure;
 static MYSQL_STMT* logout_procedure;
-/*                                  Player Statements                                  */
-static MYSQL_STMT* get_joinable_rooms_procedure;
 
 /*                                 Moderator Statements                                */
 static MYSQL_STMT* get_active_players_count_procedure;
@@ -25,19 +23,20 @@ static MYSQL_STMT* create_room_procedure;
 static MYSQL_STMT* get_started_matches_and_players_procedure;
 static MYSQL_STMT* get_recently_active_players_procedure;
 static MYSQL_STMT* get_rooms_count_procedure;
-static MYSQL_STMT* get_player_history_procedure;
 
+/*                                  Player Statements                                  */
+static MYSQL_STMT* get_joinable_rooms_procedure;
+static MYSQL_STMT* get_player_history_procedure;
+static MYSQL_STMT* join_room_procedure;
+static MYSQL_STMT* exit_room_procedure;
+static MYSQL_STMT* did_player_leave_procedure;
+static MYSQL_STMT* get_match_details_procedure;
 
 
 static void close_prepared_stmts(void) {
   if (login_procedure) {
     mysql_stmt_close(login_procedure);
     login_procedure = NULL;
-  }
-
-  if (get_joinable_rooms_procedure) {
-    mysql_stmt_close(get_joinable_rooms_procedure);
-    get_joinable_rooms_procedure = NULL;
   }
 
   if (get_active_players_count_procedure) {
@@ -65,9 +64,35 @@ static void close_prepared_stmts(void) {
     get_rooms_count_procedure = NULL;
   }
 
+
+  if (get_joinable_rooms_procedure) {
+    mysql_stmt_close(get_joinable_rooms_procedure);
+    get_joinable_rooms_procedure = NULL;
+  }
+
   if (get_player_history_procedure) {
     mysql_stmt_close(get_player_history_procedure);
     get_player_history_procedure = NULL;
+  }
+
+  if (join_room_procedure) {
+    mysql_stmt_close(join_room_procedure);
+    join_room_procedure = NULL;
+  }
+
+  if (exit_room_procedure) {
+    mysql_stmt_close(exit_room_procedure);
+    exit_room_procedure = NULL;
+  }
+
+  if (did_player_leave_procedure) {
+    mysql_stmt_close(did_player_leave_procedure);
+    did_player_leave_procedure = NULL;
+  }
+  
+  if (get_match_details_procedure) {
+    mysql_stmt_close(get_match_details_procedure);
+    get_match_details_procedure = NULL;
   }
 }
 
@@ -106,6 +131,31 @@ static bool initialize_prepared_stmts(role_t for_role) {
       "call GetPlayerHistory(?)", conn)) {
       print_stmt_error(get_player_history_procedure,
         "Unable to initialize get_player_history_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&join_room_procedure,
+      "call JoinRoom(?,?,?)", conn)) {
+      print_stmt_error(join_room_procedure,
+        "Unable to initialize join_room_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&exit_room_procedure, "call ExitRoom(?,?)", conn)) {
+      print_stmt_error(exit_room_procedure,
+        "Unable to initialize exit_room_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&did_player_leave_procedure, "call DidPlayerLeave(?,?,?)", conn)) {
+      print_stmt_error(did_player_leave_procedure,
+        "Unable to initialize did_player_leave_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&get_match_details_procedure, "call GetMatchDetails(?)", conn)) {
+      print_stmt_error(get_match_details_procedure,
+        "Unable to initialize get_match_details_procedure\n");
       return false;
     }
     break;
@@ -321,153 +371,6 @@ out:
   mysql_stmt_reset(logout_procedure);
 }
 
-/*                                  Player Functions                                  */
-Matches_List* get_joinable_rooms(int page_size) {
-  MYSQL_BIND param[4];
-  MYSQL_BIND in_param[1];
-  int status;
-  int matches_count = 0;
-  int match_number = 0;
-  int room_number = 0;
-  int number_of_players = 0;
-  int state = 0;
-  size_t row = 0;
-  Matches_List* matches;
-
-
-  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &page_size,
-    sizeof(page_size));
-
-
-  if (mysql_stmt_bind_param(get_joinable_rooms_procedure, in_param) != 0) { // Note _param
-    print_stmt_error(get_joinable_rooms_procedure, "Could not bind parameters for get joinable rooms!");
-    goto out;
-  }
-
-  if (mysql_stmt_execute(get_joinable_rooms_procedure) != 0) {
-    print_stmt_error(get_joinable_rooms_procedure, "Could not execute login procedure");
-    goto out;
-  }
-
-  mysql_stmt_store_result(get_joinable_rooms_procedure);
-
-  matches_count = mysql_stmt_num_rows(get_joinable_rooms_procedure);
-  matches = malloc(sizeof(*matches) + sizeof(Match) * matches_count);
-
-  if (matches == NULL) {
-    goto out;
-  }
-
-  memset(matches, 0, sizeof(*matches) + sizeof(Match) * matches_count);
-  matches->matches_count = matches_count;
-
-  set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));
-  set_binding_param(&param[1], MYSQL_TYPE_LONG, &room_number, sizeof(room_number));
-  set_binding_param(&param[2], MYSQL_TYPE_LONG, &number_of_players, sizeof(number_of_players));
-  set_binding_param(&param[3], MYSQL_TYPE_LONG, &state, sizeof(state));
-
-
-  if (mysql_stmt_bind_result(get_joinable_rooms_procedure, param)) {
-    print_stmt_error(get_joinable_rooms_procedure, "Unable to bind output parameters for get joinable rooms\n");
-    free(matches);
-    goto out;
-  }
-
-
-  while (true) {
-    status = mysql_stmt_fetch(get_joinable_rooms_procedure);
-    if (status == 1 || status == MYSQL_NO_DATA)
-      break;
-
-    matches->matches[row].match_id = match_number;
-    matches->matches[row].room_id = room_number;
-    matches->matches[row].players_num = number_of_players;
-    matches->matches[row].match_status = state;
-    row++;
-  }
-
-out:
-  mysql_stmt_free_result(get_joinable_rooms_procedure);
-  mysql_stmt_reset(get_joinable_rooms_procedure);
-
-  return matches;
-}
-
-Matches_Logs_List* get_player_history(void) {
-  MYSQL_BIND param[5];
-  MYSQL_BIND in_param[1];
-  int status;
-  int logs_count = 0;
-  int match_number = 0;
-  int room_number = 0;
-  MYSQL_TIME match_start_time;
-  MYSQL_TIME match_exit_time;
-  int match_result = 0;
-  size_t row = 0;
-  Matches_Logs_List* matches;
-
-
-  // Initialize timestamps
-  init_mysql_timestamp(&match_start_time);
-  init_mysql_timestamp(&match_exit_time);
-
-  set_binding_param(&in_param[0], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
-
-  if (mysql_stmt_bind_param(get_player_history_procedure, in_param) != 0) { // Note _param
-    print_stmt_error(get_player_history_procedure, "Could not bind parameters for get_player_history_procedure!");
-    goto out;
-  }
-
-  if (mysql_stmt_execute(get_player_history_procedure) != 0) {
-    print_stmt_error(get_player_history_procedure, "Could not execute get_player_history_procedure");
-    goto out;
-  }
-
-  mysql_stmt_store_result(get_player_history_procedure);
-
-  logs_count = mysql_stmt_num_rows(get_player_history_procedure);
-  matches = malloc(sizeof(*matches) + sizeof(Match_Log) * logs_count);
-
-  if (matches == NULL) {
-    goto out;
-  }
-
-  memset(matches, 0, sizeof(*matches) + sizeof(Match_Log) * logs_count);
-  matches->logs_count = logs_count;
-
-  set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));
-  set_binding_param(&param[1], MYSQL_TYPE_LONG, &room_number, sizeof(room_number));
-  set_binding_param(&param[2], MYSQL_TYPE_TIMESTAMP, &match_start_time, sizeof(match_start_time));
-  set_binding_param(&param[3], MYSQL_TYPE_TIMESTAMP, &match_exit_time, sizeof(match_exit_time));
-  set_binding_param(&param[4], MYSQL_TYPE_LONG, &match_result, sizeof(match_result));
-
-
-  if (mysql_stmt_bind_result(get_player_history_procedure, param)) {
-    print_stmt_error(get_player_history_procedure, "Unable to bind output parameters for get_player_history_procedure\n");
-    free(matches);
-    goto out;
-  }
-
-
-  while (true) {
-    status = mysql_stmt_fetch(get_player_history_procedure);
-    if (status == 1 || status == MYSQL_NO_DATA)
-      break;
-    printff("Result: %d - %d - %d \n", match_number, room_number, match_result);
-    matches->logs[row].match_id = match_number;
-    matches->logs[row].room_id = room_number;
-    mysql_timestamp_to_string(&match_start_time, matches->logs[row].start_time);
-    mysql_timestamp_to_string(&match_exit_time, matches->logs[row].end_time);
-    matches->logs[row].result = match_result;
-    row++;
-  }
-
-out:
-  mysql_stmt_free_result(get_player_history_procedure);
-  mysql_stmt_reset(get_player_history_procedure);
-  return matches;
-}
-
 /*                                  Moderator Functions                                  */
 int get_active_players_count(void) {
   int numberOfActivePlayers;
@@ -675,4 +578,314 @@ out:
 
 
   return roomsCount;
+}
+
+
+/*                                  Player Functions                                  */
+Matches_List* get_joinable_rooms(int page_size) {
+  MYSQL_BIND param[4];
+  MYSQL_BIND in_param[1];
+  int status;
+  int matches_count = 0;
+  int match_number = 0;
+  int room_number = 0;
+  int number_of_players = 0;
+  int state = 0;
+  size_t row = 0;
+  Matches_List* matches;
+
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &page_size, sizeof(page_size));
+
+
+  if (mysql_stmt_bind_param(get_joinable_rooms_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_joinable_rooms_procedure, "Could not bind parameters for get joinable rooms!");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_joinable_rooms_procedure) != 0) {
+    print_stmt_error(get_joinable_rooms_procedure, "Could not execute login procedure");
+    goto out;
+  }
+
+  mysql_stmt_store_result(get_joinable_rooms_procedure);
+
+  matches_count = mysql_stmt_num_rows(get_joinable_rooms_procedure);
+  matches = malloc(sizeof(*matches) + sizeof(Match) * matches_count);
+
+  if (matches == NULL) {
+    goto out;
+  }
+
+  memset(matches, 0, sizeof(*matches) + sizeof(Match) * matches_count);
+  matches->matches_count = matches_count;
+
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));
+  set_binding_param(&param[1], MYSQL_TYPE_LONG, &room_number, sizeof(room_number));
+  set_binding_param(&param[2], MYSQL_TYPE_LONG, &number_of_players, sizeof(number_of_players));
+  set_binding_param(&param[3], MYSQL_TYPE_LONG, &state, sizeof(state));
+
+
+  if (mysql_stmt_bind_result(get_joinable_rooms_procedure, param)) {
+    print_stmt_error(get_joinable_rooms_procedure, "Unable to bind output parameters for get joinable rooms\n");
+    free(matches);
+    goto out;
+  }
+
+
+  while (true) {
+    status = mysql_stmt_fetch(get_joinable_rooms_procedure);
+    if (status == 1 || status == MYSQL_NO_DATA)
+      break;
+
+    matches->matches[row].match_id = match_number;
+    matches->matches[row].room_id = room_number;
+    matches->matches[row].players_num = number_of_players;
+    matches->matches[row].match_status = state;
+    row++;
+  }
+
+out:
+  mysql_stmt_free_result(get_joinable_rooms_procedure);
+  mysql_stmt_reset(get_joinable_rooms_procedure);
+
+  return matches;
+}
+
+Matches_Logs_List* get_player_history(void) {
+  MYSQL_BIND param[5];
+  MYSQL_BIND in_param[1];
+  int status;
+  int logs_count = 0;
+  int match_number = 0;
+  int room_number = 0;
+  MYSQL_TIME match_start_time;
+  MYSQL_TIME match_exit_time;
+  int match_result = 0;
+  size_t row = 0;
+  Matches_Logs_List* matches;
+
+
+  // Initialize timestamps
+  init_mysql_timestamp(&match_start_time);
+  init_mysql_timestamp(&match_exit_time);
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+
+  if (mysql_stmt_bind_param(get_player_history_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_player_history_procedure, "Could not bind parameters for get_player_history_procedure!");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_player_history_procedure) != 0) {
+    print_stmt_error(get_player_history_procedure, "Could not execute get_player_history_procedure");
+    goto out;
+  }
+
+  mysql_stmt_store_result(get_player_history_procedure);
+
+  logs_count = mysql_stmt_num_rows(get_player_history_procedure);
+  matches = malloc(sizeof(*matches) + sizeof(Match_Log) * logs_count);
+
+  if (matches == NULL) {
+    goto out;
+  }
+
+  memset(matches, 0, sizeof(*matches) + sizeof(Match_Log) * logs_count);
+  matches->logs_count = logs_count;
+
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));
+  set_binding_param(&param[1], MYSQL_TYPE_LONG, &room_number, sizeof(room_number));
+  set_binding_param(&param[2], MYSQL_TYPE_TIMESTAMP, &match_start_time, sizeof(match_start_time));
+  set_binding_param(&param[3], MYSQL_TYPE_TIMESTAMP, &match_exit_time, sizeof(match_exit_time));
+  set_binding_param(&param[4], MYSQL_TYPE_LONG, &match_result, sizeof(match_result));
+
+
+  if (mysql_stmt_bind_result(get_player_history_procedure, param)) {
+    print_stmt_error(get_player_history_procedure, "Unable to bind output parameters for get_player_history_procedure\n");
+    free(matches);
+    goto out;
+  }
+
+
+  while (true) {
+    status = mysql_stmt_fetch(get_player_history_procedure);
+    if (status == 1 || status == MYSQL_NO_DATA)
+      break;
+    matches->logs[row].match_id = match_number;
+    matches->logs[row].room_id = room_number;
+    mysql_timestamp_to_string(&match_start_time, matches->logs[row].start_time);
+    mysql_timestamp_to_string(&match_exit_time, matches->logs[row].end_time);
+    matches->logs[row].result = match_result;
+    row++;
+  }
+
+out:
+  mysql_stmt_free_result(get_player_history_procedure);
+  mysql_stmt_reset(get_player_history_procedure);
+  return matches;
+}
+
+bool join_room(int roomNumber) {
+  MYSQL_BIND param[3];
+  int joinedRoom = 0;
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &roomNumber, sizeof(roomNumber));
+  set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+  set_binding_param(&param[2], MYSQL_TYPE_LONG, &joinedRoom, sizeof(joinedRoom));
+
+  if (mysql_stmt_bind_param(join_room_procedure, param) != 0) { // Note _param
+    print_stmt_error(join_room_procedure, "Could not bind parameters for create_room_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(join_room_procedure) != 0) {
+    print_stmt_error(join_room_procedure, "Could not execute join_room_procedure procedure");
+    goto out;
+  }
+
+  // Output Parameters
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &joinedRoom, sizeof(joinedRoom));
+  if (mysql_stmt_bind_result(join_room_procedure, param)) {
+    print_stmt_error(join_room_procedure, "Unable to bind output parameters join_room_procedure\n");
+    goto out;
+  }
+
+
+  // Retrieve output parameter
+  if (mysql_stmt_fetch(join_room_procedure)) {
+    print_stmt_error(join_room_procedure, "Could not buffer results");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(join_room_procedure);
+  mysql_stmt_reset(join_room_procedure);
+
+
+  if (joinedRoom == 0) {
+    return false;
+  }
+
+  return true;
+}
+
+
+
+void exit_room(int roomNumber) {
+  MYSQL_BIND param[2];
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &roomNumber, sizeof(roomNumber));
+  set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+
+  if (mysql_stmt_bind_param(exit_room_procedure, param) != 0) { // Note _param
+    print_stmt_error(exit_room_procedure, "Could not bind parameters for exit_room_procedure");
+    goto out;
+  }
+
+
+  if (mysql_stmt_execute(exit_room_procedure) != 0) {
+    print_stmt_error(exit_room_procedure, "Could not execute exit_room_procedure procedure");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(exit_room_procedure);
+  mysql_stmt_reset(exit_room_procedure);
+
+}
+
+
+bool did_player_leave(void) {
+  int leftRoom = 0;
+  int matchNumber = current_match->match_id;
+  MYSQL_BIND param[3];
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &matchNumber, sizeof(matchNumber));
+  set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+  set_binding_param(&param[2], MYSQL_TYPE_LONG, &leftRoom, sizeof(leftRoom));
+  
+  if (mysql_stmt_bind_param(did_player_leave_procedure, param) != 0) { // Note _param
+    print_stmt_error(did_player_leave_procedure, "Could not bind parameters for did_player_leave_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(did_player_leave_procedure) != 0) {
+    print_stmt_error(did_player_leave_procedure, "Could not execute did_player_leave_procedure procedure");
+    goto out;
+  }
+
+  // Output Parameters
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &leftRoom, sizeof(leftRoom));
+  if (mysql_stmt_bind_result(did_player_leave_procedure, param)) {
+    print_stmt_error(did_player_leave_procedure, "Unable to bind output parameters did_player_leave_procedure\n");
+    goto out;
+  }
+
+
+  // Retrieve output parameter
+  if (mysql_stmt_fetch(did_player_leave_procedure)) {
+    print_stmt_error(did_player_leave_procedure, "Could not buffer results");
+    goto out;
+  }
+
+
+out:
+  mysql_stmt_free_result(did_player_leave_procedure);
+  mysql_stmt_reset(did_player_leave_procedure);
+
+  return leftRoom;
+}
+
+void update_match_details(void){
+  MYSQL_BIND param[5];
+  MYSQL_BIND in_param[1];
+  int status;
+  int match_number = 0;
+  int room_number = 0;
+  int number_of_players = 0;
+  int state = 0;
+  MYSQL_TIME match_start_countdown;
+
+  // Initialize timestamps
+  init_mysql_timestamp(&match_start_countdown);
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
+
+  if (mysql_stmt_bind_param(get_match_details_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_match_details_procedure, "Could not bind parameters for get_match_details_procedure!");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_match_details_procedure) != 0) {
+    print_stmt_error(get_match_details_procedure, "Could not execute get_match_details_procedure");
+    goto out;
+  }
+
+  mysql_stmt_store_result(get_match_details_procedure);
+
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));
+  set_binding_param(&param[1], MYSQL_TYPE_LONG, &room_number, sizeof(room_number));
+  set_binding_param(&param[2], MYSQL_TYPE_LONG, &number_of_players, sizeof(number_of_players));
+  set_binding_param(&param[3], MYSQL_TYPE_TIMESTAMP, &match_start_countdown, sizeof(match_start_countdown));
+  set_binding_param(&param[4], MYSQL_TYPE_LONG, &state, sizeof(state));
+
+
+  if (mysql_stmt_bind_result(get_match_details_procedure, param)) {
+    print_stmt_error(get_match_details_procedure, "Unable to bind output parameters for get_match_details_procedure\n");
+    goto out;
+  }
+
+
+  while (true) {
+    status = mysql_stmt_fetch(get_match_details_procedure);
+    if (status == 1 || status == MYSQL_NO_DATA)
+      break;
+    current_match->match_id = match_number;
+    current_match->room_id = room_number;
+    current_match->players_num = number_of_players;
+    mysql_timestamp_to_string(&match_start_countdown, current_match->match_start_countdown);
+    current_match->match_status = state;
+  }
+
+out:
+  mysql_stmt_free_result(get_match_details_procedure);
+  mysql_stmt_reset(get_match_details_procedure);
 }

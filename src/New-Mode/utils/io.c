@@ -11,6 +11,7 @@
 #include "../model/db.h"
 #include "./view.h"
 #include "./mem.h"
+#include <errno.h>
 
 #ifdef __unix__
 #include <termios.h>
@@ -184,17 +185,24 @@ char multi_choice(char *question, const char choices[], int num) {
 }
 
 int get_input_number(char *question){
-    int input_number;
+  char input_buffer[TINY_MEM];
+  char* end_pointer;
+  int input_number;
   while(true){
     if(question != NULL && strlen(question) > 0){
       printff(question);
     }
-    scanf("%d%*c",&input_number);
+    scanf("%s[^\n]", input_buffer);
+    getchar();
+    
+    input_number = strtol(input_buffer,&end_pointer,10);
 
-    if(input_number != EOF && input_number != '\n'){
+    if(input_buffer != end_pointer && errno != ERANGE && errno != EINVAL){
       break;
     }
+    fflush(stdin);
   }
+
   return input_number;
 }
 

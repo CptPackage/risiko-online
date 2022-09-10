@@ -14,7 +14,7 @@ typedef struct _match {
   int match_id;
   int room_id;
   int players_num;
-  MYSQL_TIME* match_start_countdown;
+  char match_start_countdown[17];
   match_status_t match_status;
 } Match;
 

@@ -8,29 +8,31 @@ void view_match_result(match_result_t match_result) {
   bool result;
   while (!result) {
     clear_screen();
+    set_color(STYLE_BOLD);
+    print_star_line(0);
+    print_padded_text("MATCH RESULT", '*', 0);
+    print_star_line(0);
     print_char_line('-', 0);
     print_framed_text("", '|', false, 0, 0);
     switch (match_result) {
-    // QUIT
-    case 0:
-      print_framed_text("YOU QUIT THE MATCH!", '|', false, 0, 0);
-      break;
-
     // LOST
-    case 1:
-      print_framed_text("CONGRATULATIONS! YOU WON!", '|', false, GREEN_TXT, 0);
+    case 0:
+      print_framed_text("YOU HAVE BEEN ELIMINATED!", '|', false, RED_TXT, STYLE_BOLD);
       break;
 
     // WON
-    case 2:
-      print_framed_text("YOU LOST!", '|', false, RED_TXT, 0);
+    case 1:
+      print_framed_text("CONGRATULATIONS! YOU WON!", '|', false, GREEN_TXT, STYLE_BOLD);
       break;
-    case 3:
-      print_framed_text("UNKNOWN match_result_t!", '|', false, 0, 0);
+
+    default:
+      print_framed_text("UNKNOWN match_result_t!", '|', false, 0, STYLE_BOLD);
       break;
     }
+    set_color(STYLE_BOLD);
     print_framed_text("", '|', false, 0, 0);
     print_char_line('-', 0);
     result = yes_or_no("Go to Main Menu", 'y', 'n', true, true);
   }
+  reset_color();
 }
