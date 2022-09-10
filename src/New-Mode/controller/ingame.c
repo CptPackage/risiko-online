@@ -10,20 +10,21 @@ int action = WAITING_MATCH_START;
 
 static bool waiting_match_start (void){
   view_game_waiting(current_match);
-
   if(current_match == NULL){
     return true;
   }
   
   action = MATCH_IN_PROGRESS;
+  return false;
 }
 
 static bool ingame (void){
-
+  action = MATCH_ENDED;
+  return false;
 }
 
 static bool match_result (void){
-
+  return true;
 }
 
 static struct {

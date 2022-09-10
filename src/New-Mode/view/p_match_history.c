@@ -1,5 +1,6 @@
 #include "p_match_history.h"
 #include "../utils/io.h"
+#include "../utils/mem.h"
 #include "../utils/view.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,11 +24,14 @@ void view_match_history(Matches_Logs_List*logs) {
     set_color(STYLE_NORMAL);
     set_color(YELLOW_TXT);
     print_char_line('-', 0);
+    goto out;
   }
 
   for (int i = 0; i < logs->logs_count; i++) {
     render_match_log(logs->logs[i]);
   }
+
+  out:
   reset_color();
   clear_line();
 }
@@ -51,6 +55,6 @@ void render_match_log(Match_Log log) {
   print_framed_text(line_1, '*', false, 0, 0);
   print_framed_text(line_2, '*', false, 0, 0);
   print_char_line('-', 0);
-  free(line_1);
-  free(line_2);
+  free_safe(line_1);
+  free_safe(line_2);
 }

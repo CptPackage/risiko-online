@@ -211,7 +211,7 @@ void print_error_text(char *text) {
   printff("\n");
   print_framed_text_left(line, '*', true, WHITE_TXT || WHITE_BG, RED_TXT);
   printff("\n");
-  free(line);
+  free_safe(line);
 }
 
 void print_warning_text(char *text) {
@@ -220,7 +220,7 @@ void print_warning_text(char *text) {
   printff("\n");
   print_framed_text_left(line, '*', true, WHITE_TXT || WHITE_BG, YELLOW_TXT);
   printff("\n");
-  free(line);
+  free_safe(line);
 }
 
 void print_info_text(char *text) {
@@ -230,7 +230,7 @@ void print_info_text(char *text) {
   print_framed_text_left(line, '*', true, WHITE_TXT || WHITE_BG,
                          WHITE_TXT || WHITE_BG);
   printff("\n");
-  free(line);
+  free_safe(line);
 }
 
 void print_tabs(int tabs_count, Colors color) {
@@ -440,4 +440,9 @@ SpinnerConfig *get_spinner_config() {
   return config;
 }
 
-bool destroy_spinner_config(SpinnerConfig *config) { free(config); }
+bool destroy_spinner_config(SpinnerConfig *config) { 
+  if(config != NULL){
+    printff("Freeing Spinner Config!!\n\n");
+    free_safe(config);
+  }
+}

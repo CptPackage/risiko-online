@@ -628,7 +628,7 @@ Matches_List* get_joinable_rooms(int page_size) {
 
   if (mysql_stmt_bind_result(get_joinable_rooms_procedure, param)) {
     print_stmt_error(get_joinable_rooms_procedure, "Unable to bind output parameters for get joinable rooms\n");
-    free(matches);
+    free_safe(matches);
     goto out;
   }
 
@@ -703,7 +703,7 @@ Matches_Logs_List* get_player_history(void) {
 
   if (mysql_stmt_bind_result(get_player_history_procedure, param)) {
     print_stmt_error(get_player_history_procedure, "Unable to bind output parameters for get_player_history_procedure\n");
-    free(matches);
+    free_safe(matches);
     goto out;
   }
 
@@ -756,6 +756,9 @@ bool join_room(int roomNumber) {
     print_stmt_error(join_room_procedure, "Could not buffer results");
     goto out;
   }
+
+
+  while(mysql_stmt_next_result(join_room_procedure) != -1) {}
 
 out:
   mysql_stmt_free_result(join_room_procedure);
@@ -843,6 +846,11 @@ void update_match_details(void){
   int number_of_players = 0;
   int state = 0;
   MYSQL_TIME match_start_countdown;
+
+  if(current_match == NULL){
+    printff("\n\n\nNO CURRENT MATCH TO UPDATE!\n\n\n");
+    return;
+  }
 
   // Initialize timestamps
   init_mysql_timestamp(&match_start_countdown);

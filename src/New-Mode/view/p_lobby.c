@@ -34,11 +34,11 @@ int view_lobby(Matches_List* matches_list) {
 
 void render_lobby_match(Match *match, int match_index) {
   char *line_1 = malloc(SMALL_MEM);
-  sprintf(line_1, "[%d] Match: %d | Room: %d | Players: %d | Status: %s",
-          match_index + 1, match->match_id, match->room_id, match->players_num,
+  sprintf(line_1, "[%d] Room: %d | Match: %d | Players: %d | Status: %s",
+          match_index + 1, match->room_id, match->match_id, match->players_num,
           get_match_status_string(match->match_status));
   print_char_line('-', 0);
   print_framed_text_left(line_1, '|', false, 0, 0);
   print_char_line('-', 0);
-  free(line_1);
+  free_safe(line_1);
 }

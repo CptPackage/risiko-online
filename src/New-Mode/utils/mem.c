@@ -11,3 +11,13 @@ int init_semaphore(int sem) {
   }
   return sem;
 }
+
+
+bool free_safe(void* ptr){
+  if(ptr != NULL){
+    // printff("About to free a pointer! %p\n\n\n",ptr);
+    free(ptr);
+    return true;
+  }
+  return false;
+}

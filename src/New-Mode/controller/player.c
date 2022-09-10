@@ -7,6 +7,7 @@
 #include "../view/p_match_history.h"
 #include "../model/db.h"
 #include "../model/session.h"
+#include "../utils/mem.h"
 #include "ingame.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -17,16 +18,18 @@ static bool join_match(void) {
   char *choices;
   char op;
   Matches_List* matches;
-  init_choices_array(&choices, P_MATCHES_PAGE_SIZE + 1, 0);
-  go_to_lobby:
+
+go_to_lobby:
   matches =  get_joinable_rooms(P_MATCHES_PAGE_SIZE);
   view_lobby(matches);
-  op = multi_choice(NULL, choices, P_MATCHES_PAGE_SIZE + 1);
+
+  init_choices_array(&choices,matches->matches_count + 1, 0);
+  op = multi_choice(NULL, choices, matches->matches_count + 1);
   if(op != '0'){
     int roomIndex = (op - '0') - 1;
     int roomNumber = matches->matches[roomIndex].room_id;
     bool joinedRoom = join_room(roomNumber);
-
+    free_safe(choices);
     if(joinedRoom){
       set_current_match(&matches->matches[roomIndex]);
       controller_ingame();
@@ -34,7 +37,8 @@ static bool join_match(void) {
 
     goto go_to_lobby;
   }
-  free(matches);
+
+  free_safe(matches);
   set_current_match(NULL);
   return false;
 }

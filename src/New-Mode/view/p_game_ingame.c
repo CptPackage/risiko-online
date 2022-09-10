@@ -68,7 +68,7 @@ void render_match_start(Match *match) {
   set_color(BLACK_BG);
   clear_line();
   printffn("");
-  free(line_1);
+  free_safe(line_1);
 }
 
 void render_turn_start() {
@@ -87,8 +87,8 @@ void render_turn_start() {
   set_color(BLACK_BG);
   clear_line();
   printffn("");
-  free(line_1);
-  free(line_2);
+  free_safe(line_1);
+  free_safe(line_2);
 }
 
 void render_turn_end() {
@@ -103,7 +103,7 @@ void render_turn_end() {
   set_color(BLACK_BG);
   clear_line();
   printffn("");
-  free(line_1);
+  free_safe(line_1);
 }
 
 void render_waiting_action(SpinnerConfig *spinner_config) {
@@ -127,7 +127,7 @@ void render_players_info(Match *match) {
   set_color(BLACK_BG);
   clear_line();
   printffn("");
-  free(line_1);
+  free_safe(line_1);
 }
 
 void render_movement() {
@@ -145,7 +145,7 @@ void render_movement() {
   set_color(BLACK_BG);
   clear_line();
   printffn("");
-  free(line_1);
+  free_safe(line_1);
 }
 
 void render_placement() {
@@ -160,7 +160,7 @@ void render_placement() {
   set_color(BLACK_BG);
   clear_line();
   printffn("");
-  free(line_1);
+  free_safe(line_1);
 }
 
 void render_combat() {}

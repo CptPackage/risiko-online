@@ -1,4 +1,6 @@
 #pragma once
+#include <stdbool.h>
+#include <stdlib.h>
 
 #define TEXT_LINE_MEM 87
 #define TINY_MEM 32
@@ -8,4 +10,5 @@
 #define LARGE_MEM 1024
 
 void init_allocs();
-int init_semaphore(int sem);
+extern int init_semaphore(int sem);
+extern bool free_safe(void* ptr);
