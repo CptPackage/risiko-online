@@ -1,4 +1,5 @@
 #include "p_match_history.h"
+#include "../model/session.h"
 #include "../utils/io.h"
 #include "../utils/mem.h"
 #include "../utils/view.h"
@@ -13,6 +14,7 @@ void view_match_history(Matches_Logs_List*logs) {
   set_color(STYLE_BOLD);
   print_star_line(0);
   print_padded_text("MATCHES HISTORY", '*', 0);
+  print_padded_text(current_user, '*', 0);
   print_star_line(0);
   reset_color();
   

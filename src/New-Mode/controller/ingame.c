@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "ingame.h"
 #include "../view/p_game_waiting.h"
+#include "../view/p_game_ingame.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -19,6 +20,7 @@ static bool waiting_match_start (void){
 }
 
 static bool ingame (void){
+  view_game_ingame(current_match);
   action = MATCH_ENDED;
   return false;
 }

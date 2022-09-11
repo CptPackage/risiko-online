@@ -1,6 +1,7 @@
 #include "p_mainmenu.h"
 #include "../utils/io.h"
 #include "../utils/view.h"
+#include "../model/session.h"
 #include <stdio.h>
 
 #define P_MAIN_MENU_CHOICES_NUM 3
@@ -13,6 +14,7 @@ int view_main_menu_player() {
   set_color(GREEN_TXT);
   print_star_line(0);
   print_padded_text("MAIN MENU", '*', 0);
+  print_padded_text(current_user, '*', 0);
   print_star_line(0);
   print_framed_text_left(" [1] Join a Match", '*', false, 0, 0);
   print_framed_text_left(" [2] Watch Match History", '*', false, 0, 0);

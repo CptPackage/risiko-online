@@ -1,5 +1,6 @@
 #include "p_game_ingame.h"
 #include "../model/p_match.h"
+#include "../model/session.h"
 #include "../utils/io.h"
 #include "../utils/mem.h"
 #include "../utils/view.h"

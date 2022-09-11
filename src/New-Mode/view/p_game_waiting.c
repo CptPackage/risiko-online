@@ -112,7 +112,6 @@ void view_game_waiting(Match* match) {
         bool can_leave = did_player_leave();
         printf("Result of can leave: %d - Match Status: %s \n\n", can_leave, get_match_status_string(match->match_status));
         if (can_leave == 1) {
-          set_can_exit_flag(1, NULL);
           thread_config->match = NULL;
           set_current_match(NULL);
           goto exit_match;
@@ -132,4 +131,5 @@ exit_match:
   free_safe(spinner_text);
   free_safe(line_1);
   free_safe(line_2);
+  set_can_exit_flag(1, NULL);
 }
