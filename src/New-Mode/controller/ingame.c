@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../model/session.h"
+#include "../utils/io.h"
 
 int action = WAITING_MATCH_START;
 
@@ -20,12 +21,16 @@ static bool waiting_match_start (void){
 }
 
 static bool ingame (void){
+  set_can_exit_flag(1, NULL);
   view_game_ingame(current_match);
   action = MATCH_ENDED;
   return false;
 }
 
 static bool match_result (void){
+  // Get Player Status
+  set_current_turn(NULL);
+  set_current_match(NULL);
   return true;
 }
 

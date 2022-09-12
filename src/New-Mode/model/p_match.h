@@ -20,6 +20,12 @@ typedef enum {
   COMBAT = 2
 } action_types_t;
 
+typedef enum {
+  INGAME = 0,
+  LOSS = 1,
+  WIN = 2,
+} player_status_t;
+
 typedef struct _match {
   int match_id;
   int room_id;
@@ -76,6 +82,17 @@ typedef struct _territory {
   char occupier[USERNAME_SIZE];
   int occupying_tanks_number;
 } Territory;
+
+typedef struct _territories {
+  int territories_count;
+  Territory** territories;
+} Territories;
+
+
+typedef struct _players_list {
+  int players_count;
+  char players[6][USERNAME_SIZE];
+} PlayersList;
 
 char *get_match_status_string(match_status_t match_status);
 char *match_status_strings[MATCH_STATUS_NUM];

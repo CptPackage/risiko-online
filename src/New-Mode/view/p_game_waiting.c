@@ -23,10 +23,12 @@ void* waiting_poll_match_thread(void* args) {
   WaitingPollThreadConfig* config = (WaitingPollThreadConfig*)args;
   while (config->match && config->match->match_status != STARTED) {
     update_match_details();
+
     if (config->match->match_status == LOBBY) {
       spinner_config->is_loading = false;
     } else if (config->match->match_status == COUNTDOWN) {
       spinner_config->is_loading = true;
+        sprintf(config->spinner_text, "Number of players in room: %d", config->match->players_num);
     }
     sleep(2);
   }
@@ -61,8 +63,14 @@ void view_game_waiting(Match* match) {
   pthread_t tid_2;
   sprintf(line_1, "Status: %s", get_match_status_string(match->match_status));
   sprintf(line_2, "Room #%d", match->room_id);
+  set_color(STYLE_BOLD);
   print_char_line('-', 0);
-  print_framed_text(line_1, '|', false, 0, 0);
+  if(match->match_status == COUNTDOWN){
+    print_framed_text(line_1, '|', false, YELLOW_TXT, 0);
+  }else{
+    print_framed_text(line_1, '|', false, 0, 0);
+  }
+  
   print_char_line('-', 0);
   print_framed_text(line_2, '|', false, 0, 0);
   print_char_line('-', 0);
@@ -119,7 +127,6 @@ void view_game_waiting(Match* match) {
       }
     } else if (match->match_status == COUNTDOWN) {
       set_can_exit_flag(0, "Can't quit game while waiting for the match to start!");
-      sprintf(spinner_text, "Number of players in room: %d", match->players_num);
       print_spinner(spinner_text, spinner_config);
     }
   }
@@ -131,5 +138,4 @@ exit_match:
   free_safe(spinner_text);
   free_safe(line_1);
   free_safe(line_2);
-  set_can_exit_flag(1, NULL);
 }
