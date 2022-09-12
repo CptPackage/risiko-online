@@ -59,7 +59,7 @@ typedef struct _combat {
   char attacker_nation[NATION_NAME_SIZE];
   char defender_player[USERNAME_SIZE];
   int defender_tanks_number;
-  int attaker_lost_tanks;
+  int attacker_lost_tanks;
   int defender_lost_tanks;
   bool succeded;
 } Combat;

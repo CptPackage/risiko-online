@@ -145,9 +145,34 @@ int main(int argc, char** argv) {
     Turn turn = {3,13};
     bool turn_has_action = does_turn_have_action(&turn);
     printffn("Does turn have action: %d", turn_has_action);
+    
     Action* action = get_turn_action(&turn);
     printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
-    action->match_id,action->turn_id,action->action_id,action->player,action->target_nation,action->details->action_type);
+    action->match_id,action->turn_id,action->action_id,action->player,
+    action->target_nation,action->tanks_number,action->details->action_type);
+    
+
+    get_action_details(action);
+    printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
+    action->match_id,action->turn_id,action->action_id,action->player,
+    action->target_nation,action->tanks_number,action->details->action_type);
+
+    printffn("Action Details: %d - %p", action->details->action_type, action->details->content);
+
+
+    if(action->details->action_type == 1){
+      Movement* movement = action->details->content;
+      printffn("Source: %d", movement->source_nation);
+    }
+
+    if(action->details->action_type == 2){    
+      Combat* combat = action->details->content;
+      printffn("Combat Details: %s - %d - %d - %s - %d - %d - %d", 
+      combat->attacker_nation, combat->attacker_lost_tanks, action->tanks_number,
+      combat->defender_player, combat->defender_tanks_number, combat->defender_lost_tanks, combat->succeded);
+      printffn("Nation occupied: %d",combat->succeded);
+    }
+
     return 0;
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
     initApp(); //TEMPORARILY DISABLED FOR PLAYER TESTING!
