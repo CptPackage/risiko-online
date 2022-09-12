@@ -1,4 +1,4 @@
-CALL CreateRoom(3,'CptPackage',@RoomNumber);
+CALL CreateRoom(10,'CptPackage',@RoomNumber);
 SET @MatchNum = (SELECT matchNumber FROM `Match` WHERE roomNumber = @RoomNumber ORDER BY matchNumber DESC LIMIT 1);
 SET @RoomNumber = 1;
 SELECT @MatchNum;
@@ -12,6 +12,9 @@ CALL JoinRoom(@RoomNumber,'player3',@JoinedRoom);
 SELECT * FROM `Match`;
 SELECT matchNumber, count(*) FROM Turn GROUP BY matchNumber ORDER BY count(*) DESC;
 CALL DidPlayerLeave(2,'player5',@Result);
+
+
+
 
 CALL GetMatchPlayers(4);
 SELECT @Result;
@@ -43,9 +46,28 @@ CALL AbandonMatch(@MatchNum,'player3');
 CALL GetPlayerHistory('player1');
 CALL GetLatestTurn(4);
 
+SELECT * FROM Ingame_Players;
+SELECT * FROM Action;
+SELECT * FROM Territory;
+SELECT *, current_timestamp() FROM Turn ORDER BY turnNumber DESC;
+CALL PlaceTanks(3,4,'player1','Alberta',1);
 
-CALL GetPlayerCurrentStatus(3,'player7',@Result);
+
+SELECt nation
+FROM Territory AS T
+WHERE T.matchNumber = 3
+AND T.occupier = 'player2'
+AND T.nation = 'Africa del Nord';
+
+SELECT actionNumber
+FROM Action
+WHERE matchNumber = 3
+AND turnNumber = 73;
+
+CALL GetPlayerCurrentStatus(3,'player1',@Result);
 SELECT @Result;
+
+
 SELECT * FROM Ingame_Players;
 SELECT IP.matchNumber AS 'Match Number', M.roomNumber AS 'Room Number',
 (M.matchStartCountdown + INTERVAL 2 MINUTE) AS 'Match Start Time',
