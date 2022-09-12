@@ -316,10 +316,27 @@ static bool initialize_prepared_stmts(role_t for_role) {
       return false;
     }
 
-
     if (!setup_prepared_stmt(&get_attackable_territories_procedure, "call GetAttackableTerritories(?,?,?)", conn)) {
       print_stmt_error(get_attackable_territories_procedure,
         "Unable to initialize get_attackable_territories_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&action_placement_procedure, "call PlaceTanks(?,?,?,?,?)", conn)) {
+      print_stmt_error(action_placement_procedure,
+        "Unable to initialize action_placement_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&action_movement_procedure, "call Move(?,?,?,?,?,?)", conn)) {
+      print_stmt_error(action_movement_procedure,
+        "Unable to initialize action_movement_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&action_combat_procedure, "call Attack(?,?,?,?,?)", conn)) {
+      print_stmt_error(action_combat_procedure,
+        "Unable to initialize action_combat_procedure\n");
       return false;
     }
     
@@ -524,12 +541,6 @@ void logout(void) {
     print_stmt_error(logout_procedure, "Could not execute logout procedure");
     goto out;
   }
-
-
-  // Consume the possibly-returned table for the output parameter
-  while (mysql_stmt_next_result(logout_procedure) != -1) {
-  }
-
 
 out:
   mysql_stmt_free_result(logout_procedure);
@@ -1738,9 +1749,10 @@ Territories* get_neighbour_territories(char territory_nation[NATION_NAME_SIZE]) 
     return NULL;
   }
 
+
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
   set_binding_param(&in_param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
-  set_binding_param(&in_param[2], MYSQL_TYPE_VAR_STRING, &territory_nation, strlen(territory_nation));
+  set_binding_param(&in_param[2], MYSQL_TYPE_VAR_STRING, territory_nation, strlen(territory_nation));
 
   if (mysql_stmt_bind_param(get_neighbour_territories_procedure, in_param) != 0) { // Note _param
     print_stmt_error(get_neighbour_territories_procedure, "Could not bind parameters for get_neighbour_territories_procedure");
@@ -1810,7 +1822,7 @@ Territories* get_attackable_territories(char territory_nation[NATION_NAME_SIZE])
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
   set_binding_param(&in_param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
-  set_binding_param(&in_param[2], MYSQL_TYPE_VAR_STRING, &territory_nation, strlen(territory_nation));
+  set_binding_param(&in_param[2], MYSQL_TYPE_VAR_STRING, territory_nation, strlen(territory_nation));
 
   if (mysql_stmt_bind_param(get_attackable_territories_procedure, in_param) != 0) { // Note _param
     print_stmt_error(get_attackable_territories_procedure, "Could not bind parameters for get_attackable_territories_procedure");
@@ -1861,10 +1873,97 @@ out:
   return territories_list;
 }
 
-void action_placement(char nation[NATION_NAME_SIZE], int tanks_number) {}
+void action_placement(char territory_nation[NATION_NAME_SIZE], int tanks_number) {
+  MYSQL_BIND in_param[5];
 
-void action_movement(void) {}
+  if(current_user == NULL || current_turn == NULL || tanks_number <= 0
+   || current_turn->match_id != current_match->match_id 
+   || strcmp(current_turn->player,current_user) != 0){
+    return;
+  }
 
-void action_combat(void) {}
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
+  set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &current_turn->turn_id, sizeof(current_turn->turn_id));
+  set_binding_param(&in_param[2], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+  set_binding_param(&in_param[3], MYSQL_TYPE_VAR_STRING, territory_nation, strlen(territory_nation));
+  set_binding_param(&in_param[4], MYSQL_TYPE_LONG, &tanks_number, sizeof(tanks_number));
+
+  if (mysql_stmt_bind_param(action_placement_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(action_placement_procedure, "Could not bind parameters for action_placement_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(action_placement_procedure) != 0) {
+    print_stmt_error(action_placement_procedure, "Could not execute action_placement_procedure procedure");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(action_placement_procedure);
+  mysql_stmt_reset(action_placement_procedure);
+}
+
+void action_movement(char source_territory_nation[NATION_NAME_SIZE],char target_territory_nation[NATION_NAME_SIZE], int tanks_number) {
+MYSQL_BIND in_param[6];
+
+  if(current_user == NULL || current_turn == NULL || tanks_number <= 0
+   || current_turn->match_id != current_match->match_id 
+   || strcmp(current_turn->player,current_user) != 0){
+    return;
+  }
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
+  set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &current_turn->turn_id, sizeof(current_turn->turn_id));
+  set_binding_param(&in_param[2], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+  set_binding_param(&in_param[3], MYSQL_TYPE_VAR_STRING, source_territory_nation, strlen(source_territory_nation));
+  set_binding_param(&in_param[4], MYSQL_TYPE_VAR_STRING, target_territory_nation, strlen(target_territory_nation));
+  set_binding_param(&in_param[5], MYSQL_TYPE_LONG, &tanks_number, sizeof(tanks_number));
+
+  if (mysql_stmt_bind_param(action_movement_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(action_movement_procedure, "Could not bind parameters for action_movement_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(action_movement_procedure) != 0) {
+    print_stmt_error(action_movement_procedure, "Could not execute action_movement_procedure procedure");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(action_movement_procedure);
+  mysql_stmt_reset(action_movement_procedure);
+  
+}
+
+void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defender_territory_nation[NATION_NAME_SIZE]) {
+  MYSQL_BIND in_param[5];
+
+  if(current_user == NULL || current_turn == NULL
+   || current_turn->match_id != current_match->match_id 
+   || strcmp(current_turn->player,current_user) != 0){
+    return;
+  }
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
+  set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &current_turn->turn_id, sizeof(current_turn->turn_id));
+  set_binding_param(&in_param[2], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+  set_binding_param(&in_param[3], MYSQL_TYPE_VAR_STRING, attacker_territory_nation, strlen(attacker_territory_nation));
+  set_binding_param(&in_param[4], MYSQL_TYPE_VAR_STRING, defender_territory_nation, strlen(defender_territory_nation));
+
+  if (mysql_stmt_bind_param(action_combat_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(action_combat_procedure, "Could not bind parameters for action_combat_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(action_combat_procedure) != 0) {
+    print_stmt_error(action_combat_procedure, "Could not execute action_combat_procedure procedure");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(action_combat_procedure);
+  mysql_stmt_reset(action_combat_procedure);
+
+}
 
 

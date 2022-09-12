@@ -289,6 +289,7 @@ void exit_interrupt_handler(int sigNo) {
     logout();
     reset_color();
     printff("\n");
+    fini_db();
     exit(10);
   } else {
     print_framed_text_left(" [Notice] Press CTRL + C again to quit the game!",
@@ -330,6 +331,7 @@ void cleanup_interrupt_handler(int sigNo) {
   cleanup:
     logout();
     reset_color();
+    fini_db();
     exit(-10);
 }
 

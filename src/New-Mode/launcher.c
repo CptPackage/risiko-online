@@ -188,11 +188,13 @@ int main(int argc, char** argv) {
     // territories_list->territories[i].occupying_tanks_number = i + 1;
     // }
 
-    // territories_list = get_personal_territories();
+    territories_list = get_personal_territories();
     // territories_list = get_scoreboard();
     // territories_list = get_actionable_territories();
-    // territories_list = get_neighbour_territories("Siam");
-    territories_list = get_attackable_territories("Siam");
+    // territories_list = get_neighbour_territories("America Centrale");
+    territories_list = get_attackable_territories("America Centrale");
+
+    printffn("Size: %d",territories_list->territories_count);
 
     for (size_t i = 0; i < territories_list->territories_count; i++)
     {
@@ -204,9 +206,9 @@ int main(int argc, char** argv) {
     
     // territories_list->territories = malloc(sizeof(Territory*) * territories_list->territories_count); 
 
-    return 0;
+    // return 0;
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
-    initApp(); //TEMPORARILY DISABLED FOR PLAYER TESTING!
+    // initApp(); //TEMPORARILY DISABLED FOR PLAYER TESTING!
   }
 
   fini_db();
