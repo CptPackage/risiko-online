@@ -1941,6 +1941,7 @@ void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defende
   if(current_user == NULL || current_turn == NULL
    || current_turn->match_id != current_match->match_id 
    || strcmp(current_turn->player,current_user) != 0){
+    printffn("Failed Action!");
     return;
   }
 

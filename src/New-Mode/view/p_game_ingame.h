@@ -18,13 +18,13 @@ extern void render_combat(Action* action);
 
 extern void render_placement(Action* action);
 
-extern void render_territories(Territory** territories);
+extern void render_territories(Territories* territories);
 
 //Internally call render_territories, but with the right data!
-extern void render_neighbour_nations(Territory** territories);
+extern void render_neighbour_nations(Territories* territories);
 
 //Internally call render_territories, but with the right data!
-extern void render_attackable_nations(Territory** territories); 
+extern void render_attackable_nations(Territories* territories); 
 
 extern void render_players_info(Match *match);
 

@@ -70,8 +70,8 @@ void render_match_start(Match* match) {
 void render_turn_start(Turn* turn) {
   char* line_1 = malloc(TEXT_LINE_MEM);
   char* line_2 = malloc(TEXT_LINE_MEM);
-  sprintf(line_1, "New Turn");
-  sprintf(line_2, "<Dummy>'s Turn ");
+  sprintf(line_1, "New Turn - %s", turn->turn_start_time);
+  sprintf(line_2, "<%s>'s Turn ",turn->player);
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
   print_char_line('-', 0);
@@ -89,7 +89,7 @@ void render_turn_start(Turn* turn) {
 
 void render_turn_end(Turn* turn) {
   char* line_1 = malloc(TEXT_LINE_MEM);
-  sprintf(line_1, "<Dummy>'s Turn Ended");
+  sprintf(line_1, "<%s>'s Turn Ended",turn->player);
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
   print_char_line('-', 0);
@@ -150,10 +150,15 @@ void render_action(Action* action) {
 }
 
 void render_movement(Action* action) {
+  if(action->details == NULL || action->details->content == NULL){
+    print_error_text("Movement action missing details!");
+    return;
+  }
+  Movement* movement = action->details->content;
   char* line_1 = malloc(TEXT_LINE_MEM);
   char* line_2 = malloc(TEXT_LINE_MEM);
-  sprintf(line_1, "<Dummy>'s tanks are moving");
-  sprintf(line_2, "<50> Tanks - <Egypt> -> <Territori del Nord Ovest>!");
+  sprintf(line_1, "<%s>'s tanks are moving", action->player);
+  sprintf(line_2, "<%d> Tanks - <%s> -> <%s>!", action->tanks_number,movement->source_nation,action->target_nation);
   set_color(BLACK_BG);
   set_color(YELLOW_TXT);
   print_char_line('-', 0);
@@ -165,11 +170,12 @@ void render_movement(Action* action) {
   clear_line();
   printffn("");
   free_safe(line_1);
+  free_safe(line_2);
 }
 
 void render_placement(Action* action) {
   char* line_1 = malloc(TEXT_LINE_MEM);
-  sprintf(line_1, "<Dummy> placed <50> tanks on <Egypt>!");
+  sprintf(line_1, "<%s> placed <%d> tanks on <%s>!", action->player, action->tanks_number, action->target_nation);
   set_color(BLACK_BG);
   set_color(YELLOW_TXT);
   print_char_line('-', 0);
@@ -184,16 +190,31 @@ void render_placement(Action* action) {
 
 void render_combat(Action* action) {}
 
-void render_territories(Territory** territories) {}
+void render_territories(Territories* territories) {
+  char* line_1 = malloc(TEXT_LINE_MEM);
+  print_char_line('+',0);
+  for (size_t i = 0; i < territories->territories_count; i++)
+  {
+    Territory current = territories->territories[i];
+      sprintf(line_1, "%d | [%s] %s <Tanks:%d>!", 
+      i,current.occupier, current.nation, current.occupying_tanks_number);
+  }
+  print_char_line('+',0);
+  free_safe(line_1);
+}
 
-void render_neighbour_nations(Territory** territories) {
+void render_neighbour_nations(Territories* territories) {
   // Get right data
   // Print header
+  print_char_line('+',0);
+  print_framed_text("Neighbour Nations",'+',false,0,0);
   render_territories(territories);
 }
 
-void render_attackable_nations(Territory** territories) {
+void render_attackable_nations(Territories* territories) {
   // Get right data
   // Print header
+    print_char_line('+',0);
+  print_framed_text("Attackable Nations",'+',false,0,0);
   render_territories(territories);
 }

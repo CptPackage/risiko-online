@@ -137,13 +137,16 @@ int main(int argc, char** argv) {
     
     // PlayersList* list = get_match_players();
     // Turn* turn = get_latest_turn();
+
     // printff("Turn Info: %d, %d, %s, %s\n",turn->match_id, turn->turn_id, turn->player, turn->turn_start_time);
 
     // // player_status_t result = did_player_win_or_lose();
-    // int unplacedTanks = get_player_unplaced_tanks();
-    // printff("Tanks Count: %d\n\n",unplacedTanks);
 
-    // Turn turn = {3,13};
+    Turn turn = {3,33,"player1"};
+    set_current_turn(&turn);
+
+    int unplacedTanks = get_player_unplaced_tanks();
+    printff("Tanks Count: %d\n\n",unplacedTanks);
     // bool turn_has_action = does_turn_have_action(&turn);
     // printffn("Does turn have action: %d", turn_has_action);
     
@@ -188,11 +191,11 @@ int main(int argc, char** argv) {
     // territories_list->territories[i].occupying_tanks_number = i + 1;
     // }
 
-    territories_list = get_personal_territories();
+    // territories_list = get_personal_territories();
     // territories_list = get_scoreboard();
-    // territories_list = get_actionable_territories();
+    territories_list = get_actionable_territories();
     // territories_list = get_neighbour_territories("America Centrale");
-    territories_list = get_attackable_territories("America Centrale");
+    // territories_list = get_attackable_territories("America Centrale");
 
     printffn("Size: %d",territories_list->territories_count);
 
@@ -202,6 +205,10 @@ int main(int argc, char** argv) {
       printffn("Territories: %d - %s - %s - %d"
       ,current.match_id,current.nation,current.occupier,current.occupying_tanks_number);
     }
+    printffn("Current Territory: %s",territories_list->territories[0].nation);
+    // action_combat(territories_list->territories[0].nation,"Alberta");
+    action_movement(territories_list->territories[0].nation,"Congo", 1);
+    // action_placement("Quebec", 5);
     
     
     // territories_list->territories = malloc(sizeof(Territory*) * territories_list->territories_count); 
