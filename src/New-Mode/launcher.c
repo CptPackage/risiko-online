@@ -142,36 +142,67 @@ int main(int argc, char** argv) {
     // // player_status_t result = did_player_win_or_lose();
     // int unplacedTanks = get_player_unplaced_tanks();
     // printff("Tanks Count: %d\n\n",unplacedTanks);
-    Turn turn = {3,13};
-    bool turn_has_action = does_turn_have_action(&turn);
-    printffn("Does turn have action: %d", turn_has_action);
+
+    // Turn turn = {3,13};
+    // bool turn_has_action = does_turn_have_action(&turn);
+    // printffn("Does turn have action: %d", turn_has_action);
     
-    Action* action = get_turn_action(&turn);
-    printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
-    action->match_id,action->turn_id,action->action_id,action->player,
-    action->target_nation,action->tanks_number,action->details->action_type);
+    // Action* action = get_turn_action(&turn);
+    // printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
+    // action->match_id,action->turn_id,action->action_id,action->player,
+    // action->target_nation,action->tanks_number,action->details->action_type);
     
 
-    get_action_details(action);
-    printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
-    action->match_id,action->turn_id,action->action_id,action->player,
-    action->target_nation,action->tanks_number,action->details->action_type);
+    // get_action_details(action);
+    // printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
+    // action->match_id,action->turn_id,action->action_id,action->player,
+    // action->target_nation,action->tanks_number,action->details->action_type);
 
-    printffn("Action Details: %d - %p", action->details->action_type, action->details->content);
+    // printffn("Action Details: %d - %p", action->details->action_type, action->details->content);
 
 
-    if(action->details->action_type == 1){
-      Movement* movement = action->details->content;
-      printffn("Source: %d", movement->source_nation);
+    // if(action->details->action_type == 1){
+    //   Movement* movement = action->details->content;
+    //   printffn("Source: %d", movement->source_nation);
+    // }
+
+    // if(action->details->action_type == 2){    
+    //   Combat* combat = action->details->content;
+    //   printffn("Combat Details: %s - %d - %d - %s - %d - %d - %d", 
+    //   combat->attacker_nation, combat->attacker_lost_tanks, action->tanks_number,
+    //   combat->defender_player, combat->defender_tanks_number, combat->defender_lost_tanks, combat->succeded);
+    //   printffn("Nation occupied: %d",combat->succeded);
+    // }
+    int count = 42;
+    Territories* territories_list;
+    
+    // territories_list = malloc(sizeof(*territories_list) + sizeof(Territory) * count);
+    // memset(territories_list,0,sizeof(*territories_list) + sizeof(Territory) * count);
+    // territories_list->territories_count = 42;
+
+    // for (size_t i = 0; i < count; i++)
+    // {
+    // territories_list->territories[i].match_id = i;
+    // strcpy(territories_list->territories[i].nation,"Africa del Nord Chicchi");
+    // strcpy(territories_list->territories[i].occupier, "CptPackage");
+    // territories_list->territories[i].occupying_tanks_number = i + 1;
+    // }
+
+    // territories_list = get_personal_territories();
+    // territories_list = get_scoreboard();
+    // territories_list = get_actionable_territories();
+    // territories_list = get_neighbour_territories("Siam");
+    territories_list = get_attackable_territories("Siam");
+
+    for (size_t i = 0; i < territories_list->territories_count; i++)
+    {
+      Territory current = territories_list->territories[i];
+      printffn("Territories: %d - %s - %s - %d"
+      ,current.match_id,current.nation,current.occupier,current.occupying_tanks_number);
     }
-
-    if(action->details->action_type == 2){    
-      Combat* combat = action->details->content;
-      printffn("Combat Details: %s - %d - %d - %s - %d - %d - %d", 
-      combat->attacker_nation, combat->attacker_lost_tanks, action->tanks_number,
-      combat->defender_player, combat->defender_tanks_number, combat->defender_lost_tanks, combat->succeded);
-      printffn("Nation occupied: %d",combat->succeded);
-    }
+    
+    
+    // territories_list->territories = malloc(sizeof(Territory*) * territories_list->territories_count); 
 
     return 0;
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT

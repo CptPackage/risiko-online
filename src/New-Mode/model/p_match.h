@@ -85,7 +85,7 @@ typedef struct _territory {
 
 typedef struct _territories {
   int territories_count;
-  Territory** territories;
+  Territory territories[];
 } Territories;
 
 

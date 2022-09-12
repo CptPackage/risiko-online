@@ -118,8 +118,8 @@ extern int get_player_unplaced_tanks(void);
 extern Territories* get_personal_territories(void);
 extern Territories* get_scoreboard(void);
 extern Territories* get_actionable_territories(void); //Nations with tanks number > 1
-extern Territories* get_neighbour_territories(void);
-extern Territories* get_attackable_territories(void);
+extern Territories* get_neighbour_territories(char territory_nation[NATION_NAME_SIZE]);
+extern Territories* get_attackable_territories(char territory_nation[NATION_NAME_SIZE]);
 extern void action_placement(char nation[NATION_NAME_SIZE], int tanks_number);
 extern void action_movement(void);
 extern void action_combat(void);
