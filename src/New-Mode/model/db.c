@@ -31,6 +31,21 @@ static MYSQL_STMT* join_room_procedure;
 static MYSQL_STMT* exit_room_procedure;
 static MYSQL_STMT* did_player_leave_procedure;
 static MYSQL_STMT* get_match_details_procedure;
+static MYSQL_STMT* get_match_players_procedure;
+static MYSQL_STMT* get_latest_turn_procedure;
+static MYSQL_STMT* does_turn_have_action_procedure;
+static MYSQL_STMT* get_turn_action_procedure;
+static MYSQL_STMT* get_action_details_procedure;
+static MYSQL_STMT* did_player_win_or_lose_procedure;
+static MYSQL_STMT* get_unplaced_tanks_procedure;
+static MYSQL_STMT* get_personal_territories_procedure;
+static MYSQL_STMT* get_scoreboard_procedure;
+static MYSQL_STMT* get_actionable_territories_procedure;
+static MYSQL_STMT* get_neighbour_territories_procedure;
+static MYSQL_STMT* get_attackable_territories_procedure;
+static MYSQL_STMT* action_placement_procedure;
+static MYSQL_STMT* action_movement_procedure;
+static MYSQL_STMT* action_combat_procedure;
 
 
 static void close_prepared_stmts(void) {
@@ -94,6 +109,81 @@ static void close_prepared_stmts(void) {
     mysql_stmt_close(get_match_details_procedure);
     get_match_details_procedure = NULL;
   }
+
+  if (get_match_players_procedure) {
+    mysql_stmt_close(get_match_players_procedure);
+    get_match_players_procedure = NULL;
+  }
+  
+  if (get_latest_turn_procedure) {
+    mysql_stmt_close(get_latest_turn_procedure);
+    get_latest_turn_procedure = NULL;
+  }
+  
+  if (does_turn_have_action_procedure) {
+    mysql_stmt_close(does_turn_have_action_procedure);
+    does_turn_have_action_procedure = NULL;
+  }
+  
+  if (get_turn_action_procedure) {
+    mysql_stmt_close(get_turn_action_procedure);
+    get_turn_action_procedure = NULL;
+  }
+  
+  if (did_player_win_or_lose_procedure) {
+    mysql_stmt_close(did_player_win_or_lose_procedure);
+    did_player_win_or_lose_procedure = NULL;
+  }
+  
+  if (get_unplaced_tanks_procedure) {
+    mysql_stmt_close(get_unplaced_tanks_procedure);
+    get_unplaced_tanks_procedure = NULL;
+  }
+  
+  if (get_personal_territories_procedure) {
+    mysql_stmt_close(get_personal_territories_procedure);
+    get_personal_territories_procedure = NULL;
+  }
+
+  if (get_scoreboard_procedure) {
+    mysql_stmt_close(get_scoreboard_procedure);
+    get_scoreboard_procedure = NULL;
+  }
+  
+  if (get_actionable_territories_procedure) {
+    mysql_stmt_close(get_actionable_territories_procedure);
+    get_actionable_territories_procedure = NULL;
+  }
+  
+  if (get_neighbour_territories_procedure) {
+    mysql_stmt_close(get_neighbour_territories_procedure);
+    get_neighbour_territories_procedure = NULL;
+  }
+  
+  if (get_attackable_territories_procedure) {
+    mysql_stmt_close(get_attackable_territories_procedure);
+    get_attackable_territories_procedure = NULL;
+  }
+  
+  if (action_placement_procedure) {
+    mysql_stmt_close(action_placement_procedure);
+    action_placement_procedure = NULL;
+  }
+  
+  if (action_movement_procedure) {
+    mysql_stmt_close(action_movement_procedure);
+    action_movement_procedure = NULL;
+  }
+  
+  if (action_combat_procedure) {
+    mysql_stmt_close(action_combat_procedure);
+    action_combat_procedure = NULL;
+  }
+
+  if (get_action_details_procedure) {
+    mysql_stmt_close(get_action_details_procedure);
+    get_action_details_procedure = NULL;
+  }  
 }
 
 static bool initialize_prepared_stmts(role_t for_role) {
@@ -156,6 +246,43 @@ static bool initialize_prepared_stmts(role_t for_role) {
     if (!setup_prepared_stmt(&get_match_details_procedure, "call GetMatchDetails(?)", conn)) {
       print_stmt_error(get_match_details_procedure,
         "Unable to initialize get_match_details_procedure\n");
+      return false;
+    }
+
+
+    if (!setup_prepared_stmt(&get_match_players_procedure, "call GetMatchPlayers(?)", conn)) {
+      print_stmt_error(get_match_players_procedure,
+        "Unable to initialize get_match_players_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&get_latest_turn_procedure, "call GetLatestTurn(?)", conn)) {
+      print_stmt_error(get_latest_turn_procedure,
+        "Unable to initialize get_latest_turn_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&did_player_win_or_lose_procedure, "call GetPlayerCurrentStatus(?,?,?)", conn)) {
+      print_stmt_error(did_player_win_or_lose_procedure,
+        "Unable to initialize did_player_win_or_lose_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&get_unplaced_tanks_procedure, "call GetPlayerUnplacedTanks(?,?,?)", conn)) {
+      print_stmt_error(get_unplaced_tanks_procedure,
+        "Unable to initialize get_unplaced_tanks_procedure\n");
+      return false;
+    }
+
+    if (!setup_prepared_stmt(&does_turn_have_action_procedure, "call DoesTurnHaveAction(?,?,?)", conn)) {
+      print_stmt_error(does_turn_have_action_procedure,
+        "Unable to initialize does_turn_have_action_procedure\n");
+      return false;
+    }
+    
+    if (!setup_prepared_stmt(&get_turn_action_procedure, "call GetTurnAction(?,?)", conn)) {
+      print_stmt_error(get_turn_action_procedure,
+        "Unable to initialize get_turn_action_procedure\n");
       return false;
     }
     break;
@@ -846,16 +973,12 @@ void update_match_details(void){
   int number_of_players = 0;
   int state = 0;
   MYSQL_TIME match_start_countdown;
-
-  if(current_match == NULL){
-    printff("\n\n\nNO CURRENT MATCH TO UPDATE!\n\n\n");
-    return;
-  }
+  int current_match_number = current_match->match_id;
 
   // Initialize timestamps
   init_mysql_timestamp(&match_start_countdown);
 
-  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match_number, sizeof(current_match_number));
 
   if (mysql_stmt_bind_param(get_match_details_procedure, in_param) != 0) { // Note _param
     print_stmt_error(get_match_details_procedure, "Could not bind parameters for get_match_details_procedure!");
@@ -881,6 +1004,9 @@ void update_match_details(void){
     goto out;
   }
 
+  if(current_match == NULL){
+    goto out;
+  }
 
   while (true) {
     status = mysql_stmt_fetch(get_match_details_procedure);
@@ -897,3 +1023,351 @@ out:
   mysql_stmt_free_result(get_match_details_procedure);
   mysql_stmt_reset(get_match_details_procedure);
 }
+
+PlayersList* get_match_players(void){
+  MYSQL_BIND param[1];
+  MYSQL_BIND in_param[1];
+  int status;
+  int row = 0;
+  int players_count = 0;
+  PlayersList* players_list;
+  char player[USERNAME_SIZE];
+  int current_match_number = current_match->match_id;
+
+  if(current_match == NULL){
+    return NULL;
+  }
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match_number, sizeof(current_match_number));
+
+  if (mysql_stmt_bind_param(get_match_players_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_match_players_procedure, "Could not bind parameters for get_match_players_procedure!");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_match_players_procedure) != 0) {
+    print_stmt_error(get_match_players_procedure, "Could not execute get_match_players_procedure");
+    goto out;
+  }
+
+  mysql_stmt_store_result(get_match_players_procedure);
+
+  players_count = mysql_stmt_num_rows(get_match_players_procedure);
+  players_list = malloc(sizeof(PlayersList));
+  players_list->players_count = players_count;
+
+  set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, &player, USERNAME_SIZE);
+  
+
+  if (mysql_stmt_bind_result(get_match_players_procedure, param)) {
+    print_stmt_error(get_match_players_procedure, "Unable to bind output parameters for get_match_players_procedure\n");
+    goto out;
+  }
+
+  while (true) {
+    status = mysql_stmt_fetch(get_match_players_procedure);
+    if (status == 1 || status == MYSQL_NO_DATA)
+      break;
+    strcpy(players_list->players[row], player);
+    row++;
+  }
+
+out:
+  mysql_stmt_free_result(get_match_players_procedure);
+  mysql_stmt_reset(get_match_players_procedure);
+  
+  return players_list;
+}
+
+Turn* get_latest_turn(void){
+  MYSQL_BIND param[4];
+  MYSQL_BIND in_param[1];
+  int status;
+  int match_number;
+  int turn_number;
+  char player[USERNAME_SIZE];
+  MYSQL_TIME turn_start_time;
+  Turn* turn;
+  int current_match_number = current_match->match_id;
+
+  if(current_match == NULL){
+    return NULL;
+  }
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match_number, sizeof(current_match_number));
+
+  if (mysql_stmt_bind_param(get_latest_turn_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_latest_turn_procedure, "Could not bind parameters for get_latest_turn_procedure!");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_latest_turn_procedure) != 0) {
+    print_stmt_error(get_latest_turn_procedure, "Could not execute get_latest_turn_procedure");
+    goto out;
+  }
+
+  mysql_stmt_store_result(get_latest_turn_procedure);
+
+  turn = malloc(sizeof(Turn));
+
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));  
+  set_binding_param(&param[1], MYSQL_TYPE_LONG, &turn_number, sizeof(turn_number));  
+  set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, &player, USERNAME_SIZE);  
+  set_binding_param(&param[3], MYSQL_TYPE_TIMESTAMP, &turn_start_time, TIMESTAMP_SIZE);  
+
+  if (mysql_stmt_bind_result(get_latest_turn_procedure, param)) {
+    print_stmt_error(get_latest_turn_procedure, "Unable to bind output parameters for get_latest_turn_procedure\n");
+    goto out;
+  }
+
+  while (true) {
+    status = mysql_stmt_fetch(get_latest_turn_procedure);
+    if (status == 1 || status == MYSQL_NO_DATA)
+      break;
+    turn->match_id = match_number;
+    turn->turn_id = turn_number;
+    strcpy(turn->player,player);
+    mysql_timestamp_to_string(&turn_start_time,turn->turn_start_time);
+  }
+
+out:
+  mysql_stmt_free_result(get_latest_turn_procedure);
+  mysql_stmt_reset(get_latest_turn_procedure);
+  
+  return turn;
+}
+
+bool does_turn_have_action(Turn* turn){
+  MYSQL_BIND in_param[3]; 
+  MYSQL_BIND param[1];
+  int result = -1;
+
+  if(current_match == NULL || current_user == NULL){
+    return -1;
+  }
+
+  // Prepare parameters
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &turn->match_id, sizeof(turn->match_id));
+  set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &turn->turn_id, sizeof(turn->turn_id));
+  set_binding_param(&in_param[2], MYSQL_TYPE_LONG, &result, sizeof(result));
+
+
+  if (mysql_stmt_bind_param(does_turn_have_action_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(does_turn_have_action_procedure, "Could not bind parameters for does_turn_have_action_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(does_turn_have_action_procedure) != 0) {
+    print_stmt_error(does_turn_have_action_procedure, "Could not execute does_turn_have_action_procedure procedure");
+    goto out;
+  }
+
+  // Output Parameters
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &result, sizeof(result));
+  if (mysql_stmt_bind_result(does_turn_have_action_procedure, param)) {
+    print_stmt_error(does_turn_have_action_procedure, "Unable to bind output parameters does_turn_have_action_procedure\n");
+    goto out;
+  }
+
+
+  // Retrieve output parameter
+  if (mysql_stmt_fetch(does_turn_have_action_procedure)) {
+    print_stmt_error(does_turn_have_action_procedure, "Could not buffer results");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(does_turn_have_action_procedure);
+  mysql_stmt_reset(does_turn_have_action_procedure);
+
+  if(result <= 0){
+    return false;
+  }
+
+  return true;
+}
+
+player_status_t did_player_win_or_lose(void){
+  MYSQL_BIND in_param[3]; 
+  MYSQL_BIND param[1];
+  int result = -1;
+
+  if(current_match == NULL || current_user == NULL){
+    return -1;
+  }
+
+  // Prepare parameters
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
+  set_binding_param(&in_param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+  set_binding_param(&in_param[2], MYSQL_TYPE_LONG, &result, sizeof(result));
+
+
+  if (mysql_stmt_bind_param(did_player_win_or_lose_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(did_player_win_or_lose_procedure, "Could not bind parameters for did_player_win_or_lose_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(did_player_win_or_lose_procedure) != 0) {
+    print_stmt_error(did_player_win_or_lose_procedure, "Could not execute did_player_win_or_lose_procedure procedure");
+    goto out;
+  }
+
+  // Output Parameters
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &result, sizeof(result));
+  if (mysql_stmt_bind_result(did_player_win_or_lose_procedure, param)) {
+    print_stmt_error(did_player_win_or_lose_procedure, "Unable to bind output parameters did_player_win_or_lose_procedure\n");
+    goto out;
+  }
+
+
+  // Retrieve output parameter
+  if (mysql_stmt_fetch(did_player_win_or_lose_procedure)) {
+    print_stmt_error(did_player_win_or_lose_procedure, "Could not buffer results");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(did_player_win_or_lose_procedure);
+  mysql_stmt_reset(did_player_win_or_lose_procedure);
+
+  return result;
+}
+
+int get_player_unplaced_tanks(void){
+ MYSQL_BIND in_param[3]; 
+ MYSQL_BIND param[1];
+ int unplacedTanks = -1;
+
+  if(current_match == NULL || current_user == NULL){
+    return -1;
+  }
+
+  // Prepare parameters
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
+  set_binding_param(&in_param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
+  set_binding_param(&in_param[2], MYSQL_TYPE_LONG, &unplacedTanks, sizeof(unplacedTanks));
+
+
+  if (mysql_stmt_bind_param(get_unplaced_tanks_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_unplaced_tanks_procedure, "Could not bind parameters for get_unplaced_tanks_procedure");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_unplaced_tanks_procedure) != 0) {
+    print_stmt_error(get_unplaced_tanks_procedure, "Could not execute get_unplaced_tanks_procedure procedure");
+    goto out;
+  }
+
+  // Output Parameters
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &unplacedTanks, sizeof(unplacedTanks));
+  if (mysql_stmt_bind_result(get_unplaced_tanks_procedure, param)) {
+    print_stmt_error(get_unplaced_tanks_procedure, "Unable to bind output parameters get_unplaced_tanks_procedure\n");
+    goto out;
+  }
+
+
+  // Retrieve output parameter
+  if (mysql_stmt_fetch(get_unplaced_tanks_procedure)) {
+    print_stmt_error(get_unplaced_tanks_procedure, "Could not buffer results");
+    goto out;
+  }
+
+out:
+  mysql_stmt_free_result(get_unplaced_tanks_procedure);
+  mysql_stmt_reset(get_unplaced_tanks_procedure);
+
+  return unplacedTanks;
+}
+
+Action* get_turn_action(Turn* turn){
+  MYSQL_BIND param[7];
+  MYSQL_BIND in_param[2];
+  int status;
+  int match_number;
+  int turn_number;
+  int action_number;
+  char player[USERNAME_SIZE];
+  char nation[NATION_NAME_SIZE];
+  int tanks_number;
+  int action_type;
+  Action* action;
+
+  if(current_match == NULL){
+    return NULL;
+  }
+
+  set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &turn->match_id, sizeof(turn->match_id));
+  set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &turn->turn_id, sizeof(turn->turn_id));
+
+  if (mysql_stmt_bind_param(get_turn_action_procedure, in_param) != 0) { // Note _param
+    print_stmt_error(get_turn_action_procedure, "Could not bind parameters for get_turn_action_procedure!");
+    goto out;
+  }
+
+  if (mysql_stmt_execute(get_turn_action_procedure) != 0) {
+    print_stmt_error(get_turn_action_procedure, "Could not execute get_turn_action_procedure");
+    goto out;
+  }
+
+  mysql_stmt_store_result(get_turn_action_procedure);
+
+  action = malloc(sizeof(Action) + sizeof(ActionDetails));
+
+  set_binding_param(&param[0], MYSQL_TYPE_LONG, &match_number, sizeof(match_number));  
+  set_binding_param(&param[1], MYSQL_TYPE_LONG, &turn_number, sizeof(turn_number));  
+  set_binding_param(&param[1], MYSQL_TYPE_LONG, &action_number, sizeof(action_number));  
+  set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, &player, USERNAME_SIZE);  
+  set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, &nation, NATION_NAME_SIZE);  
+  set_binding_param(&param[4], MYSQL_TYPE_LONG, &tanks_number, sizeof(tanks_number));  
+  set_binding_param(&param[5], MYSQL_TYPE_LONG, &action_type, sizeof(action_type));  
+
+  if (mysql_stmt_bind_result(get_turn_action_procedure, param)) {
+    print_stmt_error(get_turn_action_procedure, "Unable to bind output parameters for get_turn_action_procedure\n");
+    goto out;
+  }
+
+  while (true) {
+    status = mysql_stmt_fetch(get_turn_action_procedure);
+    if (status == 1 || status == MYSQL_NO_DATA)
+      break;
+      action->match_id = match_number;
+      action->turn_id = turn_number;
+      action->action_id = action_number;
+      strcpy(action->player,player);
+      strcpy(action->target_nation,nation);
+      action->tanks_number = tanks_number;
+      action->details->action_type = action_type;
+  }
+
+out:
+  mysql_stmt_free_result(get_turn_action_procedure);
+  mysql_stmt_reset(get_turn_action_procedure);
+  
+  return action;
+}
+
+void get_action_details(Action* action){
+  
+}
+
+//For Placement (Ally Territories)
+Territories* get_personal_territories(void){}
+
+Territories* get_scoreboard(void){}
+
+//Nations with tanks number > 1 (Ally Territories)
+Territories* get_actionable_territories(void){}
+
+//For Movement (Ally Territories)
+Territories* get_neighbour_territories(void){} 
+
+//For Combat (Enemy Territories)
+Territories* get_attackable_territories(void){}
+
+void action_placement(char nation[NATION_NAME_SIZE], int tanks_number){}
+
+void action_movement(void){}
+
+void action_combat(void){}
+
+

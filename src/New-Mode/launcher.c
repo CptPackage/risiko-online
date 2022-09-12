@@ -21,6 +21,8 @@
 #include <time.h>
 #include <unistd.h>
 #include <math.h>
+#include "model/session.h"
+
 
 #define check_env_failing(varname)                                             \
   if (getenv((varname)) == NULL) {                                             \
@@ -63,6 +65,25 @@ int main(int argc, char** argv) {
   // sprintf(stats_info, " Active Players: %d | Rooms Number: %d | Extra Rooms Needed: %d",
   //   numberOfActivePlayers, numberOfRooms, numberOfExtraRoomsNeeded);
 
+  // PlayersList list;
+  // list.players_count = 6;
+  // strcpy(list.players[0], "Hey");
+  // strcpy(list.players[1],"Man");
+  // strcpy(list.players[2],"How");
+  // strcpy(list.players[3],"Is it going?");
+  // strcpy(list.players[4],"Whadup");
+  // strcpy(list.players[5],"Nigga");
+
+  // PlayersList* listx = &list;
+
+
+  // for (size_t i = 0; i < listx->players_count; i++)
+  // {
+  //   printff("[%d] -> %s\n",i, listx->players[i]);
+  // }
+  
+  // return;
+
   // clear_screen();
   // set_color(STYLE_BOLD);
   // print_star_line(0);
@@ -104,8 +125,32 @@ int main(int argc, char** argv) {
 
   // Init
   if (initialize_io()) {
+    clear_screen();
+    db_switch_to_player();
+    set_current_user("player1");
+    Match match;
+    match.match_id = 3;
+    match.room_id = 3;
+    // match.match_id = 4;
+    // match.room_id = 4;
+    set_current_match(&match);
+    
+    // PlayersList* list = get_match_players();
+    // Turn* turn = get_latest_turn();
+    // printff("Turn Info: %d, %d, %s, %s\n",turn->match_id, turn->turn_id, turn->player, turn->turn_start_time);
+
+    // // player_status_t result = did_player_win_or_lose();
+    // int unplacedTanks = get_player_unplaced_tanks();
+    // printff("Tanks Count: %d\n\n",unplacedTanks);
+    Turn turn = {3,13};
+    bool turn_has_action = does_turn_have_action(&turn);
+    printffn("Does turn have action: %d", turn_has_action);
+    Action* action = get_turn_action(&turn);
+    printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
+    action->match_id,action->turn_id,action->action_id,action->player,action->target_nation,action->details->action_type);
+    return 0;
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
-    initApp();
+    initApp(); //TEMPORARILY DISABLED FOR PLAYER TESTING!
   }
 
   fini_db();

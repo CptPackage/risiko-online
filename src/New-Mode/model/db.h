@@ -94,9 +94,6 @@ extern struct booking_report *do_booking_report(void);
 extern void booking_report_dispose(struct booking_report *report);
 
 
-/*                                  Player Data Structures                            */
-
-
 /*                                 Moderator Data Structures                          */
 typedef struct _active_matches_stats {
   int numberOfStartedMatches;
@@ -110,7 +107,24 @@ extern Matches_Logs_List* get_player_history(void);
 extern bool join_room(int roomNumber);
 extern void exit_room(int roomNumber);
 extern bool did_player_leave(void);
-extern void update_match_details(void);
+extern void update_match_details(void); //Last Impl.
+extern PlayersList* get_match_players(void);
+extern Turn* get_latest_turn(void);
+extern bool does_turn_have_action(Turn* turn);
+extern Action* get_turn_action(Turn* turn);
+extern void get_action_details(Action* action);
+extern player_status_t did_player_win_or_lose(void);
+extern int get_player_unplaced_tanks(void);
+extern Territories* get_personal_territories(void);
+extern Territories* get_scoreboard(void);
+extern Territories* get_actionable_territories(void); //Nations with tanks number > 1
+extern Territories* get_neighbour_territories(void);
+extern Territories* get_attackable_territories(void);
+extern void action_placement(char nation[NATION_NAME_SIZE], int tanks_number);
+extern void action_movement(void);
+extern void action_combat(void);
+
+
 
 /*                                  Moderator Functions                                  */
 extern int get_active_players_count(void);
