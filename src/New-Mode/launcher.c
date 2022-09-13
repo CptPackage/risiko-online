@@ -1,5 +1,6 @@
 #include "controller/login.h"
 #include "controller/player.h"
+#include "controller/ingame.h"
 #include "model/db.h"
 #include "model/p_match.h"
 #include "model/p_match_history.h"
@@ -22,6 +23,7 @@
 #include <unistd.h>
 #include <math.h>
 #include "model/session.h"
+#include "pthread.h"
 
 
 #define check_env_failing(varname)                                             \
@@ -50,6 +52,17 @@ static bool validate_dotenv(void) {
 
 void initApp();
 int startup();
+
+
+
+void* my_thread(){
+  printffn("T - File NO: %d",STDIN_FILENO);
+  while(true){
+    int input;
+    scanf("%d",&input);
+    printf("Input: %d",input);
+  }
+}
 
 int main(int argc, char** argv) {
   if (startup()) {
@@ -126,29 +139,132 @@ int main(int argc, char** argv) {
   // Init
   if (initialize_io()) {
     clear_screen();
-    db_switch_to_player();
-    set_current_user("player1");
-    Match match;
-    match.match_id = 3;
-    match.room_id = 3;
+    /* DEVELOPMENT SETUP FOR GAME SESSION*/
+    // db_switch_to_player();
+    // set_current_user("player2");
+    // Match match;
+    // match.match_id = 7;
+    // match.room_id = 3;
+    // match.players_num = 3;
+    // match.match_status = STARTED;
+    // set_current_match(&match);
+
+    // strcpy(match.match_start_countdown,"09-09-2022 - 15:07");
     // match.match_id = 4;
     // match.room_id = 4;
-    set_current_match(&match);
     
     // PlayersList* list = get_match_players();
     // Turn* turn = get_latest_turn();
+
     // printff("Turn Info: %d, %d, %s, %s\n",turn->match_id, turn->turn_id, turn->player, turn->turn_start_time);
 
     // // player_status_t result = did_player_win_or_lose();
+
+    // Turn turn = {3,33,"player1"};
+    // set_current_turn(&turn);
+
     // int unplacedTanks = get_player_unplaced_tanks();
     // printff("Tanks Count: %d\n\n",unplacedTanks);
-    Turn turn = {3,13};
-    bool turn_has_action = does_turn_have_action(&turn);
-    printffn("Does turn have action: %d", turn_has_action);
-    Action* action = get_turn_action(&turn);
-    printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
-    action->match_id,action->turn_id,action->action_id,action->player,action->target_nation,action->details->action_type);
-    return 0;
+    // bool turn_has_action = does_turn_have_action(&turn);
+    // printffn("Does turn have action: %d", turn_has_action);
+    
+    // Action* action = get_turn_action(&turn);
+    // printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
+    // action->match_id,action->turn_id,action->action_id,action->player,
+    // action->target_nation,action->tanks_number,action->details->action_type);
+    
+
+    // get_action_details(action);
+    // printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
+    // action->match_id,action->turn_id,action->action_id,action->player,
+    // action->target_nation,action->tanks_number,action->details->action_type);
+
+    // printffn("Action Details: %d - %p", action->details->action_type, action->details->content);
+
+
+    // if(action->details->action_type == 1){
+    //   Movement* movement = action->details->content;
+    //   printffn("Source: %d", movement->source_nation);
+    // }
+
+    // if(action->details->action_type == 2){    
+    //   Combat* combat = action->details->content;
+    //   printffn("Combat Details: %s - %d - %d - %s - %d - %d - %d", 
+    //   combat->attacker_nation, combat->attacker_lost_tanks, action->tanks_number,
+    //   combat->defender_player, combat->defender_tanks_number, combat->defender_lost_tanks, combat->succeded);
+    //   printffn("Nation occupied: %d",combat->succeded);
+    // }
+    // int count = 42;
+    // Territories* territories_list;
+    
+    // territories_list = malloc(sizeof(*territories_list) + sizeof(Territory) * count);
+    // memset(territories_list,0,sizeof(*territories_list) + sizeof(Territory) * count);
+    // territories_list->territories_count = 42;
+
+    // for (size_t i = 0; i < count; i++)
+    // {
+    // territories_list->territories[i].match_id = i;
+    // strcpy(territories_list->territories[i].nation,"Africa del Nord Chicchi");
+    // strcpy(territories_list->territories[i].occupier, "CptPackage");
+    // territories_list->territories[i].occupying_tanks_number = i + 1;
+    // }
+
+    // printffn("Status: %d - %d",INGAME, did_player_win_or_lose());
+
+    // territories_list = get_personal_territories();
+    // territories_list = get_scoreboard();
+    // territories_list = get_actionable_territories();
+    // territories_list = get_neighbour_territories("America Centrale");
+    // territories_list = get_attackable_territories("America Centrale");
+    // controller_ingame();
+
+    // print_char_line('+',0);
+    // print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
+    // ,'+',false,0,0);
+    // print_framed_text("[4] Place Tanks |   [5] Move Tanks    | [6] Attack ",'+',false,0,0);
+    // print_char_line('+',0);
+
+    // sleep(2);
+    
+    // Switch from Personal Actions to General Actions
+    // 4 lines
+    
+    // move_up(3);
+    // move_up(4);
+    // clear_line();
+    // // move_down(1);
+    // print_char_line('+',0);
+    // print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
+    // ,'+',false,0,0);
+    // print_char_line('+',0);
+
+
+    // sleep(2);
+    //Switch from General Actions to Personal Actions
+    // move_up(1);
+  //   print_char_line('+',0);
+  //   print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
+  //   ,'+',false,0,0);
+  //   print_framed_text("[4] Place Tanks |   [5] Move Tanks    | [6] Attack ",'+',false,0,0);
+  //   print_char_line('+',0);
+  // sleep(2);
+    // printffn("Size: %d",territories_list->territories_count);
+
+    // for (size_t i = 0; i < territories_list->territories_count; i++)
+    // {
+    //   Territory current = territories_list->territories[i];
+    //   printffn("Territories: %d - %s - %s - %d"
+    //   ,current.match_id,current.nation,current.occupier,current.occupying_tanks_number);
+    // }
+    // printffn("Current Territory: %s",territories_list->territories[0].nation);
+    // action_combat(territories_list->territories[0].nation,"Alberta");
+    // action_movement(territories_list->territories[0].nation,"Congo", 1);
+    // action_placement("Quebec", 5);
+    
+    
+    // territories_list->territories = malloc(sizeof(Territory*) * territories_list->territories_count); 
+
+    // return 0;
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
     initApp(); //TEMPORARILY DISABLED FOR PLAYER TESTING!
   }

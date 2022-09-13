@@ -2,6 +2,7 @@
 #include "ingame.h"
 #include "../view/p_game_waiting.h"
 #include "../view/p_game_ingame.h"
+#include "../view/p_match_result.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -28,7 +29,12 @@ static bool ingame (void){
 }
 
 static bool match_result (void){
-  // Get Player Status
+  player_status_t player_status = did_player_win_or_lose();
+  if(player_status == LOSS){
+    view_match_result(ELIMINATED);
+  }else{
+    view_match_result(WON);
+  }
   set_current_turn(NULL);
   set_current_match(NULL);
   return true;

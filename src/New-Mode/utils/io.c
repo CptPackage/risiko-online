@@ -184,6 +184,52 @@ char multi_choice(char *question, const char choices[], int num) {
   set_color(STYLE_NORMAL);
 }
 
+char multi_choice_with_exit(char *question, const char choices[], int num, int* exit_flag) {
+  set_color(STYLE_BOLD);
+  char possibilities[2 * num * sizeof(char)];
+  int i, j = 0, extra;
+  for (i = 0; i < num; i++) {
+    possibilities[j++] = choices[i];
+    possibilities[j++] = '/';
+  }
+  possibilities[j - 1] = '\0'; // Remove last '/'
+
+  while (true) {
+    if (question != NULL) {
+      printf("%s [%s]:> ", question, possibilities);
+    } else {
+      printf("[%s]:> ", possibilities);
+    }
+
+    extra = 0;
+    char c = (char)getchar();
+    if (c == '\n')
+      continue;
+    char ch;
+    while (((ch = (char)getchar()) != EOF) && (ch != '\n'))
+      extra++;
+    if (c == EOF || ch == EOF) {
+      printf("EOF received, leaving...\n");
+      fflush(stdout);
+      leave();
+    }
+    if (extra > 1) // Need exactly one character on stdin
+      continue;
+
+    // Check if the choice is valid
+    for (i = 0; i < num; i++) {
+      if(*exit_flag == 1){
+        return 0;
+      }
+
+      if (c == choices[i])
+        return c;
+    }
+  }
+
+  set_color(STYLE_NORMAL);
+}
+
 int get_input_number(char *question){
   char input_buffer[TINY_MEM];
   char* end_pointer;
@@ -286,9 +332,10 @@ void exit_interrupt_handler(int sigNo) {
   time_t current_time;
   current_time = time(NULL);
   if (current_time - last_exit_attempt_time < 2) {
-    logout();
+    // logout();
     reset_color();
     printff("\n");
+    fini_db();
     exit(10);
   } else {
     print_framed_text_left(" [Notice] Press CTRL + C again to quit the game!",
@@ -328,8 +375,9 @@ void cleanup_interrupt_handler(int sigNo) {
     print_framed_text_left(" [Cleanup Handler] Exiting game...",
                            '*', true, WHITE_TXT || WHITE_BG, RED_TXT);
   cleanup:
-    logout();
+    // logout();
     reset_color();
+    fini_db();
     exit(-10);
 }
 
