@@ -436,6 +436,9 @@ void render_turn_start(Turn* turn) {
   print_char_line('-', 0);
   print_framed_text(line_2, '|', false, 0, 0);
   if(strcmp(turn->player, current_user) == 0){
+    set_color(STYLE_BOLD);
+    set_color(BLACK_BG);
+    set_color(YELLOW_TXT);
     print_char_line('-', 0);
     print_framed_text("Your Turn!", '|', false, 0, 0);
   }
