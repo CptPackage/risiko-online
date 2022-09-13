@@ -17,7 +17,7 @@
  */
 
 void print_logo(Colors risiko_color, Colors online_color,
-                Colors container_color) {
+  Colors container_color) {
   set_color(STYLE_BOLD);
   set_color(risiko_color);
   print_star_line(container_color);
@@ -25,37 +25,37 @@ void print_logo(Colors risiko_color, Colors online_color,
   set_color(container_color);
   set_color(risiko_color);
   print_framed_text(" :::====  ::: :::===  ::: :::  === :::==== ", '*', false,
-                    0, 0);
+    0, 0);
   print_framed_text(" :::  === ::: :::     ::: ::: ===  :::  ===", '*', false,
-                    0, 0);
+    0, 0);
   print_framed_text(" =======  ===  =====  === ======   ===  ===", '*', false,
-                    0, 0);
+    0, 0);
   print_framed_text(" === ===  ===     === === === ===  ===  ===", '*', false,
-                    0, 0);
+    0, 0);
   print_framed_text(" ===  === === ======  === ===  ===  ====== ", '*', false,
-                    0, 0);
+    0, 0);
   print_framed_text(" ", '*', false, 0, container_color);
   set_color(STYLE_BOLD);
   set_color(container_color);
   set_color(online_color);
   print_framed_text(" :::====  :::= === :::      ::: :::= === :::=====", '*',
-                    false, 0, 0);
+    false, 0, 0);
   print_framed_text(" :::  === :::===== :::      ::: :::===== :::     ", '*',
-                    false, 0, 0);
+    false, 0, 0);
   print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
-                    false, 0, 0);
+    false, 0, 0);
   print_framed_text(" ===  === ======== ===      === ======== ======  ", '*',
-                    false, 0, 0);
+    false, 0, 0);
   print_framed_text(" ===  === === ==== ===      === === ==== ===     ", '*',
-                    false, 0, 0);
+    false, 0, 0);
   print_framed_text("  ======  ===  === ======== === ===  === ========", '*',
-                    false, 0, 0);
+    false, 0, 0);
   print_star_line(container_color);
   clear_line();
   reset_color();
 }
 
-void print_framed_text_list(char **text_list, char frame_char, int list_size) {
+void print_framed_text_list(char** text_list, char frame_char, int list_size) {
   if (text_list == NULL) {
     printff("Error: print_framed_text_list() called with NULL text_list!\n");
     return;
@@ -67,8 +67,8 @@ void print_framed_text_list(char **text_list, char frame_char, int list_size) {
   print_char_line(frame_char, 0);
 }
 
-void print_framed_text_left(char *text, char frame_char, bool vertical_frame,
-                            Colors text_color, Colors frame_color) {
+void print_framed_text_left(char* text, char frame_char, bool vertical_frame,
+  Colors text_color, Colors frame_color) {
   if (text == NULL) {
     printff("Error: print_framed_text() called with NULL text!\n");
     return;
@@ -129,8 +129,8 @@ void print_framed_text_left(char *text, char frame_char, bool vertical_frame,
   fflush(stdout);
 }
 
-void print_framed_text(char *text, char frame_char, bool vertical_frame,
-                       Colors text_color, Colors frame_color) {
+void print_framed_text(char* text, char frame_char, bool vertical_frame,
+  Colors text_color, Colors frame_color) {
   if (text == NULL) {
     printff("Error: print_framed_text() called with NULL text!\n");
     return;
@@ -139,7 +139,7 @@ void print_framed_text(char *text, char frame_char, bool vertical_frame,
   int text_len = strlen(text);
   int padding = LINE_WIDTH - text_len;
   int end_spacing = text_len % 2; // Remove one padding_char from the end if the
-                                  // text is odd number of chars
+  // text is odd number of chars
 
   if (vertical_frame) {
     if (frame_color) {
@@ -205,8 +205,8 @@ void print_framed_text(char *text, char frame_char, bool vertical_frame,
   fflush(stdout);
 }
 
-void print_error_text(char *text) {
-  char *line = malloc(TEXT_LINE_MEM);
+void print_error_text(char* text) {
+  char* line = malloc(TEXT_LINE_MEM);
   sprintf(line, " [Error] %s", text);
   printff("\n");
   print_framed_text_left(line, '*', true, WHITE_TXT || WHITE_BG, RED_TXT);
@@ -214,8 +214,8 @@ void print_error_text(char *text) {
   free_safe(line);
 }
 
-void print_warning_text(char *text) {
-  char *line = malloc(TEXT_LINE_MEM);
+void print_warning_text(char* text) {
+  char* line = malloc(TEXT_LINE_MEM);
   sprintf(line, " [Warning] %s", text);
   printff("\n");
   print_framed_text_left(line, '*', true, WHITE_TXT || WHITE_BG, YELLOW_TXT);
@@ -223,12 +223,12 @@ void print_warning_text(char *text) {
   free_safe(line);
 }
 
-void print_info_text(char *text) {
-  char *line = malloc(TEXT_LINE_MEM);
+void print_info_text(char* text) {
+  char* line = malloc(TEXT_LINE_MEM);
   sprintf(line, " [Info] %s", text);
   printff("\n");
   print_framed_text_left(line, '*', true, WHITE_TXT || WHITE_BG,
-                         WHITE_TXT || WHITE_BG);
+    WHITE_TXT || WHITE_BG);
   printff("\n");
   free_safe(line);
 }
@@ -300,7 +300,7 @@ void print_star_line(Colors color) {
   fflush(stdout);
 }
 
-void print_padded_text(char *text, char padding_char, Colors color) {
+void print_padded_text(char* text, char padding_char, Colors color) {
   if (text == NULL) {
     print_star_line(color);
     return;
@@ -339,8 +339,8 @@ void print_padded_text(char *text, char padding_char, Colors color) {
   fflush(stdout);
 }
 
-void print_menu(char *menu_title, char **labels, char *choices, int labels_num,
-                char padding_char) {
+void print_menu(char* menu_title, char** labels, char* choices, int labels_num,
+  char padding_char) {
   if (labels == NULL || choices == NULL) {
     print_char_line('X', 0);
     printff("ERROR: Wrong args to print_menu()!\n");
@@ -367,12 +367,12 @@ void print_menu(char *menu_title, char **labels, char *choices, int labels_num,
   fflush(stdout);
 }
 
-void print_spinner(char *loading_text, SpinnerConfig *config) {
+void print_spinner(char* loading_text, SpinnerConfig* config) {
   printff("\r");
-  const char *spinners[] = {"⣷", "⣯", "⣟", "⡿", "⢿", "⣻", "⣽", "⣾"};
-  const char *spinners_reversed[] = {"⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"};
+  const char* spinners[] = { "⣷", "⣯", "⣟", "⡿", "⢿", "⣻", "⣽", "⣾" };
+  const char* spinners_reversed[] = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" };
   const int spinners_size = 8;
-  char **text = malloc(sizeof(char **));
+  char** text = malloc(sizeof(char**));
   *text = loading_text;
   if (loading_text == NULL) {
     *text = "Loading...";
@@ -432,16 +432,16 @@ void set_color(Colors color) { printff("\x1b[%dm", color); }
 
 /*                      Struct Related utils                      */
 
-SpinnerConfig *get_spinner_config() {
-  SpinnerConfig *config = malloc(sizeof(SpinnerConfig));
+SpinnerConfig* get_spinner_config() {
+  SpinnerConfig* config = malloc(sizeof(SpinnerConfig));
   config->is_loading = true;
   config->can_print = true;
   config->reversed_animation = false;
   return config;
 }
 
-bool destroy_spinner_config(SpinnerConfig *config) { 
-  if(config != NULL){
+bool destroy_spinner_config(SpinnerConfig* config) {
+  if (config != NULL) {
     printff("Freeing Spinner Config!!\n\n");
     free_safe(config);
   }

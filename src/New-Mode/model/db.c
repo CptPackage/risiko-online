@@ -10,6 +10,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
+
+
+static pthread_mutex_t query_lock;
 
 
 static MYSQL* conn;
@@ -184,6 +188,8 @@ static void close_prepared_stmts(void) {
     mysql_stmt_close(get_action_details_procedure);
     get_action_details_procedure = NULL;
   }
+
+  pthread_mutex_destroy(&query_lock);
 }
 
 static bool initialize_prepared_stmts(role_t for_role) {
@@ -466,6 +472,7 @@ void db_switch_to_player(void) {
 }
 
 role_t attempt_login(Credentials* cred) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[4]; // Used both for input and output
   int result;
   int role;
@@ -514,6 +521,7 @@ role_t attempt_login(Credentials* cred) {
 out:
   mysql_stmt_free_result(login_procedure);
   mysql_stmt_reset(login_procedure);
+  pthread_mutex_unlock(&query_lock);
   return role;
 }
 
@@ -521,9 +529,9 @@ out:
 
 void logout(void) {
   if (strlen(current_user) == 0) { //To avoid crash when exiting before Login
-    return;
+    goto out;
   }
-
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[1];
 
   // Prepare parameters
@@ -545,10 +553,12 @@ void logout(void) {
 out:
   mysql_stmt_free_result(logout_procedure);
   mysql_stmt_reset(logout_procedure);
+  pthread_mutex_unlock(&query_lock);
 }
 
 /*                                  Moderator Functions                                  */
 int get_active_players_count(void) {
+  pthread_mutex_lock(&query_lock);
   int numberOfActivePlayers;
   MYSQL_BIND param[1];
 
@@ -583,6 +593,7 @@ int get_active_players_count(void) {
 out:
   mysql_stmt_free_result(get_active_players_count_procedure);
   mysql_stmt_reset(get_active_players_count_procedure);
+  pthread_mutex_unlock(&query_lock);
 
 
   return numberOfActivePlayers;
@@ -590,6 +601,7 @@ out:
 
 
 int create_room(int turnDuration) {
+  pthread_mutex_lock(&query_lock);
   int roomNumber;
   MYSQL_BIND param[3];
 
@@ -626,12 +638,14 @@ int create_room(int turnDuration) {
 out:
   mysql_stmt_free_result(create_room_procedure);
   mysql_stmt_reset(create_room_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return roomNumber;
 }
 
 
 int get_recently_active_players_count(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[1]; // Used both for input and output
   int recentlyActiveCount;
 
@@ -666,12 +680,14 @@ int get_recently_active_players_count(void) {
 out:
   mysql_stmt_free_result(get_recently_active_players_procedure);
   mysql_stmt_reset(get_recently_active_players_procedure);
+  pthread_mutex_unlock(&query_lock);
 
 
   return recentlyActiveCount;
 }
 
 ActiveMatchesStats* get_ingame_matches_and_players(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[2]; // Used both for input and output
   ActiveMatchesStats* matchesStats;
 
@@ -710,6 +726,7 @@ ActiveMatchesStats* get_ingame_matches_and_players(void) {
 out:
   mysql_stmt_free_result(get_started_matches_and_players_procedure);
   mysql_stmt_reset(get_started_matches_and_players_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return matchesStats;
 }
@@ -717,6 +734,7 @@ out:
 
 
 int get_rooms_count(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[1]; // Used both for input and output
   int roomsCount;
 
@@ -751,7 +769,7 @@ int get_rooms_count(void) {
 out:
   mysql_stmt_free_result(get_rooms_count_procedure);
   mysql_stmt_reset(get_rooms_count_procedure);
-
+  pthread_mutex_unlock(&query_lock);
 
   return roomsCount;
 }
@@ -759,6 +777,7 @@ out:
 
 /*                                  Player Functions                                  */
 Matches_List* get_joinable_rooms(int page_size) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[4];
   MYSQL_BIND in_param[1];
   int status;
@@ -824,11 +843,13 @@ Matches_List* get_joinable_rooms(int page_size) {
 out:
   mysql_stmt_free_result(get_joinable_rooms_procedure);
   mysql_stmt_reset(get_joinable_rooms_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return matches;
 }
 
 Matches_Logs_List* get_player_history(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[5];
   MYSQL_BIND in_param[1];
   int status;
@@ -899,10 +920,12 @@ Matches_Logs_List* get_player_history(void) {
 out:
   mysql_stmt_free_result(get_player_history_procedure);
   mysql_stmt_reset(get_player_history_procedure);
+  pthread_mutex_unlock(&query_lock);
   return matches;
 }
 
 bool join_room(int roomNumber) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[3];
   int joinedRoom = 0;
   set_binding_param(&param[0], MYSQL_TYPE_LONG, &roomNumber, sizeof(roomNumber));
@@ -939,6 +962,7 @@ bool join_room(int roomNumber) {
 out:
   mysql_stmt_free_result(join_room_procedure);
   mysql_stmt_reset(join_room_procedure);
+  pthread_mutex_unlock(&query_lock);
 
 
   if (joinedRoom == 0) {
@@ -951,6 +975,7 @@ out:
 
 
 void exit_room(int roomNumber) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[2];
   set_binding_param(&param[0], MYSQL_TYPE_LONG, &roomNumber, sizeof(roomNumber));
   set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
@@ -969,11 +994,13 @@ void exit_room(int roomNumber) {
 out:
   mysql_stmt_free_result(exit_room_procedure);
   mysql_stmt_reset(exit_room_procedure);
+  pthread_mutex_unlock(&query_lock);
 
 }
 
 
 bool did_player_leave(void) {
+  pthread_mutex_lock(&query_lock);
   int leftRoom = 0;
   int matchNumber = current_match->match_id;
   MYSQL_BIND param[3];
@@ -1009,11 +1036,13 @@ bool did_player_leave(void) {
 out:
   mysql_stmt_free_result(did_player_leave_procedure);
   mysql_stmt_reset(did_player_leave_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return leftRoom;
 }
 
 void update_match_details(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[5];
   MYSQL_BIND in_param[1];
   int status;
@@ -1071,9 +1100,11 @@ void update_match_details(void) {
 out:
   mysql_stmt_free_result(get_match_details_procedure);
   mysql_stmt_reset(get_match_details_procedure);
+  pthread_mutex_unlock(&query_lock);
 }
 
 PlayersList* get_match_players(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[1];
   MYSQL_BIND in_param[1];
   int status;
@@ -1084,7 +1115,7 @@ PlayersList* get_match_players(void) {
   int current_match_number = current_match->match_id;
 
   if (current_match == NULL) {
-    return NULL;
+    goto out;
   }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match_number, sizeof(current_match_number));
@@ -1124,11 +1155,13 @@ PlayersList* get_match_players(void) {
 out:
   mysql_stmt_free_result(get_match_players_procedure);
   mysql_stmt_reset(get_match_players_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return players_list;
 }
 
 Turn* get_latest_turn(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[4];
   MYSQL_BIND in_param[1];
   int status;
@@ -1140,7 +1173,7 @@ Turn* get_latest_turn(void) {
   int current_match_number = current_match->match_id;
 
   if (current_match == NULL) {
-    return NULL;
+    goto out;
   }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match_number, sizeof(current_match_number));
@@ -1182,17 +1215,19 @@ Turn* get_latest_turn(void) {
 out:
   mysql_stmt_free_result(get_latest_turn_procedure);
   mysql_stmt_reset(get_latest_turn_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return turn;
 }
 
 bool does_turn_have_action(Turn* turn) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND in_param[3];
   MYSQL_BIND param[1];
   int result = -1;
 
   if (current_match == NULL || current_user == NULL) {
-    return -1;
+    goto out;
   }
 
   // Prepare parameters
@@ -1228,6 +1263,7 @@ bool does_turn_have_action(Turn* turn) {
 out:
   mysql_stmt_free_result(does_turn_have_action_procedure);
   mysql_stmt_reset(does_turn_have_action_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   if (result <= 0) {
     return false;
@@ -1237,12 +1273,13 @@ out:
 }
 
 player_status_t did_player_win_or_lose(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND in_param[3];
   MYSQL_BIND param[1];
   int result = -1;
 
   if (current_match == NULL || current_user == NULL) {
-    return -1;
+    goto out;
   }
 
   // Prepare parameters
@@ -1278,17 +1315,19 @@ player_status_t did_player_win_or_lose(void) {
 out:
   mysql_stmt_free_result(did_player_win_or_lose_procedure);
   mysql_stmt_reset(did_player_win_or_lose_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return result;
 }
 
 int get_player_unplaced_tanks(void) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND in_param[3];
   MYSQL_BIND param[1];
   int unplacedTanks = -1;
 
   if (current_match == NULL || current_user == NULL) {
-    return -1;
+    goto out;
   }
 
   // Prepare parameters
@@ -1324,11 +1363,13 @@ int get_player_unplaced_tanks(void) {
 out:
   mysql_stmt_free_result(get_unplaced_tanks_procedure);
   mysql_stmt_reset(get_unplaced_tanks_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return unplacedTanks;
 }
 
 Action* get_turn_action(Turn* turn) {
+  pthread_mutex_lock(&query_lock);
   MYSQL_BIND param[7];
   MYSQL_BIND in_param[2];
   int status;
@@ -1342,7 +1383,7 @@ Action* get_turn_action(Turn* turn) {
   Action* action;
 
   if (current_match == NULL) {
-    return NULL;
+    goto out;
   }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &turn->match_id, sizeof(turn->match_id));
@@ -1393,6 +1434,7 @@ Action* get_turn_action(Turn* turn) {
 out:
   mysql_stmt_free_result(get_turn_action_procedure);
   mysql_stmt_reset(get_turn_action_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return action;
 }
@@ -1410,8 +1452,10 @@ void get_action_details(Action* action) {
 
   // As Placement doesn't require any extra details
   if (action == NULL || action->details->action_type == PLACEMENT) {
-    return;
+    goto out;
   }
+
+  pthread_mutex_lock(&query_lock);
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &action->match_id, sizeof(action->match_id));
   set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &action->turn_id, sizeof(action->turn_id));
@@ -1525,7 +1569,7 @@ void get_action_details(Action* action) {
 out:
   mysql_stmt_free_result(get_action_details_procedure);
   mysql_stmt_reset(get_action_details_procedure);
-
+  pthread_mutex_unlock(&query_lock);
 }
 
 //For Placement (Ally Territories)
@@ -1542,8 +1586,11 @@ Territories* get_personal_territories(void) {
   Territories* territories_list;
 
   if(current_match == NULL || current_user == NULL){
-    return NULL;
+    goto out;
   }
+
+  pthread_mutex_lock(&query_lock);
+
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
   set_binding_param(&in_param[1], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
@@ -1592,12 +1639,15 @@ Territories* get_personal_territories(void) {
 out:
   mysql_stmt_free_result(get_personal_territories_procedure);
   mysql_stmt_reset(get_personal_territories_procedure);
+  pthread_mutex_unlock(&query_lock);
 
 
   return territories_list;
 }
 
 Territories* get_scoreboard(void) {
+  pthread_mutex_lock(&query_lock);
+
   MYSQL_BIND param[4];
   MYSQL_BIND in_param[1];
   size_t row = 0;
@@ -1610,7 +1660,7 @@ Territories* get_scoreboard(void) {
   Territories* territories_list;
 
   if(current_match == NULL || current_user == NULL){
-    return NULL;
+    goto out;
   }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
@@ -1659,12 +1709,15 @@ Territories* get_scoreboard(void) {
 out:
   mysql_stmt_free_result(get_scoreboard_procedure);
   mysql_stmt_reset(get_scoreboard_procedure);
+  pthread_mutex_unlock(&query_lock);
 
   return territories_list;
 }
 
 //Nations with tanks number > 1 (Ally Territories)
 Territories* get_actionable_territories(void) {
+  pthread_mutex_lock(&query_lock);
+
   MYSQL_BIND param[4];
   MYSQL_BIND in_param[2];
   size_t row = 0;
@@ -1677,7 +1730,7 @@ Territories* get_actionable_territories(void) {
   Territories* territories_list;
 
   if(current_match == NULL || current_user == NULL){
-    return NULL;
+    goto out;
   }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
@@ -1727,13 +1780,15 @@ Territories* get_actionable_territories(void) {
 out:
   mysql_stmt_free_result(get_actionable_territories_procedure);
   mysql_stmt_reset(get_actionable_territories_procedure);
-
+  pthread_mutex_unlock(&query_lock);
 
   return territories_list;
 }
 
 //For Movement (Ally Territories)
 Territories* get_neighbour_territories(char territory_nation[NATION_NAME_SIZE]) {
+  pthread_mutex_lock(&query_lock);
+
   MYSQL_BIND param[4];
   MYSQL_BIND in_param[3];
   size_t row = 0;
@@ -1746,7 +1801,7 @@ Territories* get_neighbour_territories(char territory_nation[NATION_NAME_SIZE]) 
   Territories* territories_list;
 
   if(current_match == NULL || current_user == NULL || strlen(territory_nation) <= 1){
-    return NULL;
+    goto out;
   }
 
 
@@ -1798,13 +1853,15 @@ Territories* get_neighbour_territories(char territory_nation[NATION_NAME_SIZE]) 
 out:
   mysql_stmt_free_result(get_neighbour_territories_procedure);
   mysql_stmt_reset(get_neighbour_territories_procedure);
-
+  pthread_mutex_unlock(&query_lock);
 
   return territories_list;
 }
 
 //For Combat (Enemy Territories)
 Territories* get_attackable_territories(char territory_nation[NATION_NAME_SIZE]) {
+  pthread_mutex_lock(&query_lock);
+
   MYSQL_BIND param[4];
   MYSQL_BIND in_param[3];
   size_t row = 0;
@@ -1817,7 +1874,7 @@ Territories* get_attackable_territories(char territory_nation[NATION_NAME_SIZE])
   Territories* territories_list;
 
   if(current_match == NULL || current_user == NULL || strlen(territory_nation) <= 1){
-    return NULL;
+    goto out;
   }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
@@ -1868,19 +1925,23 @@ Territories* get_attackable_territories(char territory_nation[NATION_NAME_SIZE])
 out:
   mysql_stmt_free_result(get_attackable_territories_procedure);
   mysql_stmt_reset(get_attackable_territories_procedure);
+  pthread_mutex_unlock(&query_lock);
 
 
   return territories_list;
 }
 
 void action_placement(char territory_nation[NATION_NAME_SIZE], int tanks_number) {
+  pthread_mutex_lock(&query_lock);
+
   MYSQL_BIND in_param[5];
 
   if(current_user == NULL || current_turn == NULL || tanks_number <= 0
    || current_turn->match_id != current_match->match_id 
    || strcmp(current_turn->player,current_user) != 0){
-    return;
+    goto out;
   }
+
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
   set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &current_turn->turn_id, sizeof(current_turn->turn_id));
@@ -1901,15 +1962,18 @@ void action_placement(char territory_nation[NATION_NAME_SIZE], int tanks_number)
 out:
   mysql_stmt_free_result(action_placement_procedure);
   mysql_stmt_reset(action_placement_procedure);
+  pthread_mutex_unlock(&query_lock);
 }
 
 void action_movement(char source_territory_nation[NATION_NAME_SIZE],char target_territory_nation[NATION_NAME_SIZE], int tanks_number) {
-MYSQL_BIND in_param[6];
+  pthread_mutex_lock(&query_lock);
+
+  MYSQL_BIND in_param[6];
 
   if(current_user == NULL || current_turn == NULL || tanks_number <= 0
    || current_turn->match_id != current_match->match_id 
    || strcmp(current_turn->player,current_user) != 0){
-    return;
+    goto out;
   }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
@@ -1932,17 +1996,19 @@ MYSQL_BIND in_param[6];
 out:
   mysql_stmt_free_result(action_movement_procedure);
   mysql_stmt_reset(action_movement_procedure);
-  
+  pthread_mutex_unlock(&query_lock);
 }
 
 void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defender_territory_nation[NATION_NAME_SIZE]) {
+  pthread_mutex_lock(&query_lock);
+
   MYSQL_BIND in_param[5];
 
   if(current_user == NULL || current_turn == NULL
    || current_turn->match_id != current_match->match_id 
    || strcmp(current_turn->player,current_user) != 0){
     printffn("Failed Action!");
-    return;
+    goto out;
   }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
@@ -1964,6 +2030,7 @@ void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defende
 out:
   mysql_stmt_free_result(action_combat_procedure);
   mysql_stmt_reset(action_combat_procedure);
+  pthread_mutex_unlock(&query_lock);
 
 }
 

@@ -7,49 +7,252 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
+
+#define QUERIES_SEMAPHORE 1011
+#define PERSONAL_MENU_CHOICES_SIZE 6
+#define GENERAL_MENU_CHOICES_SIZE 3
+
+pthread_mutex_t sync_lock;
 
 typedef struct _poll_thread_config {
   Match* match;
-} IngamePollThreadConfig;
+} IngameInputThreadConfig;
+
+player_status_t player_current_status = INGAME;
+menu_mode_t menu_mode = GENERAL_MENU;
+Turn* last_displayed_turn;
+Action* last_displayed_action;
+char personal_menu_choices[PERSONAL_MENU_CHOICES_SIZE] = { '1', '2', '3', '4','5','6' };
+char general_menu_choices[GENERAL_MENU_CHOICES_SIZE] = { '1', '2', '3' };
+
 
 void* ingame_poll_match_thread(void* args) {
-  IngamePollThreadConfig* config = (IngamePollThreadConfig*)args;
+  IngameInputThreadConfig* config = (IngameInputThreadConfig*)args;
+  pthread_mutex_lock(&sync_lock);
+  Turn* turn = get_latest_turn();
+  pthread_mutex_unlock(&sync_lock);
+  Turn* current_turn_temp = current_turn;
+  if (turn != NULL) { //For first turn
+    current_turn_temp = current_turn;
+    set_current_turn(turn);
 
-  while (config->match->match_status != ENDED) {
+    if (current_turn_temp != NULL && turn->turn_id != current_turn_temp->turn_id) {
+      free(current_turn_temp);
+    }
+    render_turn_start(turn);
+    printffn("\n");
+    if (strcmp(turn->player, current_user) == 0) {
+      render_actions_menu(PERSONAL_MENU);
+    } else {
+      render_actions_menu(GENERAL_MENU);
+    }
+    last_displayed_turn = turn;
+  }
 
-    /* Logic to fetch data from database and update match, turn,... */
+  bool any_new_actions;
+  Action* action;
+  while (config->match->match_status != ENDED && player_current_status == INGAME) {
+  refetch_turns:
+    current_turn_temp = current_turn;
+    pthread_mutex_lock(&sync_lock);
+    turn = get_latest_turn();
+    if (turn->turn_id != current_turn_temp->turn_id) { // Check on a new turn
+      if (does_turn_have_action(current_turn_temp) == 1) {
+        if (last_displayed_action == NULL ||
+          (last_displayed_action != NULL && last_displayed_action->turn_id != turn->turn_id)) {
+          action = get_turn_action(current_turn_temp);
+          get_action_details(action);
+          render_action(action);
+          last_displayed_action = action;
+        }
+      }
+      last_displayed_turn = current_turn_temp;
+      render_turn_end(current_turn_temp);
+      set_current_turn(turn);
+      free(current_turn_temp);
+      render_turn_start(turn);
+      if (does_turn_have_action(turn) == 1) {
+        if (last_displayed_action == NULL ||
+          (last_displayed_action != NULL && last_displayed_action->turn_id != turn->turn_id)) {
+          action = get_turn_action(turn);
+          get_action_details(action);
+          render_action(action);
+          last_displayed_action = action;
+          render_turn_end(turn);
+          last_displayed_turn = turn;
+
+          // goto refetch_turns;
+        }
+      }
+      printffn("\n");
+      if (strcmp(turn->player, current_user) == 0) {
+        render_actions_menu(PERSONAL_MENU);
+      } else {
+        render_actions_menu(GENERAL_MENU);
+      }
+    } else { //Check on the same turn
+      if (does_turn_have_action(turn) == 1) {
+        if (last_displayed_action == NULL ||
+          (last_displayed_action != NULL && last_displayed_action->turn_id != turn->turn_id)) {
+          action = get_turn_action(turn);
+          get_action_details(action);
+          render_action(action);
+          last_displayed_action = action;
+          render_turn_end(turn);
+          last_displayed_turn = turn;
+          // goto refetch_turns;
+        }
+      }
+    }
+
+    pthread_mutex_unlock(&sync_lock);
+    sleep(2);
   }
 }
 
 void view_game_ingame(Match* match) {
   pthread_t tid;
+  char op;
   clear_screen();
 
+  IngameInputThreadConfig thread_config = { match };
+  if (pthread_create(&tid, NULL, ingame_poll_match_thread, &thread_config)) {
+    printffn("Error: Failed to create Thread!\n");
+    exit(-1);
+  }
 
   render_match_start(match);
 
-  while (current_turn == NULL) {
-    // set_current_turn(get_latest_turn());
-  }
+  while (match->match_status != ENDED && player_current_status == INGAME) {
+    if (menu_mode == PERSONAL_MENU) {
+      op = multi_choice(NULL, personal_menu_choices, PERSONAL_MENU_CHOICES_SIZE);
+      move_up(1);
+      clear_line();
+    } else {
+      op = multi_choice(NULL, general_menu_choices, GENERAL_MENU_CHOICES_SIZE);
+      clear_line();
+    }
+pthread_mutex_lock(&sync_lock);
+  switch (op) {
+    case '1':{
+        Territories* personal_territories = get_personal_territories();
+        render_personal_territories(personal_territories);
+        free(personal_territories);
+        render_actions_menu(menu_mode);
+    }
+    break;
+    case '2':{
+        Territories* scoreboard_territories = get_scoreboard();
+        render_scoreboard(scoreboard_territories);
+        free(scoreboard_territories);
+        render_actions_menu(menu_mode);
+    }
+    break;
+    case '3':{
+        char* line_1 = malloc(TINY_MEM);
+        int unplaced_tanks = get_player_unplaced_tanks();
+        sprintf(line_1," You have %d unplaced Tanks.", unplaced_tanks);
+        print_char_line('+',0);
+        print_framed_text_left(line_1,'+',false,0,0);
+        print_char_line('+',0);
+        render_actions_menu(menu_mode);
+        free(line_1);
+    }
+    break;
+    case '4':{
+        char* line_1 = malloc(TINY_MEM);
+        int unplaced_tanks = get_player_unplaced_tanks();
+        if(unplaced_tanks < 1){
+          sprintf(line_1,"[Can't place new tanks] You have %d unplaced tanks!", unplaced_tanks);
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_placement;
+        }
+        Territories* personal_territories = get_personal_territories();
+        render_personal_territories(personal_territories);
+        int territory_number = get_input_number("Insert Territory number: ");
+        int tanks_to_place = get_input_number("Insert Tanks number: ");
 
-  // IngamePollThreadConfig thread_config = { match };
+        if(tanks_to_place > unplaced_tanks){
+          sprintf(line_1,"[Invalid Tanks Number] You can't place more than %d tanks!", unplaced_tanks);
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_placement;
+        }
 
-  // if (pthread_create(&tid, NULL, ingame_poll_match_thread, &thread_config)) {
-  //   printffn("Error: Failed to create Thread!\n");
-  //   exit(-1);
-  // }
-  while (match->match_status != ENDED) {
-    render_turn_start(NULL);
-    render_turn_end(NULL);
-    render_placement(NULL);
-    render_movement(NULL);
-    render_combat(NULL);
-    pause();
+        if(territory_number <= 0 || territory_number > personal_territories->territories_count){
+          sprintf(line_1,"[Invalid Territory Number] Territory Number has to be between %d and %d!", 1,personal_territories->territories_count);
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_placement;
+        }
+
+
+        if(strcmp(current_turn->player,current_user) != 0){
+          sprintf(line_1,"[Turn Timeout] Your turn has passed before you took action!");
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_placement;
+        }
+
+        action_placement(personal_territories->territories[territory_number-1].nation,tanks_to_place);
+      no_placement:
+        free(line_1);
+        free_safe(personal_territories);
+    }
+    break;
+    case '5':{
+
+    }break;
+    case '6':{
+    
+    }break;
+    default:
+    if (menu_mode == PERSONAL_MENU) {
+      printffn("\n\n\n");
+    } else {
+      printffn("\n\n");
+    }
+      print_error_text("Uknown Action Code!");
+    break;
+    }
+    pthread_mutex_unlock(&sync_lock);
+
   }
 
   clear_screen();
   pthread_cancel(tid);
+}
+
+void render_actions_menu(menu_mode_t new_menu_mode) {
+  if (new_menu_mode == GENERAL_MENU) {
+    if (menu_mode == GENERAL_MENU) {
+      // move_up(3);
+    } else {
+      // move_up(4);
+      // clear_line();
+      // move_down(1);
+    }
+    print_char_line('+', 0);
+    print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
+      , '+', false, 0, 0);
+    print_char_line('+', 0);
+  } else {
+    if (menu_mode == PERSONAL_MENU) {
+      // move_up(4);
+    } else {
+      // move_up(3);
+    }
+    print_char_line('+', 0);
+    print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
+      , '+', false, 0, 0);
+    print_framed_text("[4] Place Tanks |   [5] Move Tanks    | [6] Attack ", '+', false, 0, 0);
+    print_char_line('+', 0);
+  }
+
+  menu_mode = new_menu_mode;
 }
 
 void render_match_start(Match* match) {
@@ -71,13 +274,17 @@ void render_turn_start(Turn* turn) {
   char* line_1 = malloc(TEXT_LINE_MEM);
   char* line_2 = malloc(TEXT_LINE_MEM);
   sprintf(line_1, "New Turn - %s", turn->turn_start_time);
-  sprintf(line_2, "<%s>'s Turn ",turn->player);
+  sprintf(line_2, "<%s>'s Turn ", turn->player);
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
   print_char_line('-', 0);
   print_framed_text(line_1, '|', false, 0, 0);
   print_char_line('-', 0);
   print_framed_text(line_2, '|', false, 0, 0);
+  if(strcmp(turn->player, current_user) == 0){
+    print_char_line('-', 0);
+    print_framed_text("Your Turn!", '|', false, 0, 0);
+  }
   print_char_line('-', 0);
   reset_color();
   set_color(BLACK_BG);
@@ -89,7 +296,7 @@ void render_turn_start(Turn* turn) {
 
 void render_turn_end(Turn* turn) {
   char* line_1 = malloc(TEXT_LINE_MEM);
-  sprintf(line_1, "<%s>'s Turn Ended",turn->player);
+  sprintf(line_1, "<%s>'s Turn Ended", turn->player);
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
   print_char_line('-', 0);
@@ -132,17 +339,17 @@ void render_action(Action* action) {
   }
 
   switch (action->details->action_type) {
-    case PLACEMENT:
-      render_placement(action);
-    break;  
-    case MOVEMENT:
-      render_movement(action);
+  case PLACEMENT:
+    render_placement(action);
     break;
-    case COMBAT:
-      render_combat(action);
+  case MOVEMENT:
+    render_movement(action);
     break;
-    default:
-      print_framed_text("[render_action] UNKNOWN ACTION TYPE!", 'X',true, STYLE_BOLD,RED_TXT);
+  case COMBAT:
+    render_combat(action);
+    break;
+  default:
+    print_framed_text("[render_action] UNKNOWN ACTION TYPE!", 'X', true, STYLE_BOLD, RED_TXT);
     break;
   }
 
@@ -150,7 +357,7 @@ void render_action(Action* action) {
 }
 
 void render_movement(Action* action) {
-  if(action->details == NULL || action->details->content == NULL){
+  if (action->details == NULL || action->details->content == NULL) {
     print_error_text("Movement action missing details!");
     return;
   }
@@ -158,7 +365,7 @@ void render_movement(Action* action) {
   char* line_1 = malloc(TEXT_LINE_MEM);
   char* line_2 = malloc(TEXT_LINE_MEM);
   sprintf(line_1, "<%s>'s tanks are moving", action->player);
-  sprintf(line_2, "<%d> Tanks - <%s> -> <%s>!", action->tanks_number,movement->source_nation,action->target_nation);
+  sprintf(line_2, "<%d> Tanks - <%s> -> <%s>!", action->tanks_number, movement->source_nation, action->target_nation);
   set_color(BLACK_BG);
   set_color(YELLOW_TXT);
   print_char_line('-', 0);
@@ -192,29 +399,48 @@ void render_combat(Action* action) {}
 
 void render_territories(Territories* territories) {
   char* line_1 = malloc(TEXT_LINE_MEM);
-  print_char_line('+',0);
+  print_char_line('+', 0);
   for (size_t i = 0; i < territories->territories_count; i++)
   {
+  //  printffn("Territories count: %d",territories->territories_count);
     Territory current = territories->territories[i];
-      sprintf(line_1, "%d | [%s] %s <Tanks:%d>!", 
-      i,current.occupier, current.nation, current.occupying_tanks_number);
+    if(i < 9){
+     sprintf(line_1, "%d  | [%s] %s < Tanks: %d >",
+      i+1, current.occupier, current.nation, current.occupying_tanks_number);
+    }else{
+     sprintf(line_1, "%d | [%s] %s < Tanks: %d >",
+      i+1, current.occupier, current.nation, current.occupying_tanks_number);
+    }
+    print_framed_text_left(line_1,'|',0,0,0);
   }
-  print_char_line('+',0);
-  free_safe(line_1);
+  print_char_line('+', 0);
+  free(line_1);
+}
+
+extern void render_scoreboard(Territories* territories){
+  print_char_line('+', 0);
+  print_framed_text("Scoreboard", '+', false, 0, 0);
+  render_territories(territories);
+}
+
+extern void render_personal_territories(Territories* territories){
+  print_char_line('+', 0);
+  print_framed_text("Your Territories", '+', false, 0, 0);
+  render_territories(territories);
 }
 
 void render_neighbour_nations(Territories* territories) {
   // Get right data
   // Print header
-  print_char_line('+',0);
-  print_framed_text("Neighbour Nations",'+',false,0,0);
+  print_char_line('+', 0);
+  print_framed_text("Neighbour Nations", '+', false, 0, 0);
   render_territories(territories);
 }
 
 void render_attackable_nations(Territories* territories) {
   // Get right data
   // Print header
-    print_char_line('+',0);
-  print_framed_text("Attackable Nations",'+',false,0,0);
+  print_char_line('+', 0);
+  print_framed_text("Attackable Nations", '+', false, 0, 0);
   render_territories(territories);
 }
