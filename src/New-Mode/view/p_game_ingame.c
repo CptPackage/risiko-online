@@ -21,6 +21,7 @@ typedef struct _poll_thread_config {
 } IngameInputThreadConfig;
 
 player_status_t player_current_status = INGAME;
+menu_mode_t cached_menu_mode = GENERAL_MENU;
 menu_mode_t menu_mode = GENERAL_MENU;
 Turn* last_displayed_turn;
 Action* last_displayed_action;
@@ -67,6 +68,7 @@ void* ingame_poll_match_thread(void* args) {
           render_action(action);
           last_displayed_action = action;
         }
+        player_current_status =  did_player_win_or_lose();
       }
       last_displayed_turn = current_turn_temp;
       render_turn_end(current_turn_temp);
@@ -82,11 +84,11 @@ void* ingame_poll_match_thread(void* args) {
           last_displayed_action = action;
           render_turn_end(turn);
           last_displayed_turn = turn;
-
           // goto refetch_turns;
         }
+          player_current_status =  did_player_win_or_lose();
       }
-      printffn("\n");
+      printffn("");
       if (strcmp(turn->player, current_user) == 0) {
         render_actions_menu(PERSONAL_MENU);
       } else {
@@ -104,6 +106,7 @@ void* ingame_poll_match_thread(void* args) {
           last_displayed_turn = turn;
           // goto refetch_turns;
         }
+        player_current_status =  did_player_win_or_lose();
       }
     }
 
@@ -127,16 +130,20 @@ void view_game_ingame(Match* match) {
 
   while (match->match_status != ENDED && player_current_status == INGAME) {
     if (menu_mode == PERSONAL_MENU) {
+      cached_menu_mode = PERSONAL_MENU;
       op = multi_choice(NULL, personal_menu_choices, PERSONAL_MENU_CHOICES_SIZE);
-      move_up(1);
       clear_line();
     } else {
+      cached_menu_mode = GENERAL_MENU;
       op = multi_choice(NULL, general_menu_choices, GENERAL_MENU_CHOICES_SIZE);
       clear_line();
     }
 pthread_mutex_lock(&sync_lock);
   switch (op) {
     case '1':{
+        if(cached_menu_mode != menu_mode){
+          break;
+        }
         Territories* personal_territories = get_personal_territories();
         render_personal_territories(personal_territories);
         free(personal_territories);
@@ -144,6 +151,9 @@ pthread_mutex_lock(&sync_lock);
     }
     break;
     case '2':{
+        if(cached_menu_mode != menu_mode){
+          break;
+        }
         Territories* scoreboard_territories = get_scoreboard();
         render_scoreboard(scoreboard_territories);
         free(scoreboard_territories);
@@ -151,25 +161,41 @@ pthread_mutex_lock(&sync_lock);
     }
     break;
     case '3':{
+        if(cached_menu_mode != menu_mode){
+          break;
+        }
+
         char* line_1 = malloc(TINY_MEM);
         int unplaced_tanks = get_player_unplaced_tanks();
         sprintf(line_1," You have %d unplaced Tanks.", unplaced_tanks);
+        printffn("");
         print_char_line('+',0);
         print_framed_text_left(line_1,'+',false,0,0);
         print_char_line('+',0);
+        printffn(""); 
         render_actions_menu(menu_mode);
         free(line_1);
     }
     break;
     case '4':{
+        if(cached_menu_mode != menu_mode){
+          break;
+        }
+
+        if(menu_mode != PERSONAL_MENU){
+          break;
+        }
         char* line_1 = malloc(TINY_MEM);
         int unplaced_tanks = get_player_unplaced_tanks();
         if(unplaced_tanks < 1){
           sprintf(line_1,"[Can't place new tanks] You have %d unplaced tanks!", unplaced_tanks);
           print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
           reset_color();
-          goto no_placement;
+          free(line_1);
+          render_actions_menu(menu_mode);
+          break;
         }
+
         Territories* personal_territories = get_personal_territories();
         render_personal_territories(personal_territories);
         int territory_number = get_input_number("Insert Territory number: ");
@@ -198,24 +224,36 @@ pthread_mutex_lock(&sync_lock);
         }
 
         action_placement(personal_territories->territories[territory_number-1].nation,tanks_to_place);
+      
       no_placement:
         free(line_1);
         free_safe(personal_territories);
+        render_actions_menu(menu_mode);
     }
     break;
     case '5':{
+      if(cached_menu_mode != menu_mode){
+          break;
+      }
+
+      if(menu_mode != PERSONAL_MENU){
+          break;
+        }
 
     }break;
     case '6':{
+          if(cached_menu_mode != menu_mode){
+          break;
+        }
+  
+      if(menu_mode != PERSONAL_MENU){
+          break;
+        }
     
     }break;
-    default:
-    if (menu_mode == PERSONAL_MENU) {
-      printffn("\n\n\n");
-    } else {
-      printffn("\n\n");
+    default:{
+
     }
-      print_error_text("Uknown Action Code!");
     break;
     }
     pthread_mutex_unlock(&sync_lock);

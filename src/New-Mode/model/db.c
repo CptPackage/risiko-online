@@ -1,6 +1,7 @@
 #include "../utils/db.h"
 #include "../utils/io.h"
 #include "../utils/mem.h"
+#include "../utils/view.h"
 #include "p_match.h"
 #include "p_match_history.h"
 #include "db.h"
@@ -1941,7 +1942,14 @@ void action_placement(char territory_nation[NATION_NAME_SIZE], int tanks_number)
    || strcmp(current_turn->player,current_user) != 0){
     goto out;
   }
-
+  pthread_mutex_unlock(&query_lock);
+    Turn* turn = get_latest_turn();
+  pthread_mutex_lock(&query_lock);
+  
+  if(strcmp(turn->player, current_user) != 0){
+    print_framed_text_left("[Action Cancelled] Your turn has passed before you took action!",'+',true,STYLE_BOLD,RED_TXT);  
+    goto out;
+  }
 
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
   set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &current_turn->turn_id, sizeof(current_turn->turn_id));
@@ -1976,6 +1984,16 @@ void action_movement(char source_territory_nation[NATION_NAME_SIZE],char target_
     goto out;
   }
 
+  pthread_mutex_unlock(&query_lock);
+    Turn* turn = get_latest_turn();
+  pthread_mutex_lock(&query_lock);
+  
+  if(strcmp(turn->player, current_user) != 0){
+    print_framed_text_left("[Action Cancelled] Your turn has passed before you took action!",'+',true,STYLE_BOLD,RED_TXT);  
+    goto out;
+  }
+
+
   set_binding_param(&in_param[0], MYSQL_TYPE_LONG, &current_match->match_id, sizeof(current_match->match_id));
   set_binding_param(&in_param[1], MYSQL_TYPE_LONG, &current_turn->turn_id, sizeof(current_turn->turn_id));
   set_binding_param(&in_param[2], MYSQL_TYPE_VAR_STRING, current_user, strlen(current_user));
@@ -2008,6 +2026,15 @@ void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defende
    || current_turn->match_id != current_match->match_id 
    || strcmp(current_turn->player,current_user) != 0){
     printffn("Failed Action!");
+    goto out;
+  }
+
+  pthread_mutex_unlock(&query_lock);
+    Turn* turn = get_latest_turn();
+  pthread_mutex_lock(&query_lock);
+  
+  if(strcmp(turn->player, current_user) != 0){
+    print_framed_text_left("[Action Cancelled] Your turn has passed before you took action!",'+',true,STYLE_BOLD,RED_TXT);  
     goto out;
   }
 
