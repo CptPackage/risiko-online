@@ -1,6 +1,6 @@
 CALL CreateRoom(40,'CptPackage',@RoomNumber);
 SET @MatchNum = (SELECT matchNumber FROM `Match` WHERE roomNumber = @RoomNumber ORDER BY matchNumber DESC LIMIT 1);
-SET @RoomNumber = 3;
+SET @RoomNumber = 5;
 SET @MatchNum = 1;
 SELECT @RoomNumber;
 SELECT @MatchNum;
@@ -75,6 +75,11 @@ CALL PlaceTanks(3,13,'player2','Siberia',1);
         WHERE T.matchNumber = 3
         ORDER BY turnNumber DESC
         LIMIT 1;
+        
+        UPDATE Territory SET occupier = 'player2' WHERE matchNumber = 5 AND occupier = 'player4' AND nation <> 'Alberta';
+        SELECT *
+        FROM Neighbour_Nations
+        WHERE neighbour = 'Alberta';
         
         SELECT @CurrentTurnPlayer;
 CALL Move(3,1,'player1','Brasile','Congo',1);
