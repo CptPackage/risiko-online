@@ -143,11 +143,12 @@ int main(int argc, char** argv) {
     // db_switch_to_player();
     // set_current_user("player2");
     // Match match;
-    // match.match_id = 7;
+    // match.match_id = 3;
     // match.room_id = 3;
     // match.players_num = 3;
     // match.match_status = STARTED;
     // set_current_match(&match);
+    // controller_ingame();
 
     // strcpy(match.match_start_countdown,"09-09-2022 - 15:07");
     // match.match_id = 4;
@@ -160,7 +161,7 @@ int main(int argc, char** argv) {
 
     // // player_status_t result = did_player_win_or_lose();
 
-    // Turn turn = {3,33,"player1"};
+    // Turn turn = {3,7,"player2"};
     // set_current_turn(&turn);
 
     // int unplacedTanks = get_player_unplaced_tanks();
@@ -175,6 +176,7 @@ int main(int argc, char** argv) {
     
 
     // get_action_details(action);
+    // render_combat(action);
     // printffn("Action Info: %d - %d - %d - %s - %s - %d - %d",
     // action->match_id,action->turn_id,action->action_id,action->player,
     // action->target_nation,action->tanks_number,action->details->action_type);
