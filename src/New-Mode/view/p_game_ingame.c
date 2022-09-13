@@ -59,6 +59,7 @@ void* ingame_poll_match_thread(void* args) {
     current_turn_temp = current_turn;
     pthread_mutex_lock(&sync_lock);
     turn = get_latest_turn();
+    player_current_status =  did_player_win_or_lose();
     if (turn->turn_id != current_turn_temp->turn_id) { // Check on a new turn
       if (does_turn_have_action(current_turn_temp) == 1) {
         if (last_displayed_action == NULL ||
@@ -68,7 +69,6 @@ void* ingame_poll_match_thread(void* args) {
           render_action(action);
           last_displayed_action = action;
         }
-        player_current_status =  did_player_win_or_lose();
       }
       last_displayed_turn = current_turn_temp;
       render_turn_end(current_turn_temp);
@@ -86,7 +86,6 @@ void* ingame_poll_match_thread(void* args) {
           last_displayed_turn = turn;
           // goto refetch_turns;
         }
-          player_current_status =  did_player_win_or_lose();
       }
       printffn("");
       if (strcmp(turn->player, current_user) == 0) {
@@ -106,13 +105,13 @@ void* ingame_poll_match_thread(void* args) {
           last_displayed_turn = turn;
           // goto refetch_turns;
         }
-        player_current_status =  did_player_win_or_lose();
       }
     }
-
     pthread_mutex_unlock(&sync_lock);
     sleep(2);
   }
+
+  print_framed_text("THE MATCH HAS FINISHED - ENTER ANY KEY TO PROCEED",'*',true,YELLOW_TXT,YELLOW_TXT);
 }
 
 void view_game_ingame(Match* match) {
@@ -238,23 +237,126 @@ pthread_mutex_lock(&sync_lock);
 
       if(menu_mode != PERSONAL_MENU){
           break;
+      }
+
+        char* line_1 = malloc(TINY_MEM);
+        Territories* source_territories = get_actionable_territories();
+        print_char_line('+', 0);
+        print_framed_text("Tanks moving from ... ", '+', false, 0, 0);
+        render_territories(source_territories);
+        int source_territory_number = get_input_number("Insert Source Territory number: ");
+        
+        if(source_territory_number <= 0 
+        || source_territory_number > source_territories->territories_count){
+          sprintf(line_1,"[Invalid Territory Number] Territory Number has to be between %d and %d!"
+          , 1,source_territories->territories_count);
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_movement_2;
         }
 
+        Territories* target_territories = get_neighbour_territories(source_territories->territories[source_territory_number - 1].nation);
+        print_char_line('+', 0);
+        print_framed_text("Tanks moving to ... ", '+', false, 0, 0);
+        render_territories(target_territories);
+        int target_territory_number = get_input_number("Insert Target Territory number: ");
+        
+
+        if(target_territory_number <= 0 
+        || target_territory_number > target_territories->territories_count){
+          sprintf(line_1,"[Invalid Territory Number] Territory Number has to be between %d and %d!"
+          , 1,target_territories->territories_count);
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_movement_1;
+        }
+
+        int tanks_number = get_input_number("Insert Number of Tanks: ");
+        if(tanks_number > source_territories->territories[source_territory_number - 1].occupying_tanks_number){
+          sprintf(line_1,"[Invalid Tanks Number] You can't place more than %d tanks!",
+          source_territories->territories[source_territory_number - 1].occupying_tanks_number);
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_movement_1;
+        }
+
+        if(strcmp(current_turn->player,current_user) != 0){
+          sprintf(line_1,"[Turn Timeout] Your turn has passed before you took action!");
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_movement_1;
+        }
+
+        action_movement(source_territories->territories[source_territory_number - 1].nation,
+        target_territories->territories[target_territory_number - 1].nation, tanks_number);
+
+      no_movement_1:
+        free_safe(target_territories);
+      no_movement_2:
+        free_safe(source_territories);
+      no_movement_3:
+        free(line_1);
+        render_actions_menu(menu_mode);
     }break;
     case '6':{
-          if(cached_menu_mode != menu_mode){
-          break;
-        }
-  
+      if(cached_menu_mode != menu_mode){
+        break;
+      }
+
       if(menu_mode != PERSONAL_MENU){
           break;
         }
-    
-    }break;
-    default:{
+        char* line_1 = malloc(TINY_MEM);
+        Territories* source_territories = get_actionable_territories();
+        print_char_line('+', 0);
+        print_framed_text("Choose your attacking territory ", '+', false, 0, 0);
+        render_territories(source_territories);
+        int source_territory_number = get_input_number("Insert Attacker Territory number: ");
+        
+        if(source_territory_number <= 0 
+        || source_territory_number > source_territories->territories_count){
+          sprintf(line_1,"[Invalid Territory Number] Territory Number has to be between %d and %d!"
+          , 1,source_territories->territories_count);
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_combat_2;
+        }
 
-    }
-    break;
+        Territories* target_territories = get_attackable_territories(source_territories->territories[source_territory_number - 1].nation);
+        print_char_line('+', 0);
+        print_framed_text("Territories to attack ", '+', false, 0, 0);
+        render_territories(target_territories);
+        int target_territory_number = get_input_number("Insert Target Territory number: ");
+        
+
+        if(target_territory_number <= 0 
+        || target_territory_number > target_territories->territories_count){
+          sprintf(line_1,"[Invalid Territory Number] Territory Number has to be between %d and %d!"
+          , 1,target_territories->territories_count);
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_combat_1;
+        }
+
+        if(strcmp(current_turn->player,current_user) != 0){
+          sprintf(line_1,"[Turn Timeout] Your turn has passed before you took action!");
+          print_framed_text_left(line_1,'+',true,STYLE_BOLD,RED_TXT);
+          reset_color();
+          goto no_combat_1;
+        }
+
+        action_combat(source_territories->territories[source_territory_number - 1].nation,
+        target_territories->territories[target_territory_number - 1].nation);
+
+      no_combat_1:
+        free_safe(target_territories);
+      no_combat_2:
+        free_safe(source_territories);
+      no_combat_3:
+        free(line_1);
+        render_actions_menu(menu_mode);    
+    }break;
+    default:{}break;
     }
     pthread_mutex_unlock(&sync_lock);
 
@@ -402,10 +504,10 @@ void render_movement(Action* action) {
   Movement* movement = action->details->content;
   char* line_1 = malloc(TEXT_LINE_MEM);
   char* line_2 = malloc(TEXT_LINE_MEM);
-  sprintf(line_1, "<%s>'s tanks are moving", action->player);
-  sprintf(line_2, "<%d> Tanks - <%s> -> <%s>!", action->tanks_number, movement->source_nation, action->target_nation);
+  sprintf(line_1, "[%s]'s tanks are moving", action->player);
+  sprintf(line_2, "< %d Tanks > - <%s> -> <%s>!", action->tanks_number, movement->source_nation, action->target_nation);
   set_color(BLACK_BG);
-  set_color(YELLOW_TXT);
+  set_color(GREEN_TXT);
   print_char_line('-', 0);
   print_framed_text(line_1, '|', false, 0, 0);
   print_framed_text(line_2, '|', false, 0, 0);
@@ -433,7 +535,45 @@ void render_placement(Action* action) {
   free_safe(line_1);
 }
 
-void render_combat(Action* action) {}
+void render_combat(Action* action) {
+   if (action->details == NULL || action->details->content == NULL) {
+    print_error_text("Combat action missing details!");
+    return;
+  }
+  Combat* combat = action->details->content;
+  char* line_1 = malloc(TEXT_LINE_MEM);
+  char* line_2 = malloc(TEXT_LINE_MEM);
+  char* line_3 = malloc(TEXT_LINE_MEM);
+  char* line_4 = malloc(TEXT_LINE_MEM);
+  sprintf(line_1, "[%s] is attacking [%s]", action->player,combat->defender_player);
+  sprintf(line_2, "%s <%d Tanks> VS %s <%d Tanks>", combat->attacker_nation, action->tanks_number,
+   action->target_nation, combat->defender_tanks_number);
+  sprintf(line_3, " %s Lost %d Tanks | %s Lost %d Tanks ",
+   action->player, combat->attacker_lost_tanks, combat->defender_player, combat->defender_lost_tanks);
+  if(combat->succeded == true){
+    sprintf(line_3, "%s has conquisted %s successfully! ", action->player, action->target_nation);
+  }else{
+    sprintf(line_3, "%s has defended his land %s! ", combat->defender_player,  action->target_nation);
+  }
+  set_color(BLACK_BG);
+  set_color(MAGENTA_TXT);
+  print_char_line('-', 0);
+  print_framed_text(line_1, '|', false, 0, 0);
+  print_framed_text(line_2, '|', false, 0, 0);
+  print_char_line('-', 0);
+  print_char_line('-', 0);
+  print_framed_text(line_3, '|', false, 0, 0);
+  print_framed_text(line_4, '|', false, 0, 0);
+  print_char_line('-', 0);
+  reset_color();
+  set_color(BLACK_BG);
+  clear_line();
+  printffn("");
+  free_safe(line_1);
+  free_safe(line_2);
+  free_safe(line_3);
+  free_safe(line_4);
+}
 
 void render_territories(Territories* territories) {
   char* line_1 = malloc(TEXT_LINE_MEM);

@@ -139,14 +139,16 @@ int main(int argc, char** argv) {
   // Init
   if (initialize_io()) {
     clear_screen();
-    db_switch_to_player();
-    set_current_user("player2");
-    Match match;
-    match.match_id = 3;
-    match.room_id = 3;
-    match.players_num = 3;
-    match.match_status = STARTED;
-    set_current_match(&match);
+    /* DEVELOPMENT SETUP FOR GAME SESSION*/
+    // db_switch_to_player();
+    // set_current_user("player2");
+    // Match match;
+    // match.match_id = 7;
+    // match.room_id = 3;
+    // match.players_num = 3;
+    // match.match_status = STARTED;
+    // set_current_match(&match);
+
     // strcpy(match.match_start_countdown,"09-09-2022 - 15:07");
     // match.match_id = 4;
     // match.room_id = 4;
@@ -207,25 +209,27 @@ int main(int argc, char** argv) {
     // territories_list->territories[i].occupying_tanks_number = i + 1;
     // }
 
+    // printffn("Status: %d - %d",INGAME, did_player_win_or_lose());
+
     // territories_list = get_personal_territories();
     // territories_list = get_scoreboard();
     // territories_list = get_actionable_territories();
     // territories_list = get_neighbour_territories("America Centrale");
     // territories_list = get_attackable_territories("America Centrale");
-        controller_ingame();
+    // controller_ingame();
 
-    print_char_line('+',0);
-    print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
-    ,'+',false,0,0);
+    // print_char_line('+',0);
+    // print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
+    // ,'+',false,0,0);
     // print_framed_text("[4] Place Tanks |   [5] Move Tanks    | [6] Attack ",'+',false,0,0);
-    print_char_line('+',0);
+    // print_char_line('+',0);
 
-    sleep(2);
+    // sleep(2);
     
     // Switch from Personal Actions to General Actions
     // 4 lines
     
-    move_up(3);
+    // move_up(3);
     // move_up(4);
     // clear_line();
     // // move_down(1);
@@ -238,12 +242,12 @@ int main(int argc, char** argv) {
     // sleep(2);
     //Switch from General Actions to Personal Actions
     // move_up(1);
-    print_char_line('+',0);
-    print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
-    ,'+',false,0,0);
-    print_framed_text("[4] Place Tanks |   [5] Move Tanks    | [6] Attack ",'+',false,0,0);
-    print_char_line('+',0);
-  sleep(2);
+  //   print_char_line('+',0);
+  //   print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
+  //   ,'+',false,0,0);
+  //   print_framed_text("[4] Place Tanks |   [5] Move Tanks    | [6] Attack ",'+',false,0,0);
+  //   print_char_line('+',0);
+  // sleep(2);
     // printffn("Size: %d",territories_list->territories_count);
 
     // for (size_t i = 0; i < territories_list->territories_count; i++)
@@ -262,7 +266,7 @@ int main(int argc, char** argv) {
 
     // return 0;
     // view_calibrate(); // CALIBRATION DISABLED DURING DEVELOPMENT
-    // initApp(); //TEMPORARILY DISABLED FOR PLAYER TESTING!
+    initApp(); //TEMPORARILY DISABLED FOR PLAYER TESTING!
   }
 
   fini_db();
