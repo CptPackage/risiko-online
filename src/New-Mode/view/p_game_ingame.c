@@ -165,7 +165,7 @@ pthread_mutex_lock(&sync_lock);
 
         char* line_1 = malloc(TINY_MEM);
         int unplaced_tanks = get_player_unplaced_tanks();
-        sprintf(line_1," You have %d unplaced Tanks.", unplaced_tanks);
+        sprintf(line_1," You have %d unplaced tanks.", unplaced_tanks);
         printffn("");
         print_char_line('+',0);
         print_framed_text_left(line_1,'+',false,0,0);
@@ -193,11 +193,18 @@ pthread_mutex_lock(&sync_lock);
           render_actions_menu(menu_mode);
           break;
         }
+        sprintf(line_1," You can place up to %d tanks.", unplaced_tanks);
+        print_char_line('+',0);
+        print_framed_text_left(line_1,'+',true,CYAN_TXT,CYAN_TXT);
+        print_char_line('+',0);
+
+
 
         Territories* personal_territories = get_personal_territories();
         render_personal_territories(personal_territories);
         int territory_number = get_input_number("Insert Territory number: ");
         int tanks_to_place = get_input_number("Insert Tanks number: ");
+
 
         if(tanks_to_place > unplaced_tanks){
           sprintf(line_1,"[Invalid Tanks Number] You can't place more than %d tanks!", unplaced_tanks);
@@ -260,8 +267,11 @@ pthread_mutex_lock(&sync_lock);
         render_territories(target_territories);
         int target_territory_number = get_input_number("Insert Target Territory number: ");
         
+        if (target_territory_number == 0) {
+                    goto no_movement_1;
+        }
 
-        if(target_territory_number <= 0 
+        if(target_territory_number < 0 
         || target_territory_number > target_territories->territories_count){
           sprintf(line_1,"[Invalid Territory Number] Territory Number has to be between %d and %d!"
           , 1,target_territories->territories_count);
@@ -327,8 +337,11 @@ pthread_mutex_lock(&sync_lock);
         render_territories(target_territories);
         int target_territory_number = get_input_number("Insert Target Territory number: ");
         
+        if(target_territory_number < 0){
+          goto no_combat_1;
+        }
 
-        if(target_territory_number <= 0 
+        if(target_territory_number < 0 
         || target_territory_number > target_territories->territories_count){
           sprintf(line_1,"[Invalid Territory Number] Territory Number has to be between %d and %d!"
           , 1,target_territories->territories_count);
@@ -417,7 +430,7 @@ void render_turn_start(Turn* turn) {
   sprintf(line_2, "<%s>'s Turn ", turn->player);
   set_color(STYLE_BOLD);
   set_color(BLACK_BG);
-  set_color(GREEN_TXT);
+  set_color(CYAN_TXT);
   print_char_line('-', 0);
   print_framed_text(line_1, '|', false, 0, 0);
   print_char_line('-', 0);
@@ -440,7 +453,7 @@ void render_turn_end(Turn* turn) {
   sprintf(line_1, "<%s>'s Turn Ended", turn->player);
   set_color(STYLE_BOLD);
   set_color(BLACK_BG);
-  set_color(GREEN_TXT);
+  set_color(MAGENTA_TXT);
   print_char_line('-', 0);
   print_framed_text(line_1, '|', false, 0, 0);
   print_char_line('-', 0);

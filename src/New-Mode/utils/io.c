@@ -377,6 +377,7 @@ void cleanup_interrupt_handler(int sigNo) {
   cleanup:
     logout();
     reset_color();
+    printffn("\n");
     fini_db();
     exit(-10);
 }
