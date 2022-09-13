@@ -332,7 +332,7 @@ void exit_interrupt_handler(int sigNo) {
   time_t current_time;
   current_time = time(NULL);
   if (current_time - last_exit_attempt_time < 2) {
-    // logout();
+    logout();
     reset_color();
     printff("\n");
     fini_db();
@@ -375,7 +375,7 @@ void cleanup_interrupt_handler(int sigNo) {
     print_framed_text_left(" [Cleanup Handler] Exiting game...",
                            '*', true, WHITE_TXT || WHITE_BG, RED_TXT);
   cleanup:
-    // logout();
+    logout();
     reset_color();
     fini_db();
     exit(-10);

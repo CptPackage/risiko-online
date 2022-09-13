@@ -125,7 +125,7 @@ void view_game_waiting(Match* match) {
         update_match_details();
         exit_room(match->room_id);
         bool can_leave = did_player_leave();
-        printf("Result of can leave: %d - Match Status: %s \n\n", can_leave, get_match_status_string(match->match_status));
+        // printf("Result of can leave: %d - Match Status: %s \n\n", can_leave, get_match_status_string(match->match_status));
         if (can_leave == 1) {
           thread_config->match = NULL;
           set_current_match(NULL);

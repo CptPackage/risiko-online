@@ -226,7 +226,7 @@ pthread_mutex_lock(&sync_lock);
       no_placement:
         free(line_1);
         free_safe(personal_territories);
-        render_actions_menu(menu_mode);
+        // render_actions_menu(menu_mode);
     }
     break;
     case '5':{
@@ -295,7 +295,7 @@ pthread_mutex_lock(&sync_lock);
         free_safe(source_territories);
       no_movement_3:
         free(line_1);
-        render_actions_menu(menu_mode);
+        // render_actions_menu(menu_mode);
     }break;
     case '6':{
       if(cached_menu_mode != menu_mode){
@@ -353,7 +353,7 @@ pthread_mutex_lock(&sync_lock);
         free_safe(source_territories);
       no_combat_3:
         free(line_1);
-        render_actions_menu(menu_mode);    
+        // render_actions_menu(menu_mode);    
     }break;
     default:{}break;
     }
