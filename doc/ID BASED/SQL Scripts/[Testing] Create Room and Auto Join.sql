@@ -1,6 +1,8 @@
-CALL CreateRoom(10,'CptPackage',@RoomNumber);
+CALL CreateRoom(40,'CptPackage',@RoomNumber);
 SET @MatchNum = (SELECT matchNumber FROM `Match` WHERE roomNumber = @RoomNumber ORDER BY matchNumber DESC LIMIT 1);
-SET @RoomNumber = 1;
+SET @RoomNumber = 3;
+SET @MatchNum = 3;
+SELECT @RoomNumber;
 SELECT @MatchNum;
 CALL JoinRoom(@RoomNumber,'player1',@JoinedRoom);
 CALL JoinRoom(@RoomNumber,'player4',@JoinedRoom);
@@ -10,8 +12,11 @@ CALL JoinRoom(@RoomNumber,'player6',@JoinedRoom);
 CALL JoinRoom(@RoomNumber,'player7',@JoinedRoom);
 CALL JoinRoom(@RoomNumber,'player3',@JoinedRoom);
 SELECT * FROM `Match`;
+SELECT * FROM Ingame_Players;
 SELECT matchNumber, count(*) FROM Turn GROUP BY matchNumber ORDER BY count(*) DESC;
 CALL DidPlayerLeave(2,'player5',@Result);
+
+SELECT * FROM Turn ORDER BY turnStartTime DESC;
 
 
 
@@ -29,6 +34,7 @@ SET playerIngame = 1
 WHERE username = 'player1';
 CALL Logout('player1');
 SHOW EVENTS;
+SELECT * FROM Ingame_Players;
 SELECT * FROM Ingame_Players WHERE matchNumber = @MatchNum;
 SELECT * FROM To_Check_Matches;
 DROP TEMPORARY TABLE Full_Scan_Logs;
@@ -36,6 +42,11 @@ DROP TEMPORARY TABLE To_Check_Matches;
 DROP TEMPORARY TABLE Current_Check_Turns;
 SET @MatchNum = 3;
 SHOW EVENTS;
+SELECT @Result;
+
+SELECT * FROM Ingame_Players;
+
+
 CALL AbandonMatch(@MatchNum,'player1');
 CALL AbandonMatch(@MatchNum,'player4');
 CALL AbandonMatch(@MatchNum,'player2');
@@ -45,13 +56,57 @@ CALL AbandonMatch(@MatchNum,'player6');
 CALL AbandonMatch(@MatchNum,'player3');
 CALL GetPlayerHistory('player1');
 CALL GetLatestTurn(4);
+CALL Reward_Player(3,'player2');
 
 SELECT * FROM Ingame_Players;
 SELECT * FROM Action;
+SELECT * FROM Movement;
+SELECT * FROM Combat;
 SELECT * FROM Territory;
-SELECT *, current_timestamp() FROM Turn ORDER BY turnNumber DESC;
-CALL PlaceTanks(3,4,'player1','Alberta',1);
+SELECT * FROM Turn ORDER BY turnNumber DESC;
+SELECT *, current_timestamp() FROM Turn ORDER BY turnStartTime DESC;
+CALL PlaceTanks(3,56,'player4','Africa del Nord',1);
+CALL Move(3,1,'player1','Brasile','Congo',1);
+CALL Attack(3,13,'player1','Argentina','Cita');
+CALL GetActionDetails(3,13,1,2);
+  SELECT player
+        FROM Turn AS T 
+        WHERE T.matchNumber = 3
+        ORDER BY turnNumber DESC
+        LIMIT 1;
+CALL GetAttackableTerritories(3,'player1','America Centrale');
+CALL GetNeighbourTerritories(3,'player1','America Centrale');
+CALL GetPlayerTerritories(3,'player1');
+Update Action SET tanksNumber = 99 WHERE turnNumber = 22;
 
+CALL GetScoreboard(3);
+SELECT * FROM Ingame_Players;
+UPDATE Ingame_Players SET unplacedTanks = 5 WHERE player = 'player2';
+SELECT matchNumber, occupier,count(nation) FROM Territory GROUP BY matchNumber,occupier;
+SELECT * FROM Turn;
+
+UPDATE Ingame_Players SET unplacedTanks = 10;
+
+	SET @TerritoriesCount = 0;
+    SET @Increment = 0;
+    
+	SELECT count(nation) INTO @TerritoriesCount
+	FROM Territory
+	WHERE matchNumber = 3
+	AND occupier = 'player2';
+    
+	SET @Increment = CEILING(@TerritoriesCount / 3);
+            SELECT @Increment;
+	UPDATE Ingame_Players
+	SET unplacedTanks = (unplacedTanks + @Increment)
+	WHERE matchNumber = 3
+	AND player = 'player2';
+
+
+	SELECT count(nation)
+	FROM Territory
+	WHERE matchNumber = 3
+	AND occupier = 'player2';
 
 SELECt nation
 FROM Territory AS T
@@ -93,7 +148,7 @@ SELECT * FROM `Match`;
 SELECT * FROM Turn;
 	SELECT * FROM Ingame_Players;
     
-    SELECT T.matchNumber, occupier, SUM(occupyingTanksNumber), IP.unplacedTanks, (SUM(occupyingTanksNumber) + IP.unplacedTanks)
+    SELECT T.matchNumber, occupier, count(T.nation), SUM(occupyingTanksNumber), IP.unplacedTanks, (SUM(occupyingTanksNumber) + IP.unplacedTanks)
     FROM Territory AS T
     JOIN Ingame_Players AS IP
     ON T.matchNumber = IP.matchNumber
