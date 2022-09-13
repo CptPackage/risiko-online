@@ -43,7 +43,6 @@ void* ingame_poll_match_thread(void* args) {
       free(current_turn_temp);
     }
     render_turn_start(turn);
-    printffn("\n");
     if (strcmp(turn->player, current_user) == 0) {
       render_actions_menu(PERSONAL_MENU);
     } else {
@@ -111,7 +110,7 @@ void* ingame_poll_match_thread(void* args) {
     sleep(2);
   }
 
-  print_framed_text("THE MATCH HAS FINISHED - ENTER ANY KEY TO PROCEED",'*',true,YELLOW_TXT,YELLOW_TXT);
+  print_framed_text("THE MATCH HAS ENDED - ENTER ANY KEY TO PROCEED",'*',true,YELLOW_TXT,YELLOW_TXT);
 }
 
 void view_game_ingame(Match* match) {
@@ -227,7 +226,7 @@ pthread_mutex_lock(&sync_lock);
       no_placement:
         free(line_1);
         free_safe(personal_territories);
-        render_actions_menu(menu_mode);
+        // render_actions_menu(menu_mode);
     }
     break;
     case '5':{
@@ -296,7 +295,7 @@ pthread_mutex_lock(&sync_lock);
         free_safe(source_territories);
       no_movement_3:
         free(line_1);
-        render_actions_menu(menu_mode);
+        // render_actions_menu(menu_mode);
     }break;
     case '6':{
       if(cached_menu_mode != menu_mode){
@@ -354,7 +353,7 @@ pthread_mutex_lock(&sync_lock);
         free_safe(source_territories);
       no_combat_3:
         free(line_1);
-        render_actions_menu(menu_mode);    
+        // render_actions_menu(menu_mode);    
     }break;
     default:{}break;
     }
@@ -398,6 +397,7 @@ void render_actions_menu(menu_mode_t new_menu_mode) {
 void render_match_start(Match* match) {
   char* line_1 = malloc(TEXT_LINE_MEM);
   sprintf(line_1, "Match #%d has started!", match->match_id);
+  set_color(STYLE_BOLD);
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
   print_char_line('-', 0);
@@ -415,6 +415,7 @@ void render_turn_start(Turn* turn) {
   char* line_2 = malloc(TEXT_LINE_MEM);
   sprintf(line_1, "New Turn - %s", turn->turn_start_time);
   sprintf(line_2, "<%s>'s Turn ", turn->player);
+  set_color(STYLE_BOLD);
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
   print_char_line('-', 0);
@@ -437,6 +438,7 @@ void render_turn_start(Turn* turn) {
 void render_turn_end(Turn* turn) {
   char* line_1 = malloc(TEXT_LINE_MEM);
   sprintf(line_1, "<%s>'s Turn Ended", turn->player);
+  set_color(STYLE_BOLD);
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
   print_char_line('-', 0);
@@ -506,6 +508,7 @@ void render_movement(Action* action) {
   char* line_2 = malloc(TEXT_LINE_MEM);
   sprintf(line_1, "[%s]'s tanks are moving", action->player);
   sprintf(line_2, "< %d Tanks > - <%s> -> <%s>!", action->tanks_number, movement->source_nation, action->target_nation);
+  set_color(STYLE_BOLD);
   set_color(BLACK_BG);
   set_color(GREEN_TXT);
   print_char_line('-', 0);
@@ -523,6 +526,7 @@ void render_movement(Action* action) {
 void render_placement(Action* action) {
   char* line_1 = malloc(TEXT_LINE_MEM);
   sprintf(line_1, "<%s> placed <%d> tanks on <%s>!", action->player, action->tanks_number, action->target_nation);
+  set_color(STYLE_BOLD);
   set_color(BLACK_BG);
   set_color(YELLOW_TXT);
   print_char_line('-', 0);
@@ -541,6 +545,7 @@ void render_combat(Action* action) {
     return;
   }
   Combat* combat = action->details->content;
+  Colors text_color;
   char* line_1 = malloc(TEXT_LINE_MEM);
   char* line_2 = malloc(TEXT_LINE_MEM);
   char* line_3 = malloc(TEXT_LINE_MEM);
@@ -550,19 +555,22 @@ void render_combat(Action* action) {
    action->target_nation, combat->defender_tanks_number);
   sprintf(line_3, " %s Lost %d Tanks | %s Lost %d Tanks ",
    action->player, combat->attacker_lost_tanks, combat->defender_player, combat->defender_lost_tanks);
-  if(combat->succeded == true){
-    sprintf(line_3, "%s has conquisted %s successfully! ", action->player, action->target_nation);
+  if(combat->succeded == 1){
+    text_color = GREEN_TXT;
+    sprintf(line_4, "%s has conquisted %s successfully! ", action->player, action->target_nation);
   }else{
-    sprintf(line_3, "%s has defended his land %s! ", combat->defender_player,  action->target_nation);
+    text_color = BLUE_TXT;
+    sprintf(line_4, "%s has defended his land %s! ", combat->defender_player,  action->target_nation);
   }
+  set_color(STYLE_BOLD);
   set_color(BLACK_BG);
-  set_color(MAGENTA_TXT);
+  set_color(text_color);
   print_char_line('-', 0);
   print_framed_text(line_1, '|', false, 0, 0);
   print_framed_text(line_2, '|', false, 0, 0);
   print_char_line('-', 0);
-  print_char_line('-', 0);
   print_framed_text(line_3, '|', false, 0, 0);
+  print_char_line('-', 0);
   print_framed_text(line_4, '|', false, 0, 0);
   print_char_line('-', 0);
   reset_color();
@@ -577,16 +585,16 @@ void render_combat(Action* action) {
 
 void render_territories(Territories* territories) {
   char* line_1 = malloc(TEXT_LINE_MEM);
+  set_color(STYLE_BOLD);
   print_char_line('+', 0);
   for (size_t i = 0; i < territories->territories_count; i++)
   {
-  //  printffn("Territories count: %d",territories->territories_count);
     Territory current = territories->territories[i];
     if(i < 9){
-     sprintf(line_1, "%d  | [%s] %s < Tanks: %d >",
+     sprintf(line_1, "%d  | [%s] %s < %d Tanks >",
       i+1, current.occupier, current.nation, current.occupying_tanks_number);
     }else{
-     sprintf(line_1, "%d | [%s] %s < Tanks: %d >",
+     sprintf(line_1, "%d | [%s] %s < %d Tanks >",
       i+1, current.occupier, current.nation, current.occupying_tanks_number);
     }
     print_framed_text_left(line_1,'|',0,0,0);
@@ -608,16 +616,12 @@ extern void render_personal_territories(Territories* territories){
 }
 
 void render_neighbour_nations(Territories* territories) {
-  // Get right data
-  // Print header
   print_char_line('+', 0);
   print_framed_text("Neighbour Nations", '+', false, 0, 0);
   render_territories(territories);
 }
 
 void render_attackable_nations(Territories* territories) {
-  // Get right data
-  // Print header
   print_char_line('+', 0);
   print_framed_text("Attackable Nations", '+', false, 0, 0);
   render_territories(territories);

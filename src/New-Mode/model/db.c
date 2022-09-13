@@ -958,8 +958,6 @@ bool join_room(int roomNumber) {
   }
 
 
-  while (mysql_stmt_next_result(join_room_procedure) != -1) {}
-
 out:
   mysql_stmt_free_result(join_room_procedure);
   mysql_stmt_reset(join_room_procedure);
@@ -1940,6 +1938,7 @@ void action_placement(char territory_nation[NATION_NAME_SIZE], int tanks_number)
   if(current_user == NULL || current_turn == NULL || tanks_number <= 0
    || current_turn->match_id != current_match->match_id 
    || strcmp(current_turn->player,current_user) != 0){
+    printffn("Turn Player: %s - User:%s\n\n", current_turn->player, current_user);
     goto out;
   }
   pthread_mutex_unlock(&query_lock);
@@ -2025,7 +2024,6 @@ void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defende
   if(current_user == NULL || current_turn == NULL
    || current_turn->match_id != current_match->match_id 
    || strcmp(current_turn->player,current_user) != 0){
-    printffn("Failed Action!");
     goto out;
   }
 
@@ -2034,6 +2032,7 @@ void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defende
   pthread_mutex_lock(&query_lock);
   
   if(strcmp(turn->player, current_user) != 0){
+    printff("Turn Player: %s - User:", turn->player, current_user);
     print_framed_text_left("[Action Cancelled] Your turn has passed before you took action!",'+',true,STYLE_BOLD,RED_TXT);  
     goto out;
   }

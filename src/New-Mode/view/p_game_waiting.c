@@ -18,11 +18,14 @@ typedef struct _poll_thread_config {
 SpinnerConfig* spinner_config = NULL;
 match_status_t initial_status;
 char choice;
+pthread_mutex_t waiting_lock;
 
 void* waiting_poll_match_thread(void* args) {
   WaitingPollThreadConfig* config = (WaitingPollThreadConfig*)args;
   while (config->match && config->match->match_status != STARTED) {
+    pthread_mutex_lock(&waiting_lock);
     update_match_details();
+    pthread_mutex_unlock(&waiting_lock);
 
     if (config->match->match_status == LOBBY) {
       spinner_config->is_loading = false;
@@ -38,17 +41,18 @@ void* waiting_poll_match_thread(void* args) {
 
 void* lobby_waiting_input(void* args) {
   WaitingPollThreadConfig* config = (WaitingPollThreadConfig*)args;
-  char* choices;
-  init_choices_array(&choices, 1, 0);
+  char choices[1] = {'0'};
+  // init_choices_array(&choices, 1, 0);
   while (config->match && config->match->match_status == LOBBY) {
-    print_char_line('-', 0);
-    print_framed_text_left("[0] Exit Room", '|', false, 0, 0);
-    print_char_line('-', 0);
-    choice = multi_choice(NULL, choices, 1);
-    move_up(1);
-    clear_line();
+    if(choice != '0'){
+      print_char_line('-', 0);
+      print_framed_text_left("[0] Exit Room", '|', false, 0, 0);
+      print_char_line('-', 0);
+      choice = multi_choice(NULL, choices, 1);
+      move_up(1);
+      clear_line();
+    }
   }
-  free_safe(choices);
 }
 
 void view_game_waiting(Match* match) {
@@ -56,6 +60,7 @@ void view_game_waiting(Match* match) {
   char* line_1 = malloc(TEXT_LINE_MEM);
   char* line_2 = malloc(TEXT_LINE_MEM);
   char* spinner_text = malloc(TEXT_LINE_MEM);
+  choice = -1;
 
   sprintf(spinner_text, "Waiting for match to start...");
   initial_status = match->match_status;
@@ -115,15 +120,16 @@ void view_game_waiting(Match* match) {
       set_can_exit_flag(0, "Can't quit game while inside a lobby!");
       if (choice == '0') {
         initial_status = match->match_status;
+        pthread_mutex_lock(&waiting_lock);
         update_match_details();
         exit_room(match->room_id);
         bool can_leave = did_player_leave();
-        printf("Result of can leave: %d - Match Status: %s \n\n", can_leave, get_match_status_string(match->match_status));
         if (can_leave == 1) {
           thread_config->match = NULL;
           set_current_match(NULL);
-          goto exit_match;
-        }
+                  goto exit_match;
+      }
+        pthread_mutex_unlock(&waiting_lock);
       }
     } else if (match->match_status == COUNTDOWN) {
       set_can_exit_flag(0, "Can't quit game while waiting for the match to start!");
@@ -135,6 +141,7 @@ exit_match:
   clear_screen();
   pthread_cancel(tid_1);
   pthread_cancel(tid_2);
+  pthread_mutex_unlock(&waiting_lock);
   free_safe(spinner_text);
   free_safe(line_1);
   free_safe(line_2);
