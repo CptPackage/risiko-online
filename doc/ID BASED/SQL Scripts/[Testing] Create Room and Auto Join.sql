@@ -1,7 +1,7 @@
 CALL CreateRoom(40,'CptPackage',@RoomNumber);
 SET @MatchNum = (SELECT matchNumber FROM `Match` WHERE roomNumber = @RoomNumber ORDER BY matchNumber DESC LIMIT 1);
 SET @RoomNumber = 3;
-SET @MatchNum = 3;
+SET @MatchNum = 1;
 SELECT @RoomNumber;
 SELECT @MatchNum;
 CALL JoinRoom(@RoomNumber,'player1',@JoinedRoom);
@@ -16,7 +16,7 @@ SELECT * FROM Ingame_Players;
 SELECT matchNumber, count(*) FROM Turn GROUP BY matchNumber ORDER BY count(*) DESC;
 CALL DidPlayerLeave(2,'player5',@Result);
 
-SELECT * FROM Turn ORDER BY turnStartTime DESC;
+SELECT * FROM Turn ORDER BY turnNumber DESC;
 
 
 
@@ -48,12 +48,12 @@ SELECT * FROM Ingame_Players;
 
 
 CALL AbandonMatch(@MatchNum,'player1');
-CALL AbandonMatch(@MatchNum,'player4');
 CALL AbandonMatch(@MatchNum,'player2');
+CALL AbandonMatch(@MatchNum,'player3');
+CALL AbandonMatch(@MatchNum,'player4');
 CALL AbandonMatch(@MatchNum,'player5');
 CALL AbandonMatch(@MatchNum,'player7');
 CALL AbandonMatch(@MatchNum,'player6');
-CALL AbandonMatch(@MatchNum,'player3');
 CALL GetPlayerHistory('player1');
 CALL GetLatestTurn(4);
 CALL Reward_Player(3,'player2');
@@ -65,7 +65,18 @@ SELECT * FROM Combat;
 SELECT * FROM Territory;
 SELECT * FROM Turn ORDER BY turnNumber DESC;
 SELECT *, current_timestamp() FROM Turn ORDER BY turnStartTime DESC;
-CALL PlaceTanks(3,56,'player4','Africa del Nord',1);
+CALL PlaceTanks(3,13,'player2','Siberia',1);
+
+
+		SET @CurrentTurnPlayer = NULL;
+        SELECT player
+        INTO @CurrentTurnPlayer
+        FROM Turn AS T 
+        WHERE T.matchNumber = 3
+        ORDER BY turnNumber DESC
+        LIMIT 1;
+        
+        SELECT @CurrentTurnPlayer;
 CALL Move(3,1,'player1','Brasile','Congo',1);
 CALL Attack(3,13,'player1','Argentina','Cita');
 CALL GetActionDetails(3,13,1,2);
