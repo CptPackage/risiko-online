@@ -555,7 +555,7 @@ void render_combat(Action* action) {
    action->target_nation, combat->defender_tanks_number);
   sprintf(line_3, " %s Lost %d Tanks | %s Lost %d Tanks ",
    action->player, combat->attacker_lost_tanks, combat->defender_player, combat->defender_lost_tanks);
-  if(combat->succeded == true){
+  if(combat->succeded == 1){
     text_color = GREEN_TXT;
     sprintf(line_4, "%s has conquisted %s successfully! ", action->player, action->target_nation);
   }else{

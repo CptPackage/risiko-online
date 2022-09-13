@@ -1946,7 +1946,6 @@ void action_placement(char territory_nation[NATION_NAME_SIZE], int tanks_number)
   pthread_mutex_lock(&query_lock);
   
   if(strcmp(turn->player, current_user) != 0){
-       printff("\n\nTurn Player: %s - User: %s", turn->player, current_user);
     print_framed_text_left("[Action Cancelled] Your turn has passed before you took action!",'+',true,STYLE_BOLD,RED_TXT);  
     goto out;
   }
@@ -1966,7 +1965,7 @@ void action_placement(char territory_nation[NATION_NAME_SIZE], int tanks_number)
     print_stmt_error(action_placement_procedure, "Could not execute action_placement_procedure procedure");
     goto out;
   }
-  printff("Done the movement!");
+
 out:
   mysql_stmt_free_result(action_placement_procedure);
   mysql_stmt_reset(action_placement_procedure);
@@ -2025,7 +2024,6 @@ void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defende
   if(current_user == NULL || current_turn == NULL
    || current_turn->match_id != current_match->match_id 
    || strcmp(current_turn->player,current_user) != 0){
-    printffn("Failed Action!");
     goto out;
   }
 

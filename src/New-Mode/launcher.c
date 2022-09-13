@@ -141,10 +141,10 @@ int main(int argc, char** argv) {
     clear_screen();
     /* DEVELOPMENT SETUP FOR GAME SESSION*/
     // db_switch_to_player();
-    // set_current_user("player2");
+    // set_current_user("player4");
     // Match match;
-    // match.match_id = 3;
     // match.room_id = 3;
+    // match.match_id = 3;
     // match.players_num = 3;
     // match.match_status = STARTED;
     // set_current_match(&match);
