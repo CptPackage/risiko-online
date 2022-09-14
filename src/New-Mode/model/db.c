@@ -1553,7 +1553,8 @@ void get_action_details(Action* action) {
         strcpy(action->target_nation, target_nation);
         combat->defender_tanks_number = defender_tanks_number;
         combat->defender_lost_tanks = defender_lost_tanks;
-        if(nation_occupied == 1){
+
+        if(defender_tanks_number == defender_lost_tanks){
             combat->succeded = true;
         }else{
           combat->succeded = false;
@@ -2032,7 +2033,6 @@ void action_combat(char attacker_territory_nation[NATION_NAME_SIZE],char defende
   pthread_mutex_lock(&query_lock);
   
   if(strcmp(turn->player, current_user) != 0){
-    printff("Turn Player: %s - User:", turn->player, current_user);
     print_framed_text_left("[Action Cancelled] Your turn has passed before you took action!",'+',true,STYLE_BOLD,RED_TXT);  
     goto out;
   }

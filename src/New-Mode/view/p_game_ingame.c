@@ -573,10 +573,10 @@ void render_combat(Action* action) {
    action->player, combat->attacker_lost_tanks, combat->defender_player, combat->defender_lost_tanks);
   if(combat->succeded == 1){
     text_color = GREEN_TXT;
-    sprintf(line_4, "%s has conquisted %s successfully! ", action->player, action->target_nation);
+    sprintf(line_4, "%s has conquisted %s successfully!", action->player, action->target_nation);
   }else{
     text_color = BLUE_TXT;
-    sprintf(line_4, "%s has defended his land %s! ", combat->defender_player,  action->target_nation);
+    sprintf(line_4, "%s has defended his land %s!", combat->defender_player,  action->target_nation);
   }
   set_color(STYLE_BOLD);
   set_color(BLACK_BG);
