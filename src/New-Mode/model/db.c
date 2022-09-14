@@ -202,13 +202,6 @@ static bool initialize_prepared_stmts(role_t for_role) {
         "Unable to initialize login statement\n");
       return false;
     }
-
-    if (!setup_prepared_stmt(&logout_procedure, "call logout(?)",
-      conn)) {
-      print_stmt_error(logout_procedure,
-        "Unable to initialize login statement\n");
-      return false;
-    }
     break;
   case PLAYER:
     if (!setup_prepared_stmt(&logout_procedure, "call Logout(?)",
