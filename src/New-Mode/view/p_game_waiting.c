@@ -42,7 +42,6 @@ void* waiting_poll_match_thread(void* args) {
 void* lobby_waiting_input(void* args) {
   WaitingPollThreadConfig* config = (WaitingPollThreadConfig*)args;
   char choices[1] = {'0'};
-  // init_choices_array(&choices, 1, 0);
   while (config->match && config->match->match_status == LOBBY) {
     if(choice != '0'){
       print_char_line('-', 0);

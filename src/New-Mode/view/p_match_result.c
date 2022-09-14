@@ -8,8 +8,8 @@ void view_match_result(match_result_t match_result) {
   bool result;
   while (!result) {
     clear_screen();
+    reset_color();
     set_color(STYLE_BOLD);
-    set_color(BLACK_BG);
     print_star_line(0);
     print_padded_text("MATCH RESULT", '*', 0);
     print_star_line(0);
@@ -31,7 +31,6 @@ void view_match_result(match_result_t match_result) {
       break;
     }
     set_color(STYLE_BOLD);
-    set_color(BLACK_BG);
     print_framed_text("", '|', false, 0, 0);
     print_char_line('-', 0);
     result = yes_or_no("Go to Main Menu", 'y', 'n', true, true);

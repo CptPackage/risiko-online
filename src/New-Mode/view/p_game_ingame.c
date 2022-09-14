@@ -83,7 +83,6 @@ void* ingame_poll_match_thread(void* args) {
           last_displayed_action = action;
           render_turn_end(turn);
           last_displayed_turn = turn;
-          // goto refetch_turns;
         }
       }
       printffn("");
@@ -102,7 +101,6 @@ void* ingame_poll_match_thread(void* args) {
           last_displayed_action = action;
           render_turn_end(turn);
           last_displayed_turn = turn;
-          // goto refetch_turns;
         }
       }
     }
@@ -233,7 +231,6 @@ pthread_mutex_lock(&sync_lock);
       no_placement:
         free(line_1);
         free_safe(personal_territories);
-        // render_actions_menu(menu_mode);
     }
     break;
     case '5':{
@@ -305,7 +302,6 @@ pthread_mutex_lock(&sync_lock);
         free_safe(source_territories);
       no_movement_3:
         free(line_1);
-        // render_actions_menu(menu_mode);
     }break;
     case '6':{
       if(cached_menu_mode != menu_mode){
@@ -366,7 +362,6 @@ pthread_mutex_lock(&sync_lock);
         free_safe(source_territories);
       no_combat_3:
         free(line_1);
-        // render_actions_menu(menu_mode);    
     }break;
     default:{}break;
     }
@@ -380,23 +375,12 @@ pthread_mutex_lock(&sync_lock);
 
 void render_actions_menu(menu_mode_t new_menu_mode) {
   if (new_menu_mode == GENERAL_MENU) {
-    if (menu_mode == GENERAL_MENU) {
-      // move_up(3);
-    } else {
-      // move_up(4);
-      // clear_line();
-      // move_down(1);
-    }
+   
     print_char_line('+', 0);
     print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
       , '+', false, 0, 0);
     print_char_line('+', 0);
   } else {
-    if (menu_mode == PERSONAL_MENU) {
-      // move_up(4);
-    } else {
-      // move_up(3);
-    }
     print_char_line('+', 0);
     print_framed_text("[1] Show Personal Territory | [2] Show Scoreboard | [3] Show Unplaced Tanks"
       , '+', false, 0, 0);
